@@ -1,0 +1,16 @@
+node_modules
+bower_components
+.tmp
+dist
+log
+*#
+*~
+*.log
+**/.DS_STORE
+**/.DS_Store
+*.swo
+*.swp
+*.swn
+*.swm
+*.pid
+*.seed

@@ -1,0 +1,75 @@
+/**
+ * Slidr - Basic styles
+ */
+
+.flex-middle {
+  display: flex;
+  box-align: center;
+  align-items: center;
+  box-pack: center;
+  justify-content: center;
+}
+
+.slidr-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  background-color: #777;
+
+  .slidr-list {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .slidr-animate {
+    transition: transform .9s cubic-bezier(.4,0,.2,1);
+  }
+
+  .slidr-item {
+    @extend .flex-middle;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .slidr-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+
+    a {
+      position: absolute;
+      transition: opacity .3s ease-out;
+      color: #fff;
+      font-size: 2em;
+
+      &.active,
+      &:hover {
+        opacity: .7;
+      }
+    }
+
+    .slidr-nav-prev {
+      left: 16%;
+    }
+
+    .slidr-nav-next {
+      right: 16%;
+    }
+  }
+}
