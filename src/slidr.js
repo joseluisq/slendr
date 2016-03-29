@@ -18,28 +18,35 @@ export default (options = {}) => {
   }
 
   function prev() {
-
+    if (!animation && current > 0) {
+      move('prev');
+    }
   }
 
   function next() {
     if (!animation && current < items.length - 1) {
-      animation = true
-      display(items[current])
-      current++;
-      display(items[current])
-
-      list.classList.add(options.effect)
-      translateX(list, '-100%')
-      translateX(items[current], '100%')
-
-      setTimeout(() => {
-        animation = false
-        list.classList.remove(options.effect)
-        transform(list, 'none')
-        transform(items[current], 'none')
-        displayIndex(current)
-      }, options.duration);
+      move('next');
     }
+  }
+
+  function move(dir) {
+    animation = true;
+
+    display(items[current]);
+    current = (dir === 'next') ? current + 1 : current - 1;
+    display(items[current]);
+
+    list.classList.add(options.effect);
+    translateX(list, (dir === 'next') ? '-100%' : '100%');
+    translateX(items[current], (dir === 'next') ? '100%' : '-100%');
+
+    setTimeout(function() {
+      animation = false;
+      list.classList.remove(options.effect);
+      transform(list, 'none');
+      transform(items[current], 'none');
+      displayIndex(current);
+    }, options.duration);
   }
 
   function background(slide) {
