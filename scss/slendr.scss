@@ -1,6 +1,4 @@
-/**
- * Slidr - Basic styles
- */
+// Slendr - Basic styles
 
 .flex-middle {
   display: flex;
@@ -10,7 +8,7 @@
   justify-content: center;
 }
 
-.slidr-container {
+.slendr {
   position: absolute;
   top: 0;
   left: 0;
@@ -20,19 +18,23 @@
   height: 100%;
   background-color: #777;
 
-  .slidr-list {
+  .slendr-slides {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
+    backface-visibility: hidden;
+    perspective: 1000;
+    -webkit-backface-visibility: hidden;
+	  -webkit-perspective: 1000;
   }
 
-  .slidr-animate {
+  .slendr-animate {
     transition: transform .9s cubic-bezier(.4,0,.2,1);
   }
 
-  .slidr-item {
+  .slendr-slide {
     @extend .flex-middle;
     position: absolute;
     left: 0;
@@ -45,7 +47,7 @@
     background-size: cover;
   }
 
-  .slidr-nav {
+  .slendr-nav {
     position: absolute;
     top: 50%;
     left: 0;
@@ -64,11 +66,11 @@
       }
     }
 
-    .slidr-nav-prev {
+    .slendr-prev {
       left: 16%;
     }
 
-    .slidr-nav-next {
+    .slendr-next {
       right: 16%;
     }
   }

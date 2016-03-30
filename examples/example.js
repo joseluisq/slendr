@@ -1,11 +1,3 @@
-import Slidr from '../src/slidr'
+import Slendr from '../src/slendr'
 
-const slidr = Slidr({
-  container: '.slidr-container',
-  list: '.slidr-list',
-  item: '.slidr-item',
-  effect: 'slidr-animate',
-  duration: 900
-})
-
-setInterval(() => slidr.next(), 4000)
+const slidr = Slendr()
