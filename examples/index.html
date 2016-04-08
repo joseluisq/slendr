@@ -7,9 +7,67 @@
   <title>Slendr</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+  <link href='https://fonts.googleapis.com/css?family=Roboto:100,300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="slendr.min.css">
+
+  <style media="screen">
+    body {
+      font-family: 'Roboto', arial, sans-serif;
+      background-color: #333;
+      font-weight: 300;
+    }
+    .slider-content {
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      display: flex;
+      box-align: center;
+      align-items: stretch;
+      box-pack: center;
+      justify-content: flex-start;
+    }
+
+    .slider-content {
+      color: #fff;
+      margin-top: 4em;
+      margin-left: 4em;
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .slider-content h1 {
+      font-size: 4em;
+      font-weight: 100;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-right: 0;
+      padding-left: 0;
+      display: inline-block;
+      min-width: 300px;
+    }
+    .slider-content p {
+      margin-bottom: 0;
+      margin-top: 10px;
+    }
+
+    .slider-content .slider-box {
+      text-align: left;
+    }
+
+    /* Overlay */
+    .slendr-slide:before {
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      content: ' ';
+    }
+  </style>
 </head>
 <body>
 
@@ -21,14 +79,45 @@
 
   <div class="slendr">
     <nav class="slendr-nav">
-      <a href="#" class="slendr-prev"><i class="fa fa-chevron-left-circle"></i></a>
-      <a href="#" class="slendr-next"><i class="fa fa-chevron-right-circle"></i></a>
+      <a href="#" class="slendr-prev"><i class="fa fa-angle-left"></i></a>
+      <a href="#" class="slendr-next"><i class="fa fa-angle-right"></i></a>
     </nav>
 
     <div class="slendr-slides">
-      <section class="slendr-slide" data-src="https://c2.staticflickr.com/6/5787/22078612758_7c8f774110_h.jpg"></section>
-      <section class="slendr-slide" data-src="https://c2.staticflickr.com/6/5619/22266391015_6a1efaf7ad_h.jpg"></section>
-      <section class="slendr-slide" data-src="https://c1.staticflickr.com/1/688/22240270766_319b34b944_h.jpg"></section>
+
+      <section class="slendr-slide" data-src="https://c1.staticflickr.com/1/742/20508368953_9f318453e6_k.jpg">
+        <div class="slider-content">
+          <div class="slider-box">
+            <h1>Slendr</h1>
+            <p>
+              Lightweight and responsive slider for modern browsers.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="slendr-slide" data-src="https://c1.staticflickr.com/1/587/21562390566_60f8c82957_k.jpg">
+        <div class="slider-content">
+          <div class="slider-box">
+            <h1>Slendr</h1>
+            <p>
+              Lightweight and responsive slider for modern browsers.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="slendr-slide" data-src="https://c2.staticflickr.com/8/7281/16559230138_f00034ac65_h.jpg">
+        <div class="slider-content">
+          <div class="slider-box">
+            <h1>Slendr</h1>
+            <p>
+              Lightweight and responsive slider for modern browsers.
+            </p>
+          </div>
+        </div>
+      </section>
+
     </div>
   </div>
 

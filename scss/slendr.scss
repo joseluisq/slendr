@@ -1,13 +1,5 @@
 // Slendr - Basic styles
 
-.flex-middle {
-  display: flex;
-  box-align: center;
-  align-items: center;
-  box-pack: center;
-  justify-content: center;
-}
-
 .slendr {
   position: absolute;
   top: 0;
@@ -35,7 +27,6 @@
   }
 
   .slendr-slide {
-    @extend .flex-middle;
     position: absolute;
     left: 0;
     right: 0;
@@ -51,27 +42,28 @@
     position: absolute;
     top: 50%;
     left: 0;
-    z-index: 1;
+    z-index: 3;
     width: 100%;
 
     a {
       position: absolute;
       transition: opacity .3s ease-out;
+      opacity: .7;
       color: #fff;
-      font-size: 2em;
+      font-size: 4em;
 
       &.active,
       &:hover {
-        opacity: .7;
+        opacity: 1;
       }
     }
 
     .slendr-prev {
-      left: 16%;
+      left: 5%;
     }
 
     .slendr-next {
-      right: 16%;
+      right: 5%;
     }
   }
 }

@@ -1,7 +1,7 @@
 export default (options = {}) => {
 
   let current = 0
-  let animation = false
+  let animating = false
 
   const opts = Object.assign({
     selector: '.slendr-slides > .slendr-slide',
@@ -31,19 +31,19 @@ export default (options = {}) => {
   }
 
   function prev() {
-    if (!animation && current > 0) {
+    if (!animating && current > 0) {
       move('prev')
     }
   }
 
   function next() {
-    if (!animation && current < slides.length - 1) {
+    if (!animating && current < slides.length - 1) {
       move('next')
     }
   }
 
   function move(dir) {
-    animation = true
+    animating = true
 
     display(slides[current])
     current = (dir === 'next') ? current + 1 : current - 1
@@ -55,7 +55,7 @@ export default (options = {}) => {
     translateX(slides[current], (dir === 'next') ? '100%' : '-100%')
 
     setTimeout(() => {
-      animation = false
+      animating = false
       slidesContainer.classList.remove(opts.animationClass)
       transform(slidesContainer, 'none')
       transform(slides[current], 'none')
