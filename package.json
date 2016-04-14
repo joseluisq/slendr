@@ -1,6 +1,6 @@
 {
   "name": "slendr",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lightweight and responsive slider for modern browsers.",
   "main": "dist/slendr.min.js",
   "scripts": {
@@ -13,8 +13,7 @@
     "watch": "npm run watch:css & npm run watch:js",
     "server": "browser-sync start --server '.tmp' --server 'examples' --server 'dist' --port 7001 --files 'examples/{,*/}*.html' --files 'dist/slendr.min.css' --files '.tmp/bundle.js'",
     "dev": "npm run build:css && npm run build:js && npm run xbuild:js && (npm run server & npm run watch)",
-    "start": "npm run dev",
-    "postinstall": "mkdir dist"
+    "start": "npm run dev"
   },
   "author": "José Luis Quintana <https://git.io/joseluisq>",
   "license": "MIT",
