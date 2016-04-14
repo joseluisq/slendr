@@ -31,22 +31,30 @@ export default (options = {}) => {
   }
 
   function prev() {
-    if (!animating && current > 0) {
-      move('prev')
-    }
+    if (animating) return
+    move('prev')
   }
 
   function next() {
-    if (!animating && current < slides.length - 1) {
-      move('next')
-    }
+    if (animating) return
+    move('next')
   }
 
   function move(dir) {
     animating = true
 
     display(slides[current])
+
     current = (dir === 'next') ? current + 1 : current - 1
+
+    if (current > slides.length - 1) {
+      current = 0
+    }
+
+    if (current < 0) {
+      current = slides.length - 1
+    }
+
     display(slides[current])
 
     slidesContainer.classList.add(opts.animationClass)

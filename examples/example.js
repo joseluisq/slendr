@@ -1,4 +1,4 @@
-import Slendr from '../src/slendr'
+import Slendr from '../dist/slendr.min'
 
 const slidr = Slendr({
   slideshow: false
