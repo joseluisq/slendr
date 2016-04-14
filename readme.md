@@ -6,7 +6,9 @@ Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Ja
 
 ## Install
 
+```sh
 $ npm install slendr --save-dev
+```
 
 ## Usage
 
