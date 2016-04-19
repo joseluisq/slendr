@@ -72,10 +72,10 @@ Work in progress..
 
 ## Contributions
 
-[Pull requests](./pulls) and [issues](./issues) are welcome.
+[Pull requests](https://github.com/joseluisq/slendr/pulls) and [issues](https://github.com/joseluisq/slendr/issues) are welcome.
 
 ### Development
-If you can to contribute or simply play with the source:
+If you can to contribute or simply play with the source try:
 
 Install packages
 
