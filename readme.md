@@ -1,4 +1,4 @@
-# Slendr
+# Slendr [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
 > Lightweight and responsive slider for modern browsers.
 
@@ -40,7 +40,7 @@ Import the module and instantiate:
 ```js
 import Slendr from 'slendr'
 
-const slidr = Slendr({
+const slendr = Slendr({
   slideshow: true
 })
 ```
@@ -62,13 +62,21 @@ For more complete example check out `/examples` dir.
 ## Methods
 
 ### prev()
-Move to previous slide.
+`slendr.prev()` - Move to previous slide.
 
 ### next()
-Move to next slide.
+`slendr.next()` - Move to next slide.
 
 ## Events
-Work in progress..
+
+### move
+`slendr.on('move', function (direction, index, element){})` - Trigger when slider moves prev/next slide.
+
+### prev
+`slendr.on('prev', function (index, element){})` - Trigger when slider moves to previous slide.
+
+### next
+`slendr.on('next', function (index, element){})` - Trigger when slider moves to next slide.
 
 ## Contributions
 
@@ -96,7 +104,6 @@ $ npm run build
 ```
 
 For more details, check out `scripts` in `packages.json`.
-
 
 ## License
 MIT license

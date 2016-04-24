@@ -1,6 +1,6 @@
 {
   "name": "slendr",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Lightweight and responsive slider for modern browsers.",
   "main": "dist/slendr.min.js",
   "scripts": {
@@ -28,6 +28,9 @@
     "commonjs",
     "hardware accelerated"
   ],
+  "dependencies": {
+    "emitus": "^1.0.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.7.5",
     "babel-plugin-add-module-exports": "^0.1.2",
@@ -40,5 +43,12 @@
     "node-sass": "^3.4.2",
     "uglify-js": "^2.6.2",
     "watchify": "^3.7.0"
+  },
+  "babel": {
+    "presets": ["es2015"],
+    "plugins": [
+      "add-module-exports",
+      "transform-object-assign"
+    ]
   }
 }

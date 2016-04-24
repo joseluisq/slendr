@@ -1,5 +1,6 @@
-export default (options = {}) => {
+import Emitus from 'emitus'
 
+export default (options = {}) => {
   let current = 0
   let animating = false
 
@@ -19,33 +20,31 @@ export default (options = {}) => {
 
   init()
 
-  return {
-    next,
-    prev
-  }
+  const emitr = Emitus({prev, next})
+  return emitr
 
-  function init() {
+  function init () {
     slides.forEach(slide => background(slide))
     displayBy(current)
     slideshow()
   }
 
-  function prev() {
+  function prev () {
     if (animating) return
     move('prev')
   }
 
-  function next() {
+  function next () {
     if (animating) return
     move('next')
   }
 
-  function move(dir) {
+  function move (direction) {
     animating = true
 
     display(slides[current])
 
-    current = (dir === 'next') ? current + 1 : current - 1
+    current = (direction === 'next') ? current + 1 : current - 1
 
     if (current > slides.length - 1) {
       current = 0
@@ -55,53 +54,58 @@ export default (options = {}) => {
       current = slides.length - 1
     }
 
-    display(slides[current])
+    const slide = slides[current]
+
+    display(slide)
 
     slidesContainer.classList.add(opts.animationClass)
 
-    translateX(slidesContainer, (dir === 'next') ? '-100%' : '100%')
-    translateX(slides[current], (dir === 'next') ? '100%' : '-100%')
+    translateX(slidesContainer, (direction === 'next') ? '-100%' : '100%')
+    translateX(slides[current], (direction === 'next') ? '100%' : '-100%')
 
     setTimeout(() => {
       animating = false
       slidesContainer.classList.remove(opts.animationClass)
+
       transform(slidesContainer, 'none')
       transform(slides[current], 'none')
       displayBy(current)
+
+      emitr.emit('move', [direction, current, slide])
+      emitr.emit(direction, [current, slide])
     }, opts.animationSpeed)
   }
 
-  function slideshow() {
+  function slideshow () {
     if (opts.slideshow) {
       setInterval(next, opts.slideshowSpeed)
     }
   }
 
-  function background(slide) {
+  function background (slide) {
     const src = slide.getAttribute('data-src')
     slide.style.setProperty('background-image', `url('${src}')`)
   }
 
-  function translateX(el, x = 0) {
-    transform(el, `translate3d(${x},0,0)`)
+  function translateX (elem, x = 0) {
+    transform(elem, `translate3d(${x},0,0)`)
   }
 
-  function transform(el, val) {
-    el.style.setProperty('-webkit-transform', val)
-    el.style.setProperty('-moz-transform', val)
-    el.style.setProperty('transform', val)
+  function transform (elem, val) {
+    elem.style.setProperty('-webkit-transform', val)
+    elem.style.setProperty('-moz-transform', val)
+    elem.style.setProperty('transform', val)
   }
 
-  function display(el, val = true) {
-    el.style.setProperty('display', val ? 'block' : 'none')
+  function display (elem, val = true) {
+    elem.style.setProperty('display', val ? 'block' : 'none')
   }
 
-  function displayBy(i) {
-    slides.forEach((el, a) => display(el, i === a))
+  function displayBy (i) {
+    slides.forEach((elem, a) => display(elem, i === a))
   }
 
-  function getElements(selector, parent = document) {
+  function getElements (selector, parent = document) {
     return Array.prototype.slice.call(parent.querySelectorAll(selector))
   }
-
 }
