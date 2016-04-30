@@ -7,9 +7,10 @@ export default (options = {}) => {
   const opts = Object.assign({
     selector: '.slendr-slides > .slendr-slide',
     animationClass: '.slendr-animate',
-    animationSpeed: 900,
+    animationSpeed: 600,
     slideshow: true,
-    slideshowSpeed: 4000
+    slideshowSpeed: 4000,
+    keyboard: false
   }, options)
 
   const selectorContainer = opts.selector.substr(0, opts.selector.search(' '))
@@ -27,6 +28,7 @@ export default (options = {}) => {
     slides.forEach(slide => background(slide))
     displayBy(current)
     slideshow()
+    bindEvents()
   }
 
   function prev () {
@@ -60,8 +62,8 @@ export default (options = {}) => {
 
     slidesContainer.classList.add(opts.animationClass)
 
-    translateX(slidesContainer, (direction === 'next') ? '-100%' : '100%')
-    translateX(slides[current], (direction === 'next') ? '100%' : '-100%')
+    translateX(slidesContainer, (direction === 'next') ? `-100%` : `100%`)
+    translateX(slides[current], (direction === 'next') ? `100%` : `-100%`)
 
     setTimeout(() => {
       animating = false
@@ -95,6 +97,20 @@ export default (options = {}) => {
     elem.style.setProperty('-webkit-transform', val)
     elem.style.setProperty('-moz-transform', val)
     elem.style.setProperty('transform', val)
+  }
+
+  function bindEvents () {
+    if (opts.keyboard) {
+      document.addEventListener('keyup', evnt => {
+        if (evnt.which === 37) {
+          prev()
+        }
+
+        if (evnt.which === 39) {
+          next()
+        }
+      }, false)
+    }
   }
 
   function display (elem, val = true) {

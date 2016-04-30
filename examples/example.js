@@ -1,13 +1,9 @@
 import Slendr from '../src/slendr'
 
 const sledr = Slendr({
-  slideshow: false
+  slideshow: false,
+  keyboard: true
 })
-
-document.addEventListener('keyup', event => {
-  if (event.which === 37) sledr.prev()
-  if (event.which === 39) sledr.next()
-}, false)
 
 document.querySelector('.slendr-prev').addEventListener('click', sledr.prev, false)
 document.querySelector('.slendr-next').addEventListener('click', sledr.next, false)
