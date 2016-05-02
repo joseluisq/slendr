@@ -3,18 +3,25 @@ import Emitus from 'emitus'
 export default (options = {}) => {
   let current = 0
   let animating = false
+  let timeout = 0
 
   const opts = Object.assign({
+    container: '.slendr',
     selector: '.slendr-slides > .slendr-slide',
     animationClass: '.slendr-animate',
-    animationSpeed: 600,
+    directionNavPrev: '.slendr-prev',
+    directionNavNext: '.slendr-next',
+    slideActive: '.slendr-active',
+    animationSpeed: 900,
     slideshow: true,
     slideshowSpeed: 4000,
+    directionNavs: true,
     keyboard: false
   }, options)
 
+  const container = document.querySelector(opts.container)
   const selectorContainer = opts.selector.substr(0, opts.selector.search(' '))
-  const slidesContainer = document.querySelector(selectorContainer)
+  const slidesContainer = container.querySelector(selectorContainer)
   const slides = getElements(opts.selector, slidesContainer)
 
   opts.animationClass = opts.animationClass.replace(/^\./g, '')
@@ -43,6 +50,7 @@ export default (options = {}) => {
 
   function move (direction) {
     animating = true
+    clearTimeout(timeout)
 
     display(slides[current])
 
@@ -75,12 +83,14 @@ export default (options = {}) => {
 
       emitr.emit('move', [direction, current, slide])
       emitr.emit(direction, [current, slide])
+
+      slideshow()
     }, opts.animationSpeed)
   }
 
   function slideshow () {
     if (opts.slideshow) {
-      setInterval(next, opts.slideshowSpeed)
+      timeout = setTimeout(next, opts.slideshowSpeed)
     }
   }
 
@@ -101,24 +111,57 @@ export default (options = {}) => {
 
   function bindEvents () {
     if (opts.keyboard) {
-      document.addEventListener('keyup', evnt => {
-        if (evnt.which === 37) {
-          prev()
-        }
+      keyboard()
+    }
 
-        if (evnt.which === 39) {
-          next()
-        }
+    if (opts.directionNavs) {
+      directionNavs()
+    }
+  }
+
+  function directionNavs () {
+    const slendrPrev = container.querySelector(opts.directionNavPrev)
+    const slendrNext = container.querySelector(opts.directionNavNext)
+
+    if (slendrPrev && slendrNext) {
+      slendrPrev.addEventListener('click', (evnt) => {
+        evnt.preventDefault()
+        prev()
+      }, false)
+      slendrNext.addEventListener('click', (evnt) => {
+        evnt.preventDefault()
+        next()
       }, false)
     }
   }
 
-  function display (elem, val = true) {
+  function keyboard () {
+    document.addEventListener('keyup', evnt => {
+      if (evnt.which === 37) {
+        prev()
+      }
+
+      if (evnt.which === 39) {
+        next()
+      }
+    }, false)
+  }
+
+  function display (elem, val = true , cls = false) {
+    const active = opts.slideActive.replace(/^\./g, '')
     elem.style.setProperty('display', val ? 'block' : 'none')
+
+    if (cls) {
+      elem.classList.add(active)
+    } else {
+      elem.classList.remove(active)
+    }
   }
 
   function displayBy (i) {
-    slides.forEach((elem, a) => display(elem, i === a))
+    slides.forEach((elem, a) => {
+      display(elem, i === a, i === a)
+    })
   }
 
   function getElements (selector, parent = document) {

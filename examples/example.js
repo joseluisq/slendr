@@ -5,9 +5,6 @@ const sledr = Slendr({
   keyboard: true
 })
 
-document.querySelector('.slendr-prev').addEventListener('click', sledr.prev, false)
-document.querySelector('.slendr-next').addEventListener('click', sledr.next, false)
-
 sledr.on('move', (dir, i, el) => {
   console.log(dir, i, el)
 })

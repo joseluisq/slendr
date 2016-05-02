@@ -51,11 +51,17 @@ For more complete example check out `/examples` dir.
 
 ```js
 {
+  container: '.slendr',
   selector: '.slendr-slides > .slendr-slide',
   animationClass: '.slendr-animate',
+  directionNavPrev: '.slendr-prev',
+  directionNavNext: '.slendr-next',
+  slideActive: '.slendr-active',
   animationSpeed: 900,
   slideshow: true,
-  slideshowSpeed: 4000
+  slideshowSpeed: 4000,
+  directionNavs: true,
+  keyboard: false
 }
 ```
 
