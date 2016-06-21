@@ -18,14 +18,14 @@
     bottom: 0;
 
     -webkit-backface-visibility: hidden;
-   -moz-backface-visibility: hidden;
-   -ms-backface-visibility: hidden;
-   backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
 
-   -webkit-perspective: 1000;
-   -moz-perspective: 1000;
-   -ms-perspective: 1000;
-   perspective: 1000;
+    -webkit-perspective: 1000;
+    -moz-perspective: 1000;
+    -ms-perspective: 1000;
+    perspective: 1000;
   }
 
   .slendr-animate {
@@ -48,7 +48,11 @@
     display: none;
   }
 
-  .slendr-nav {
+  .slendr-show {
+    display: block;
+  }
+
+  .slendr-direction {
     position: absolute;
     top: 50%;
     left: 0;
@@ -74,6 +78,35 @@
 
     .slendr-next {
       right: 5%;
+    }
+  }
+
+  .slendr-control {
+    position: absolute;
+    bottom: 6%;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+
+    ul {
+      margin-top: 0;
+      padding: 0;
+      text-align: center;
+      font-size: 0;
+    }
+
+    a {
+      display: inline-block;
+      opacity: .55;
+      border-radius: 10px;
+      background-color: #fff;
+      cursor: pointer;
+      padding: 5px;
+      width: 5px;
+      height: 5px;
+      overflow: hidden;
+      margin-left: 5px;
+      margin-right: 5px;
     }
   }
 }

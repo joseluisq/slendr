@@ -1,9 +1,10 @@
 import Emitus from 'emitus'
 
 export default (options = {}) => {
-  let current = 0
   let animating = false
+  let current = 0
   let timeout = 0
+  let slide = null
 
   const opts = Object.assign({
     container: '.slendr',
@@ -12,10 +13,13 @@ export default (options = {}) => {
     directionNavPrev: '.slendr-prev',
     directionNavNext: '.slendr-next',
     slideActive: '.slendr-active',
+    slideShowClass: '.slendr-show',
     animationSpeed: 900,
     slideshow: true,
     slideshowSpeed: 4000,
     directionNavs: true,
+    controlNavs: true,
+    controlNavClass: '.slendr-control',
     keyboard: false
   }, options)
 
@@ -23,55 +27,66 @@ export default (options = {}) => {
   const selectorContainer = opts.selector.substr(0, opts.selector.search(' '))
   const slidesContainer = container.querySelector(selectorContainer)
   const slides = getElements(opts.selector, slidesContainer)
+  let containerWidth = container.offsetWidth
 
   opts.animationClass = opts.animationClass.replace(/^\./g, '')
 
   init()
 
-  const emitr = Emitus({prev, next})
+  const emitr = Emitus({
+    prev: prev,
+    next: next,
+    move: i => goTo(i)
+  })
+
   return emitr
 
   function init () {
     slides.forEach(slide => background(slide))
     displayBy(current)
     slideshow()
+    controlNavs()
     bindEvents()
   }
 
   function prev () {
     if (animating) return
-    move('prev')
+    moveBy('prev')
   }
 
   function next () {
     if (animating) return
-    move('next')
+    moveBy('next')
   }
 
-  function move (direction) {
+  function moveBy (direction, indx = -1) {
     animating = true
     clearTimeout(timeout)
 
     display(slides[current])
 
-    current = (direction === 'next') ? current + 1 : current - 1
+    if (indx !== -1) {
+      current = indx
+    } else {
+      current = (direction === 'next') ? current + 1 : current - 1
 
-    if (current > slides.length - 1) {
-      current = 0
+      if (current > slides.length - 1) {
+        current = 0
+      }
+
+      if (current < 0) {
+        current = slides.length - 1
+      }
     }
 
-    if (current < 0) {
-      current = slides.length - 1
-    }
-
-    const slide = slides[current]
+    slide = slides[current]
 
     display(slide)
 
     slidesContainer.classList.add(opts.animationClass)
 
-    translateX(slidesContainer, (direction === 'next') ? `-100%` : `100%`)
-    translateX(slides[current], (direction === 'next') ? `100%` : `-100%`)
+    translateX(slidesContainer, (direction === 'next') ? `-${containerWidth}px` : `${containerWidth}px`)
+    translateX(slides[current], (direction === 'next') ? `${containerWidth}px` : `-${containerWidth}px`)
 
     setTimeout(() => {
       animating = false
@@ -85,7 +100,13 @@ export default (options = {}) => {
       emitr.emit(direction, [current, slide])
 
       slideshow()
-    }, opts.animationSpeed)
+    }, opts.animationSpeed + 260)
+  }
+
+  function goTo (i) {
+    if (!animating && current !== i && (i >= 0 && i < slides.length)) {
+      moveBy((current - i < 0 ? 'next' : 'prev'), i)
+    }
   }
 
   function slideshow () {
@@ -100,7 +121,7 @@ export default (options = {}) => {
   }
 
   function translateX (elem, x = 0) {
-    transform(elem, `translate3d(${x},0,0)`)
+    transform(elem, `translateX(${x})`)
   }
 
   function transform (elem, val) {
@@ -117,6 +138,34 @@ export default (options = {}) => {
     if (opts.directionNavs) {
       directionNavs()
     }
+
+    window.addEventListener('resize', () => {
+      containerWidth = container.offsetWidth
+    }, false)
+  }
+
+  function controlNavs () {
+    if (!opts.controlNavs) {
+      return
+    }
+
+    const control = container.querySelector(opts.controlNavClass)
+    const ul = document.createElement('ul')
+
+    empty(control)
+
+    let el
+
+    for (let i = 0; i < slides.length; i++) {
+      el = document.createElement('a')
+      el.addEventListener('click', (evnt) => {
+        goTo(i)
+        evnt.preventDefault()
+      }, false)
+      ul.appendChild(el)
+    }
+
+    control.appendChild(ul)
   }
 
   function directionNavs () {
@@ -147,9 +196,21 @@ export default (options = {}) => {
     }, false)
   }
 
-  function display (elem, val = true , cls = false) {
+  function displayBy (i) {
+    slides.forEach((elem, a) => {
+      display(elem, i === a, i === a)
+    })
+  }
+
+  function display (elem, yes = true , cls = false) {
     const active = opts.slideActive.replace(/^\./g, '')
-    elem.style.setProperty('display', val ? 'block' : 'none')
+    const show = opts.slideShowClass.replace(/^\./g, '')
+
+    if (!yes) {
+      elem.classList.remove(show)
+    } else {
+      elem.classList.add(show)
+    }
 
     if (cls) {
       elem.classList.add(active)
@@ -158,13 +219,11 @@ export default (options = {}) => {
     }
   }
 
-  function displayBy (i) {
-    slides.forEach((elem, a) => {
-      display(elem, i === a, i === a)
-    })
-  }
-
   function getElements (selector, parent = document) {
     return Array.prototype.slice.call(parent.querySelectorAll(selector))
+  }
+
+  function empty (el = null) {
+    while (el && el.firstChild) el.removeChild(el.firstChild)
   }
 }
