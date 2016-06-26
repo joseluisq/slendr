@@ -57,10 +57,13 @@ For more complete example check out `/examples` dir.
   directionNavPrev: '.slendr-prev',
   directionNavNext: '.slendr-next',
   slideActive: '.slendr-active',
+  slideShowClass: '.slendr-show',
   animationSpeed: 900,
   slideshow: true,
   slideshowSpeed: 4000,
   directionNavs: true,
+  controlNavs: true,
+  controlNavClass: '.slendr-control',
   keyboard: false
 }
 ```
@@ -73,10 +76,13 @@ For more complete example check out `/examples` dir.
 ### next()
 `slendr.next()` - Move to next slide.
 
+### move(index)
+`slendr.move(2)` - Move slider by index.
+
 ## Events
 
 ### move
-`slendr.on('move', function (direction, index, element){})` - Trigger when slider moves prev/next slide.
+`slendr.on('move', function (direction, index, element){})` - Trigger when slider moves to prev or next slide.
 
 ### prev
 `slendr.on('prev', function (index, element){})` - Trigger when slider moves to previous slide.
