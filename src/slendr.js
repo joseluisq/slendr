@@ -1,6 +1,6 @@
-import Emitus from 'emitus'
+const Emitus = require('emitus')
 
-export default (options = {}) => {
+module.exports = (options = {}) => {
   let animating = false
   let current = 0
   let timeout = 0
