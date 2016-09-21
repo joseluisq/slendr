@@ -4,6 +4,7 @@
   "description": "Lightweight and responsive slider for modern browsers.",
   "main": "dist/slendr.min.js",
   "scripts": {
+    "preinstall": "mkdir -p ./.tmp",
     "build:js": "babel src/slendr.js | uglifyjs --stats -vmc > dist/slendr.min.js",
     "xbuild:js": "browserify -t [ babelify ] examples/example.js | uglifyjs --stats -vmc > .tmp/bundle.js",
     "build:css": "node-sass scss/slendr.scss dist/slendr.min.css && cleancss dist/slendr.min.css -do dist/slendr.min.css",
