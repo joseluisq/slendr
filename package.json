@@ -40,7 +40,7 @@
     "browser-sync": "^2.16.1",
     "browserify": "^13.1.0",
     "clean-css": "^3.4.20",
-    "node-sass": "^3.9.3",
+    "node-sass": "^3.10.1",
     "uglify-js": "^2.7.3",
     "watchify": "^3.7.0"
   },
