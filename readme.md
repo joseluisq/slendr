@@ -1,4 +1,4 @@
-# Slendr [![slendr](https://img.shields.io/npm/v/slendr.svg?maxAge=2592000)]() [![Build Status](https://travis-ci.org/joseluisq/slendr.svg?branch=master)](https://travis-ci.org/joseluisq/slendr) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+# Slendr [![slendr](https://img.shields.io/npm/v/slendr.svg?maxAge=2592000)](https://www.npmjs.com/package/slendr) [![Build Status](https://travis-ci.org/joseluisq/slendr.svg?branch=master)](https://travis-ci.org/joseluisq/slendr) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 > Lightweight and responsive slider for modern browsers.
 
