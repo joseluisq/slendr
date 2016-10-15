@@ -1,6 +1,6 @@
 {
   "name": "slendr",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Lightweight and responsive slider for modern browsers.",
   "main": "dist/slendr.min.js",
   "repository": "joseluisq/slendr",
@@ -31,6 +31,9 @@
     "commonjs",
     "hardware accelerated"
   ],
+   "engines": {
+    "node": ">=4"
+  },
   "dependencies": {
     "emitus": "^1.0.1"
   },
