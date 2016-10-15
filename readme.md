@@ -1,4 +1,4 @@
-# Slendr [![Build Status](https://travis-ci.org/joseluisq/slendr.svg?branch=master)](https://travis-ci.org/joseluisq/slendr) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
+# Slendr [![slendr](https://img.shields.io/npm/v/slendr.svg?maxAge=2592000)]() [![Build Status](https://travis-ci.org/joseluisq/slendr.svg?branch=master)](https://travis-ci.org/joseluisq/slendr) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 > Lightweight and responsive slider for modern browsers.
 
@@ -7,18 +7,20 @@ Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Ja
 ## Install
 
 ```sh
-$ npm install slendr --save-dev
+npm install slendr --save-dev
 ```
 
 ## Usage
 
-Include the base style:
+Base styles:
 
 ```html
 <link rel="stylesheet" href="dist/slendr.min.css">
 ```
 
-Define markup:
+_You can customize your slider editing the `slendr.scss` file._
+
+Markup:
 
 ```html
 <div class="slendr">
@@ -35,17 +37,17 @@ Define markup:
 </div>
 ```
 
-Import the module and instantiate:
+API:
 
 ```js
-import Slendr from 'slendr'
+const Slendr = require('slendr')
 
-const slendr = Slendr({
+const slider = Slendr({
   slideshow: true
 })
 ```
 
-For more complete example check out `/examples` dir.
+For more detailed example check out `/examples` dir.
 
 ## Options
 
@@ -70,31 +72,59 @@ For more complete example check out `/examples` dir.
 
 ## Methods
 
-### prev()
-`slendr.prev()` - Move to previous slide.
+#### prev()
+Move to previous slide.
 
-### next()
-`slendr.next()` - Move to next slide.
+```js
+slendr.prev()
+```
 
-### move(index)
-`slendr.move(2)` - Move slider by index.
+#### next()
+Move to next slide.
+
+```js
+slendr.next()
+```
+
+#### move(index)
+Move slider by index.
+
+```js
+slendr.move(2)
+```
 
 ## Events
 
-### move
-`slendr.on('move', function (direction, index, element){})` - Trigger when slider moves to prev or next slide.
+#### move
+Trigger when slider moves to previous or next slide.
 
-### prev
-`slendr.on('prev', function (index, element){})` - Trigger when slider moves to previous slide.
+```js
+slendr.on('move', (direction, index, element) => {
+})
+```
 
-### next
-`slendr.on('next', function (index, element){})` - Trigger when slider moves to next slide.
+
+#### prev
+Trigger when slider moves to previous slide.
+
+```js
+slendr.on('prev', (index, element) => {
+})
+```
+
+#### next
+Trigger when slider moves to next slide.
+
+```js
+slendr.on('next', (index, element) => {
+})
+```
 
 ## Contributions
 
 [Pull requests](https://github.com/joseluisq/slendr/pulls) and [issues](https://github.com/joseluisq/slendr/issues) are welcome.
 
-### Development
+#### Development
 If you can to contribute or simply play with the source try:
 
 Install packages
