@@ -25,11 +25,11 @@ Markup:
 ```html
 <div class="slendr">
   <nav class="slendr-direction">
-		<a href="#" class="slendr-prev"><i class="fa fa-angle-left"></i></a>
+    <a href="#" class="slendr-prev"><i class="fa fa-angle-left"></i></a>
     <a href="#" class="slendr-next"><i class="fa fa-angle-right"></i></a>
-	</nav>
+  </nav>
 
-	<nav class="slendr-control"></nav>
+  <nav class="slendr-control"></nav>
 
   <div class="slendr-slides">
     <section class="slendr-slide" data-src="slide1.jpg"></section>
