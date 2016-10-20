@@ -150,11 +150,16 @@ module.exports = (options = {}) => {
     }
 
     const control = container.querySelector(opts.controlNavClass)
+
+    if (!control) {
+      opts.controlNavs = false
+      return
+    }
+
+    let el
     const ul = document.createElement('ul')
 
     empty(control)
-
-    let el
 
     for (let i = 0; i < slides.length; i++) {
       el = document.createElement('a')
@@ -202,7 +207,7 @@ module.exports = (options = {}) => {
     })
   }
 
-  function display (elem, yes = true , cls = false) {
+  function display (elem, yes = true, cls = false) {
     const active = opts.slideActive.replace(/^\./g, '')
     const show = opts.slideShowClass.replace(/^\./g, '')
 
