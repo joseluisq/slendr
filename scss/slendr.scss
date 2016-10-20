@@ -10,6 +10,13 @@
   height: 100%;
   background-color: #777;
 
+  &[data-slendr-length="0"] .slendr-direction,
+  &[data-slendr-length="1"] .slendr-direction,
+  &[data-slendr-length="0"] .slendr-control,
+  &[data-slendr-length="1"] .slendr-control {
+    display: none;
+  }
+
   .slendr-slides {
     position: absolute;
     left: 0;

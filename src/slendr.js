@@ -44,18 +44,27 @@ module.exports = (options = {}) => {
   function init () {
     slides.forEach(slide => background(slide))
     displayBy(current)
+
+    if (slides.length < 2) {
+      return
+    }
+
     slideshow()
-    controlNavs()
     bindEvents()
+    directionNavs()
+    keyboard()
+    controlNavs()
   }
 
   function prev () {
     if (animating) return
+
     moveBy('prev')
   }
 
   function next () {
     if (animating) return
+
     moveBy('next')
   }
 
@@ -131,14 +140,6 @@ module.exports = (options = {}) => {
   }
 
   function bindEvents () {
-    if (opts.keyboard) {
-      keyboard()
-    }
-
-    if (opts.directionNavs) {
-      directionNavs()
-    }
-
     window.addEventListener('resize', () => {
       containerWidth = container.offsetWidth
     }, false)
@@ -174,15 +175,19 @@ module.exports = (options = {}) => {
   }
 
   function directionNavs () {
-    const slendrPrev = container.querySelector(opts.directionNavPrev)
-    const slendrNext = container.querySelector(opts.directionNavNext)
+    if (!opts.directionNavs) {
+      return
+    }
 
-    if (slendrPrev && slendrNext) {
-      slendrPrev.addEventListener('click', (evnt) => {
+    const prevNav = container.querySelector(opts.directionNavPrev)
+    const nextNav = container.querySelector(opts.directionNavNext)
+
+    if (prevNav && nextNav) {
+      prevNav.addEventListener('click', (evnt) => {
         evnt.preventDefault()
         prev()
       }, false)
-      slendrNext.addEventListener('click', (evnt) => {
+      nextNav.addEventListener('click', (evnt) => {
         evnt.preventDefault()
         next()
       }, false)
@@ -190,6 +195,10 @@ module.exports = (options = {}) => {
   }
 
   function keyboard () {
+    if (!opts.keyboard) {
+      return
+    }
+
     document.addEventListener('keyup', evnt => {
       if (evnt.which === 37) {
         prev()
@@ -205,6 +214,8 @@ module.exports = (options = {}) => {
     slides.forEach((elem, a) => {
       display(elem, i === a, i === a)
     })
+
+    container.setAttribute('data-slendr-length', slides.length)
   }
 
   function display (elem, yes = true, cls = false) {
