@@ -51,6 +51,8 @@ const slider = Slendr({
 
 For more detailed example check out `/examples` dir.
 
+[![view on requirebin](http://requirebin.com/badge.png)](http://requirebin.com/?gist=9baa0cf1691654c193062f7fab796f91)
+
 ## Options
 
 ```js
