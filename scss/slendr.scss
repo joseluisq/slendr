@@ -10,6 +10,7 @@
   height: 100%;
   background-color: #777;
 
+  // Hide control and direction navs if slides length < 2
   &[data-slendr-length="0"] .slendr-direction,
   &[data-slendr-length="1"] .slendr-direction,
   &[data-slendr-length="0"] .slendr-control,
@@ -98,22 +99,32 @@
     ul {
       margin-top: 0;
       padding: 0;
+      height: 20px;
       text-align: center;
       font-size: 0;
     }
 
     a {
       display: inline-block;
-      opacity: .55;
-      border-radius: 10px;
-      background-color: #fff;
+      border-radius: 20px;
+      -webkit-border-radius: 20px;
+      background-color: rgba(255,255,255, .8);
       cursor: pointer;
       padding: 5px;
-      width: 5px;
-      height: 5px;
-      overflow: hidden;
+      width: 2px;
+      height: 2px;
       margin-left: 5px;
       margin-right: 5px;
+      transition: background-color .3s ease-out, box-shadow .3s ease-out;
+      -webkit-transition: background-color .3s ease-out, box-shadow .3s ease-out;
+    }
+
+    .slendr-control-active {
+      box-shadow: 0 0 0 2px rgba(255,255,255, 1) inset;
+      -webkit-box-shadow: 0 0 0 2px rgba(255,255,255, 1) inset;
+      background-color: rgba(255,255,255, .2);
+      width: 3px;
+      height: 3px;
     }
   }
 }

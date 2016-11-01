@@ -18,15 +18,17 @@ module.exports = (options = {}) => {
     slideshow: true,
     slideshowSpeed: 4000,
     directionNavs: true,
+    keyboard: false,
     controlNavs: true,
     controlNavClass: '.slendr-control',
-    keyboard: false
+    controlNavClassActive: '.slendr-control-active'
   }, options)
 
   const container = document.querySelector(opts.container)
   const selectorContainer = opts.selector.substr(0, opts.selector.search(' '))
   const slidesContainer = container.querySelector(selectorContainer)
   const slides = getElements(opts.selector, slidesContainer)
+  const controlNavList = []
   let containerWidth = container.offsetWidth
 
   opts.animationClass = opts.animationClass.replace(/^\./g, '')
@@ -43,17 +45,18 @@ module.exports = (options = {}) => {
 
   function init () {
     slides.forEach(slide => background(slide))
-    displayBy(current)
 
     if (slides.length < 2) {
       return
     }
 
+    displayByIndex(current)
+    controlNavs()
+    controlNavActiveItem(current)
     slideshow()
     bindEvents()
     directionNavs()
     keyboard()
-    controlNavs()
   }
 
   function prev () {
@@ -95,7 +98,9 @@ module.exports = (options = {}) => {
     slidesContainer.classList.add(opts.animationClass)
 
     translateX(slidesContainer, (direction === 'next') ? `-${containerWidth}px` : `${containerWidth}px`)
-    translateX(slides[current], (direction === 'next') ? `${containerWidth}px` : `-${containerWidth}px`)
+    translateX(slide, (direction === 'next') ? `${containerWidth}px` : `-${containerWidth}px`)
+
+    controlNavActiveItem(current)
 
     setTimeout(() => {
       animating = false
@@ -103,7 +108,7 @@ module.exports = (options = {}) => {
 
       transform(slidesContainer, 'none')
       transform(slides[current], 'none')
-      displayBy(current)
+      displayByIndex(current)
 
       emitr.emit('move', [direction, current, slide])
       emitr.emit(direction, [current, slide])
@@ -129,14 +134,14 @@ module.exports = (options = {}) => {
     slide.style.setProperty('background-image', `url('${src}')`)
   }
 
-  function translateX (elem, x = 0) {
-    transform(elem, `translateX(${x})`)
+  function translateX (el, x = 0) {
+    transform(el, `translateX(${x})`)
   }
 
-  function transform (elem, val) {
-    elem.style.setProperty('-webkit-transform', val)
-    elem.style.setProperty('-moz-transform', val)
-    elem.style.setProperty('transform', val)
+  function transform (el, val) {
+    el.style.setProperty('-webkit-transform', val)
+    el.style.setProperty('-moz-transform', val)
+    el.style.setProperty('transform', val)
   }
 
   function bindEvents () {
@@ -164,11 +169,12 @@ module.exports = (options = {}) => {
 
     for (let i = 0; i < slides.length; i++) {
       el = document.createElement('a')
-      el.addEventListener('click', (evnt) => {
+      el.addEventListener('click', evnt => {
         goTo(i)
         evnt.preventDefault()
       }, false)
       ul.appendChild(el)
+      controlNavList.push(el)
     }
 
     control.appendChild(ul)
@@ -183,14 +189,16 @@ module.exports = (options = {}) => {
     const nextNav = container.querySelector(opts.directionNavNext)
 
     if (prevNav && nextNav) {
-      prevNav.addEventListener('click', (evnt) => {
+      prevNav.addEventListener('click', evnt => {
         evnt.preventDefault()
         prev()
       }, false)
-      nextNav.addEventListener('click', (evnt) => {
+      nextNav.addEventListener('click', evnt => {
         evnt.preventDefault()
         next()
       }, false)
+    } else {
+      opts.directionNavs = false
     }
   }
 
@@ -210,28 +218,37 @@ module.exports = (options = {}) => {
     }, false)
   }
 
-  function displayBy (i) {
-    slides.forEach((elem, a) => {
-      display(elem, i === a, i === a)
-    })
-
+  function displayByIndex (i) {
+    slides.forEach((el, n) => display(el, i === n, i === n))
     container.setAttribute('data-slendr-length', slides.length)
   }
 
-  function display (elem, yes = true, cls = false) {
+  function controlNavActiveItem (i) {
+    opts.controlNavClassActive = opts.controlNavClassActive.replace(/^\./g, '')
+
+    if (opts.controlNavs && slides.length > 1) {
+      controlNavList.forEach((item, n) => {
+        controlNavList[n].classList.remove(opts.controlNavClassActive)
+      })
+
+      controlNavList[i].classList.add(opts.controlNavClassActive)
+    }
+  }
+
+  function display (el, yes = true, cls = false) {
     const active = opts.slideActive.replace(/^\./g, '')
     const show = opts.slideShowClass.replace(/^\./g, '')
 
     if (!yes) {
-      elem.classList.remove(show)
+      el.classList.remove(show)
     } else {
-      elem.classList.add(show)
+      el.classList.add(show)
     }
 
     if (cls) {
-      elem.classList.add(active)
+      el.classList.add(active)
     } else {
-      elem.classList.remove(active)
+      el.classList.remove(active)
     }
   }
 
