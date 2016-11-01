@@ -68,9 +68,10 @@ For more detailed example check out `/examples` dir.
   slideshow: true,
   slideshowSpeed: 4000,
   directionNavs: true,
+  keyboard: false,
   controlNavs: true,
   controlNavClass: '.slendr-control',
-  keyboard: false
+  controlNavClassActive: '.slendr-control-active'
 }
 ```
 
