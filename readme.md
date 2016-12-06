@@ -42,7 +42,7 @@ You can use the library via `window.Slendr`
 Base styles:
 
 ```html
-<link href="https://cdn.jsdelivr.net/slendr/latest/slendr.min.css">
+<link href="https://unpkg.com/slendr/dist/slendr.min.css">
 ```
 
 _You can customize your slider editing the `slendr.scss` file._
