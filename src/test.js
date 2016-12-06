@@ -1,6 +1,7 @@
-const test = require('tape')
-const jsdom = require('jsdom').jsdom
-const Slendr = require('../src/slendr')
+/* global global, document, window, test, expect */
+
+import { jsdom } from 'jsdom'
+import Slendr from '../src/slendr'
 
 global.document = jsdom('<!doctype html><html><body></body></html>')
 global.window = document.defaultView
@@ -18,9 +19,7 @@ const tmpl = `
 
 document.body.innerHTML = tmpl
 
-test('Test suite', t => {
-  t.plan(3)
-
+test('Test suite', () => {
   const slider = Slendr({
     slideshow: false
   })
@@ -28,8 +27,14 @@ test('Test suite', t => {
   slider.move(1)
 
   slider.on('move', (dir, i, el) => {
-    t.ok(dir === 'next', 'when it moves to the right.')
-    t.ok(i === 1, 'when index equals to 1.')
-    t.ok(typeof el === 'object', 'when element is present')
+    expect(dir).toEqual('next')
+    expect(i).toEqual(1)
+    expect(typeof el).toEqual('object')
+  })
+
+  slider.on('next', (dir, i, el) => {
+    expect(dir).toEqual('next')
+    expect(i).toEqual(1)
+    expect(typeof el).toEqual('object')
   })
 })

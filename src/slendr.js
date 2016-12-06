@@ -1,4 +1,6 @@
-const Emitus = require('emitus')
+/* global module */
+
+import Emitus from 'emitus'
 
 module.exports = (options = {}) => {
   let animating = false
@@ -46,6 +48,7 @@ module.exports = (options = {}) => {
   function init () {
     slides.forEach(slide => background(slide))
 
+    /* istanbul ignore if */
     if (slides.length < 2) {
       return
     }
@@ -59,18 +62,21 @@ module.exports = (options = {}) => {
     keyboard()
   }
 
+  /* istanbul ignore next */
   function prev () {
     if (animating) return
 
     moveBy('prev')
   }
 
+  /* istanbul ignore next */
   function next () {
     if (animating) return
 
     moveBy('next')
   }
 
+  /* istanbul ignore next */
   function moveBy (direction, indx = -1) {
     animating = true
     clearTimeout(timeout)
@@ -123,6 +129,7 @@ module.exports = (options = {}) => {
     }
   }
 
+  /* istanbul ignore next */
   function slideshow () {
     if (opts.slideshow) {
       timeout = setTimeout(next, opts.slideshowSpeed)
@@ -144,6 +151,7 @@ module.exports = (options = {}) => {
     el.style.setProperty('transform', val)
   }
 
+  /* istanbul ignore next */
   function bindEvents () {
     window.addEventListener('resize', () => {
       containerWidth = container.offsetWidth
@@ -151,12 +159,14 @@ module.exports = (options = {}) => {
   }
 
   function controlNavs () {
+    /* istanbul ignore if */
     if (!opts.controlNavs) {
       return
     }
 
     const control = container.querySelector(opts.controlNavClass)
 
+    /* istanbul ignore if */
     if (!control) {
       opts.controlNavs = false
       return
@@ -167,6 +177,7 @@ module.exports = (options = {}) => {
 
     empty(control)
 
+    /* istanbul ignore next */
     for (let i = 0; i < slides.length; i++) {
       el = document.createElement('a')
       el.addEventListener('click', evnt => {
@@ -181,6 +192,7 @@ module.exports = (options = {}) => {
   }
 
   function directionNavs () {
+    /* istanbul ignore next */
     if (!opts.directionNavs) {
       return
     }
@@ -188,6 +200,7 @@ module.exports = (options = {}) => {
     const prevNav = container.querySelector(opts.directionNavPrev)
     const nextNav = container.querySelector(opts.directionNavNext)
 
+    /* istanbul ignore next */
     if (prevNav && nextNav) {
       prevNav.addEventListener('click', evnt => {
         evnt.preventDefault()
@@ -207,6 +220,7 @@ module.exports = (options = {}) => {
       return
     }
 
+    /* istanbul ignore next */
     document.addEventListener('keyup', evnt => {
       if (evnt.which === 37) {
         prev()
@@ -256,6 +270,7 @@ module.exports = (options = {}) => {
     return Array.prototype.slice.call(parent.querySelectorAll(selector))
   }
 
+  /* istanbul ignore next */
   function empty (el = null) {
     while (el && el.firstChild) el.removeChild(el.firstChild)
   }

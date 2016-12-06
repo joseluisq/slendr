@@ -1,7 +1,10 @@
+/slendr.js
+!src
 node_modules
 bower_components
-.tmp
+coverage
 log
+.tmp
 *#
 *~
 *.log
