@@ -6,16 +6,43 @@ Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Ja
 
 ## Install
 
+#### CommonJS
+
 ```sh
 npm install slendr --save-dev
 ```
+
+#### AMD
+
+```js
+requirejs(['slendr'], Slendr => {
+
+})
+```
+
+#### Browser
+
+##### Bower
+```sh
+bower install slendr --save
+```
+
+##### CDN
+The UMD and style files are also available on [unpkg](https://unpkg.com):
+
+```html
+<link href="https://unpkg.com/slendr/dist/slendr.min.css">
+<script src="https://unpkg.com/slendr/dist/slendr.min.js"></script>
+```
+
+You can use the library via `window.Slendr`
 
 ## Usage
 
 Base styles:
 
 ```html
-<link rel="stylesheet" href="dist/slendr.min.css">
+<link href="https://cdn.jsdelivr.net/slendr/latest/slendr.min.css">
 ```
 
 _You can customize your slider editing the `slendr.scss` file._
