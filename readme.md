@@ -156,29 +156,6 @@ slendr.on('next', (index, element) => {
 
 [Pull requests](https://github.com/joseluisq/slendr/pulls) and [issues](https://github.com/joseluisq/slendr/issues) are welcome.
 
-#### Development
-If you can to contribute or simply play with the source try:
-
-Install packages
-
-```sh
-$ npm install
-```
-
-Run development server
-
-```sh
-$ npm start
-```
-
-Or build dist files
-
-```sh
-$ npm run build
-```
-
-For more details, check out `scripts` in `packages.json`.
-
 ## License
 MIT license
 
