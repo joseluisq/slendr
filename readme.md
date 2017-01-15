@@ -159,4 +159,4 @@ slendr.on('next', (index, element) => {
 ## License
 MIT license
 
-© 2016 [José Luis Quintana](http://git.io/joseluisq)
+© 2017 [José Luis Quintana](http://git.io/joseluisq)
