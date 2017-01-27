@@ -1,5 +1,6 @@
-/* eslint-disable no-console */
+/* eslint-disable */
 
+import style from '../scss/slendr.scss'
 import Slendr from '../src/slendr'
 
 const slendr = Slendr({
@@ -7,6 +8,6 @@ const slendr = Slendr({
   keyboard: true
 })
 
-slendr.on('move', (dir, i, el) => console.log(dir, i, el))
-slendr.on('next', (i, el) => console.log(i, el))
-slendr.on('prev', (i, el) => console.log(i, el))
+slendr.on('move', console.log)
+slendr.on('next', console.log)
+slendr.on('prev', console.log)

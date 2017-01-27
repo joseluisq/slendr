@@ -152,9 +152,15 @@ slendr.on('next', (index, element) => {
 })
 ```
 
+## Development
+
+```sh
+npm start
+```
+
 ## Contributions
 
-[Pull requests](https://github.com/joseluisq/slendr/pulls) and [issues](https://github.com/joseluisq/slendr/issues) are welcome.
+[Pull requests](https://github.com/joseluisq/slendr/pulls) and [issues](https://github.com/joseluisq/slendr/issues) are very appreciated.
 
 ## License
 MIT license
