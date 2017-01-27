@@ -46,7 +46,7 @@
     "in-publish": "^2.0.0",
     "jest-cli": "^18.1.0",
     "jsdom": "^9.9.1",
-    "node-sass": "4.3.0",
+    "node-sass": "4.4.0",
     "pretty-bytes": "^4.0.2",
     "readline-sync": "^1.4.5",
     "sass-loader": "^4.1.1",
