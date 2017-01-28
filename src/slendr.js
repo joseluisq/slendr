@@ -1,30 +1,14 @@
-/* global module */
-
 import Emitus from 'emitus'
+import defaults from './defaults'
 
 module.exports = (options = {}) => {
-  let animating = false
   let current = 0
   let timeout = 0
   let slide = null
+  let paused = false
+  let animating = false
 
-  const opts = Object.assign({
-    container: '.slendr',
-    selector: '.slendr-slides > .slendr-slide',
-    animationClass: '.slendr-animate',
-    directionNavPrev: '.slendr-prev',
-    directionNavNext: '.slendr-next',
-    slideActive: '.slendr-active',
-    slideShowClass: '.slendr-show',
-    animationSpeed: 900,
-    slideshow: true,
-    slideshowSpeed: 4000,
-    directionNavs: true,
-    keyboard: false,
-    controlNavs: true,
-    controlNavClass: '.slendr-control',
-    controlNavClassActive: '.slendr-control-active'
-  }, options)
+  const opts = Object.assign(defaults, options)
 
   const container = document.querySelector(opts.container)
   const selectorContainer = opts.selector.substr(0, opts.selector.search(' '))
@@ -35,13 +19,15 @@ module.exports = (options = {}) => {
 
   opts.animationClass = opts.animationClass.replace(/^\./g, '')
 
-  init()
-
   const emitr = Emitus({
     prev: prev,
     next: next,
+    play: play,
+    pause: pause,
     move: i => goTo(i)
   })
+
+  init()
 
   return emitr
 
@@ -64,14 +50,14 @@ module.exports = (options = {}) => {
 
   /* istanbul ignore next */
   function prev () {
-    if (animating) return
+    if (paused || animating) return
 
     moveBy('prev')
   }
 
   /* istanbul ignore next */
   function next () {
-    if (animating) return
+    if (paused || animating) return
 
     moveBy('next')
   }
@@ -263,6 +249,22 @@ module.exports = (options = {}) => {
       el.classList.add(active)
     } else {
       el.classList.remove(active)
+    }
+  }
+
+  function play () {
+    if (opts.slideshow && paused) {
+      paused = false
+      animating = false
+      slideshow()
+    }
+  }
+
+  function pause () {
+    if (opts.slideshow && !paused) {
+      paused = true
+      animating = false
+      clearTimeout(timeout)
     }
   }
 

@@ -8,6 +8,8 @@ const slendr = Slendr({
   keyboard: true
 })
 
-slendr.on('move', console.log)
-slendr.on('next', console.log)
-slendr.on('prev', console.log)
+// slendr.on('move', console.log)
+// slendr.on('next', console.log)
+// slendr.on('prev', console.log)
+
+window.sl = slendr
