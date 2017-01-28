@@ -257,6 +257,8 @@ module.exports = (options = {}) => {
       paused = false
       animating = false
       slideshow()
+
+      emitr.emit('play', [current, slide])
     }
   }
 
@@ -265,6 +267,8 @@ module.exports = (options = {}) => {
       paused = true
       animating = false
       clearTimeout(timeout)
+
+      emitr.emit('pause', [current, slide])
     }
   }
 
