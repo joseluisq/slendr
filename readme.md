@@ -121,6 +121,12 @@ slendr.next()
 #### move(index)
 Move slider by index.
 
+#### play()
+Play the slideshow.
+
+#### pause()
+Pause the slideshow.
+
 ```js
 slendr.move(2)
 ```
@@ -135,7 +141,6 @@ slendr.on('move', (direction, index, element) => {
 })
 ```
 
-
 #### prev
 Trigger when slider moves to previous slide.
 
@@ -149,6 +154,22 @@ Trigger when slider moves to next slide.
 
 ```js
 slendr.on('next', (index, element) => {
+})
+```
+
+#### play
+Trigger when play the slideshow.
+
+```js
+slendr.on('play', (index) => {
+})
+```
+
+#### pause
+Trigger when pause the slideshow.
+
+```js
+slendr.on('pause', (index) => {
 })
 ```
 
