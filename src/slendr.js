@@ -1,30 +1,14 @@
-/* global module */
-
 import Emitus from 'emitus'
+import defaults from './defaults'
 
 module.exports = (options = {}) => {
-  let animating = false
   let current = 0
   let timeout = 0
   let slide = null
+  let paused = true
+  let animating = false
 
-  const opts = Object.assign({
-    container: '.slendr',
-    selector: '.slendr-slides > .slendr-slide',
-    animationClass: '.slendr-animate',
-    directionNavPrev: '.slendr-prev',
-    directionNavNext: '.slendr-next',
-    slideActive: '.slendr-active',
-    slideShowClass: '.slendr-show',
-    animationSpeed: 900,
-    slideshow: true,
-    slideshowSpeed: 4000,
-    directionNavs: true,
-    keyboard: false,
-    controlNavs: true,
-    controlNavClass: '.slendr-control',
-    controlNavClassActive: '.slendr-control-active'
-  }, options)
+  const opts = Object.assign(defaults, options)
 
   const container = document.querySelector(opts.container)
   const selectorContainer = opts.selector.substr(0, opts.selector.search(' '))
@@ -35,23 +19,22 @@ module.exports = (options = {}) => {
 
   opts.animationClass = opts.animationClass.replace(/^\./g, '')
 
-  init()
-
   const emitr = Emitus({
-    prev: prev,
-    next: next,
+    prev,
+    next,
+    play,
+    pause,
     move: i => goTo(i)
   })
+
+  init()
 
   return emitr
 
   function init () {
     slides.forEach(slide => background(slide))
 
-    /* istanbul ignore if */
-    if (slides.length < 2) {
-      return
-    }
+    if (slides && slides.length < 2) return
 
     displayByIndex(current)
     controlNavs()
@@ -62,22 +45,20 @@ module.exports = (options = {}) => {
     keyboard()
   }
 
-  /* istanbul ignore next */
   function prev () {
     if (animating) return
 
-    moveBy('prev')
+    moveTo('prev')
   }
 
-  /* istanbul ignore next */
   function next () {
     if (animating) return
 
-    moveBy('next')
+    moveTo('next')
   }
 
   /* istanbul ignore next */
-  function moveBy (direction, indx = -1) {
+  function moveTo (direction, indx = -1) {
     animating = true
     clearTimeout(timeout)
 
@@ -125,13 +106,14 @@ module.exports = (options = {}) => {
 
   function goTo (i) {
     if (!animating && current !== i && (i >= 0 && i < slides.length)) {
-      moveBy((current - i < 0 ? 'next' : 'prev'), i)
+      moveTo((current - i < 0 ? 'next' : 'prev'), i)
     }
   }
 
   /* istanbul ignore next */
   function slideshow () {
     if (opts.slideshow) {
+      paused = false
       timeout = setTimeout(next, opts.slideshowSpeed)
     }
   }
@@ -160,9 +142,7 @@ module.exports = (options = {}) => {
 
   function controlNavs () {
     /* istanbul ignore if */
-    if (!opts.controlNavs) {
-      return
-    }
+    if (!opts.controlNavs) return
 
     const control = container.querySelector(opts.controlNavClass)
 
@@ -216,19 +196,12 @@ module.exports = (options = {}) => {
   }
 
   function keyboard () {
-    if (!opts.keyboard) {
-      return
-    }
+    if (!opts.keyboard) return
 
     /* istanbul ignore next */
     document.addEventListener('keyup', evnt => {
-      if (evnt.which === 37) {
-        prev()
-      }
-
-      if (evnt.which === 39) {
-        next()
-      }
+      if (evnt.which === 37) prev()
+      if (evnt.which === 39) next()
     }, false)
   }
 
@@ -266,11 +239,30 @@ module.exports = (options = {}) => {
     }
   }
 
+  function play () {
+    if (!paused) return
+
+    opts.slideshow = true
+    slideshow()
+
+    emitr.emit('play', [current])
+  }
+
+  function pause () {
+    if (!opts.slideshow) return
+
+    clearTimeout(timeout)
+    paused = true
+    animating = false
+    opts.slideshow = false
+
+    emitr.emit('pause', [current])
+  }
+
   function getElements (selector, parent = document) {
     return Array.prototype.slice.call(parent.querySelectorAll(selector))
   }
 
-  /* istanbul ignore next */
   function empty (el = null) {
     while (el && el.firstChild) el.removeChild(el.firstChild)
   }
