@@ -1,4 +1,5 @@
 /slendr.js
+/default.js
 !src
 node_modules
 bower_components
@@ -16,3 +17,4 @@ log
 *.swm
 *.pid
 *.seed
+.nyc_output

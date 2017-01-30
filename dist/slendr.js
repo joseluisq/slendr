@@ -56,39 +56,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /* global module */
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _emitus = __webpack_require__(1);
 
 	var _emitus2 = _interopRequireDefault(_emitus);
+
+	var _defaults = __webpack_require__(2);
+
+	var _defaults2 = _interopRequireDefault(_defaults);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = function () {
 	  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-	  var animating = false;
 	  var current = 0;
 	  var timeout = 0;
 	  var slide = null;
+	  var paused = true;
+	  var animating = false;
 
-	  var opts = _extends({
-	    container: '.slendr',
-	    selector: '.slendr-slides > .slendr-slide',
-	    animationClass: '.slendr-animate',
-	    directionNavPrev: '.slendr-prev',
-	    directionNavNext: '.slendr-next',
-	    slideActive: '.slendr-active',
-	    slideShowClass: '.slendr-show',
-	    animationSpeed: 900,
-	    slideshow: true,
-	    slideshowSpeed: 4000,
-	    directionNavs: true,
-	    keyboard: false,
-	    controlNavs: true,
-	    controlNavClass: '.slendr-control',
-	    controlNavClassActive: '.slendr-control-active'
-	  }, options);
+	  var opts = _extends(_defaults2.default, options);
 
 	  var container = document.querySelector(opts.container);
 	  var selectorContainer = opts.selector.substr(0, opts.selector.search(' '));
@@ -99,15 +88,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  opts.animationClass = opts.animationClass.replace(/^\./g, '');
 
-	  init();
-
 	  var emitr = (0, _emitus2.default)({
 	    prev: prev,
 	    next: next,
+	    play: play,
+	    pause: pause,
 	    move: function move(i) {
 	      return goTo(i);
 	    }
 	  });
+
+	  init();
 
 	  return emitr;
 
@@ -116,10 +107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return background(slide);
 	    });
 
-	    /* istanbul ignore if */
-	    if (slides.length < 2) {
-	      return;
-	    }
+	    if (slides && slides.length < 2) return;
 
 	    displayByIndex(current);
 	    controlNavs();
@@ -130,22 +118,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    keyboard();
 	  }
 
-	  /* istanbul ignore next */
 	  function prev() {
 	    if (animating) return;
 
-	    moveBy('prev');
+	    moveTo('prev');
 	  }
 
-	  /* istanbul ignore next */
 	  function next() {
 	    if (animating) return;
 
-	    moveBy('next');
+	    moveTo('next');
 	  }
 
 	  /* istanbul ignore next */
-	  function moveBy(direction) {
+	  function moveTo(direction) {
 	    var indx = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
 
 	    animating = true;
@@ -195,13 +181,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  function goTo(i) {
 	    if (!animating && current !== i && i >= 0 && i < slides.length) {
-	      moveBy(current - i < 0 ? 'next' : 'prev', i);
+	      moveTo(current - i < 0 ? 'next' : 'prev', i);
 	    }
 	  }
 
 	  /* istanbul ignore next */
 	  function slideshow() {
 	    if (opts.slideshow) {
+	      paused = false;
 	      timeout = setTimeout(next, opts.slideshowSpeed);
 	    }
 	  }
@@ -232,9 +219,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  function controlNavs() {
 	    /* istanbul ignore if */
-	    if (!opts.controlNavs) {
-	      return;
-	    }
+	    if (!opts.controlNavs) return;
 
 	    var control = container.querySelector(opts.controlNavClass);
 
@@ -293,19 +278,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  function keyboard() {
-	    if (!opts.keyboard) {
-	      return;
-	    }
+	    if (!opts.keyboard) return;
 
 	    /* istanbul ignore next */
 	    document.addEventListener('keyup', function (evnt) {
-	      if (evnt.which === 37) {
-	        prev();
-	      }
-
-	      if (evnt.which === 39) {
-	        next();
-	      }
+	      if (evnt.which === 37) prev();
+	      if (evnt.which === 39) next();
 	    }, false);
 	  }
 
@@ -348,13 +326,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }
 
+	  function play() {
+	    if (!paused) return;
+
+	    opts.slideshow = true;
+	    slideshow();
+
+	    emitr.emit('play', [current]);
+	  }
+
+	  function pause() {
+	    if (!opts.slideshow) return;
+
+	    clearTimeout(timeout);
+	    paused = true;
+	    animating = false;
+	    opts.slideshow = false;
+
+	    emitr.emit('pause', [current]);
+	  }
+
 	  function getElements(selector) {
 	    var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
 
 	    return Array.prototype.slice.call(parent.querySelectorAll(selector));
 	  }
 
-	  /* istanbul ignore next */
 	  function empty() {
 	    var el = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
@@ -414,6 +411,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  return api;
+	};
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	  container: '.slendr',
+	  selector: '.slendr-slides > .slendr-slide',
+	  animationClass: '.slendr-animate',
+
+	  directionNavPrev: '.slendr-prev',
+	  directionNavNext: '.slendr-next',
+
+	  slideActive: '.slendr-active',
+	  slideShowClass: '.slendr-show',
+
+	  animationSpeed: 900,
+
+	  slideshow: true,
+	  slideshowSpeed: 4000,
+
+	  directionNavs: true,
+	  keyboard: false,
+
+	  controlNavs: true,
+	  controlNavClass: '.slendr-control',
+	  controlNavClassActive: '.slendr-control-active'
 	};
 
 /***/ }

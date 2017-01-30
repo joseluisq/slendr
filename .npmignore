@@ -32,3 +32,4 @@ scripts
 coverage
 tests.webpack.js
 webpack.config.js
+.nyc_output
