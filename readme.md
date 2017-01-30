@@ -121,14 +121,22 @@ slendr.next()
 #### move(index)
 Move slider by index.
 
+```js
+slendr.move(2)
+```
+
 #### play()
 Play the slideshow.
+
+```js
+slendr.play()
+```
 
 #### pause()
 Pause the slideshow.
 
 ```js
-slendr.move(2)
+slendr.pause()
 ```
 
 ## Events
