@@ -20,11 +20,10 @@
     "hardware accelerated"
   ],
   "engines": {
-    "node": ">= 4.0"
+    "node": ">= 4.2"
   },
   "main": "./slendr.js",
   "dependencies": {
-    "css-loader": "^0.26.1",
     "emitus": "^1.1.3"
   },
   "devDependencies": {
