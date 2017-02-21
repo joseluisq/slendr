@@ -50,7 +50,7 @@
     "nyc": "^10.1.2",
     "pretty-bytes": "^4.0.2",
     "readline-sync": "^1.4.5",
-    "sass-loader": "^4.1.1",
+    "sass-loader": "^5.0.0",
     "style-loader": "^0.13.1",
     "tape": "^4.6.3",
     "webpack": "^1.14.0",
