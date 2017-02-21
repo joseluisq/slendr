@@ -46,7 +46,7 @@
     "html-webpack-plugin": "^2.28.0",
     "in-publish": "^2.0.0",
     "jsdom": "^9.9.1",
-    "node-sass": "4.4.0",
+    "node-sass": "4.5.0",
     "nyc": "^10.1.2",
     "pretty-bytes": "^4.0.2",
     "readline-sync": "^1.4.5",
