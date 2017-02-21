@@ -54,7 +54,7 @@
     "style-loader": "^0.13.1",
     "tape": "^4.6.3",
     "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^2.3.0"
   },
   "scripts": {
     "start": "webpack-dev-server -d --content-base ./ --hot --colors --inline src/app.js --config webpack.server.config.js",
