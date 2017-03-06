@@ -1,4 +1,4 @@
-const webpack = require('webpack')
+const Webpack = require('webpack')
 
 module.exports = {
   output: {
@@ -11,14 +11,15 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: 'babel-loader'
       }
     ]
   },
 
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+    new Webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      '__DEVTOOLS__': false
     })
   ]
 }

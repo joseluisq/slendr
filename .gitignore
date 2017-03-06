@@ -1,5 +1,5 @@
 /slendr.js
-/default.js
+/defaults.js
 !src
 node_modules
 bower_components
