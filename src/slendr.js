@@ -263,7 +263,9 @@ module.exports = (options = {}) => {
     return Array.prototype.slice.call(parent.querySelectorAll(selector))
   }
 
+  /* eslint-disable */
   function empty (el = null) {
     while (el && el.firstChild) el.removeChild(el.firstChild)
   }
+  /* eslint-enable */
 }
