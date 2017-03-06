@@ -3,8 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/app.js',
-  debug: true,
-  watch: true,
   devtool: 'source-inline-map',
   module: {
     loaders: [
@@ -18,7 +16,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: 'style!css?sourceMap!sass?sourceMap'
+        loader: 'style-loader!css-loader?sourceMap!sass-loader?sourceMap'
       },
       {
         test: /\.html$/,
