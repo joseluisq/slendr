@@ -1,6 +1,6 @@
 import test from 'tape'
 import markup from './markup'
-import Slendr from '../src/slendr'
+import Slendr from '../src'
 
 markup.init()
 

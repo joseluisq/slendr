@@ -1,11 +1,5 @@
-/* eslint-disable */
-/**
- * This is the development entry app
- * > try: npm start
- */
-
-import style from '../scss/slendr.scss'
-import Slendr from '../src/slendr'
+import '../src/style.scss'
+import Slendr from '../src'
 
 const sl = Slendr({
   slideshow: false,

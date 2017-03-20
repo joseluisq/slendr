@@ -1,3 +1,7 @@
+app
+src
+test
+
 *#
 node_modules
 bower_components
@@ -21,15 +25,12 @@ bower.json
 .editorconfig
 *.md
 **/*.md
-test
-__test__
+__tests__
 .babelrc
 .eslintrc
-index.html
 karma.conf.js
-src
 scripts
 coverage
-tests.webpack.js
-webpack.config.js
+*.webpack.js
+*.config.js
 .nyc_output
