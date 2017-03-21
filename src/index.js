@@ -1,5 +1,5 @@
-import Emitus from 'emitus'
-import defaults from './defaults'
+const Emitus = require('emitus')
+const defaults = require('./options')
 
 module.exports = (options = {}) => {
   let current = 0
@@ -9,8 +9,11 @@ module.exports = (options = {}) => {
   let animating = false
 
   const opts = Object.assign(defaults, options)
+  const container = typeof opts.container === 'string'
+    ? document.querySelector(opts.container) : opts.container
 
-  const container = document.querySelector(opts.container)
+  if (!container) return
+
   const selectorContainer = opts.selector.substr(0, opts.selector.search(' '))
   const slidesContainer = container.querySelector(selectorContainer)
   const slides = getElements(opts.selector, slidesContainer)
@@ -146,16 +149,17 @@ module.exports = (options = {}) => {
 
     const control = container.querySelector(opts.controlNavClass)
 
-    /* istanbul ignore if */
-    if (!control) {
+    if (control) {
+      while (control.firstChild) {
+        control.removeChild(control.firstChild)
+      }
+    } else {
       opts.controlNavs = false
       return
     }
 
     let el
     const ul = document.createElement('ul')
-
-    empty(control)
 
     /* istanbul ignore next */
     for (let i = 0; i < slides.length; i++) {
@@ -262,10 +266,4 @@ module.exports = (options = {}) => {
   function getElements (selector, parent = document) {
     return Array.prototype.slice.call(parent.querySelectorAll(selector))
   }
-
-  /* eslint-disable */
-  function empty (el = null) {
-    while (el && el.firstChild) el.removeChild(el.firstChild)
-  }
-  /* eslint-enable */
 }

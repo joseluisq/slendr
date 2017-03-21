@@ -3,6 +3,7 @@ module.exports = {
   selector: '.slendr-slides > .slendr-slide',
   animationClass: '.slendr-animate',
 
+  directionNavs: true,
   directionNavPrev: '.slendr-prev',
   directionNavNext: '.slendr-next',
 
@@ -14,7 +15,6 @@ module.exports = {
   slideshow: true,
   slideshowSpeed: 4000,
 
-  directionNavs: true,
   keyboard: false,
 
   controlNavs: true,

@@ -2,7 +2,7 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define("Slendr", [], factory);
 	else if(typeof exports === 'object')
 		exports["Slendr"] = factory();
 	else
@@ -11,41 +11,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
-
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -56,7 +56,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 			});
 /******/ 		}
 /******/ 	};
-
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -65,13 +65,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		__webpack_require__.d(getter, 'a', getter);
 /******/ 		return getter;
 /******/ 	};
-
+/******/
 /******/ 	// Object.prototype.hasOwnProperty.call
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
@@ -88,6 +88,7 @@ module.exports = {
   selector: '.slendr-slides > .slendr-slide',
   animationClass: '.slendr-animate',
 
+  directionNavs: true,
   directionNavPrev: '.slendr-prev',
   directionNavNext: '.slendr-next',
 
@@ -99,7 +100,6 @@ module.exports = {
   slideshow: true,
   slideshowSpeed: 4000,
 
-  directionNavs: true,
   keyboard: false,
 
   controlNavs: true,
@@ -165,17 +165,8 @@ module.exports = function () {
 "use strict";
 
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _emitus = __webpack_require__(1);
-
-var _emitus2 = _interopRequireDefault(_emitus);
-
-var _defaults = __webpack_require__(0);
-
-var _defaults2 = _interopRequireDefault(_defaults);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var Emitus = __webpack_require__(1);
+var defaults = __webpack_require__(0);
 
 module.exports = function () {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -186,9 +177,11 @@ module.exports = function () {
   var paused = true;
   var animating = false;
 
-  var opts = _extends(_defaults2.default, options);
+  var opts = Object.assign(defaults, options);
+  var container = typeof opts.container === 'string' ? document.querySelector(opts.container) : opts.container;
 
-  var container = document.querySelector(opts.container);
+  if (!container) return;
+
   var selectorContainer = opts.selector.substr(0, opts.selector.search(' '));
   var slidesContainer = container.querySelector(selectorContainer);
   var slides = getElements(opts.selector, slidesContainer);
@@ -197,7 +190,7 @@ module.exports = function () {
 
   opts.animationClass = opts.animationClass.replace(/^\./g, '');
 
-  var emitr = (0, _emitus2.default)({
+  var emitr = Emitus({
     prev: prev,
     next: next,
     play: play,
@@ -332,16 +325,17 @@ module.exports = function () {
 
     var control = container.querySelector(opts.controlNavClass);
 
-    /* istanbul ignore if */
-    if (!control) {
+    if (control) {
+      while (control.firstChild) {
+        control.removeChild(control.firstChild);
+      }
+    } else {
       opts.controlNavs = false;
       return;
     }
 
     var el = void 0;
     var ul = document.createElement('ul');
-
-    empty(control);
 
     /* istanbul ignore next */
 
@@ -459,14 +453,6 @@ module.exports = function () {
     var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
 
     return Array.prototype.slice.call(parent.querySelectorAll(selector));
-  }
-
-  function empty() {
-    var el = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-    while (el && el.firstChild) {
-      el.removeChild(el.firstChild);
-    }
   }
 };
 
