@@ -35,13 +35,20 @@ module.exports = (options = {}) => {
   return emitr
 
   function init () {
+    if (slides.length < 2) {
+      if (slides.length === 1) {
+        background(slides[0])
+        displayByIndex(0)
+      }
+
+      return
+    }
+
     slides.forEach(slide => background(slide))
 
-    if (slides && slides.length < 2) return
-
-    displayByIndex(current)
+    displayByIndex(0)
     controlNavs()
-    controlNavActiveItem(current)
+    controlNavActiveItem(0)
     slideshow()
     bindEvents()
     directionNavs()
