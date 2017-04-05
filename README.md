@@ -1,24 +1,26 @@
 # Slendr [![Build Status](https://travis-ci.org/joseluisq/slendr.svg?branch=master)](https://travis-ci.org/joseluisq/slendr) [![Coverage Status](https://coveralls.io/repos/github/joseluisq/slendr/badge.svg?branch=master)](https://coveralls.io/github/joseluisq/slendr?branch=master) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-> Lightweight and responsive slider for modern browsers.
+> Lightweight (1.8KB gzipped) and responsive slider for modern browsers.
 
 Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Javascript and [CSS3 Hardware Acceleration](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/) performance in mind.
 
+:tada: View demo on [Codepen](http://codepen.io/joseluisq/full/wGXaKx/).
+
 ## Install
 
-[Yarn](https://github.com/yarnpkg/):
+[Yarn](https://github.com/yarnpkg/)
 
 ```sh
 yarn add slendr --dev
 ```
 
-[NPM](https://www.npmjs.com/):
+[NPM](https://www.npmjs.com/)
 
 ```sh
 npm install slendr --save-dev
 ```
 
-The [UMD](https://github.com/umdjs/umd) and style build are also available on [unpkg](https://unpkg.com):
+The [UMD](https://github.com/umdjs/umd) and style build are also available on [unpkg](https://unpkg.com).
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/slendr/dist/slendr.min.css">
@@ -29,7 +31,7 @@ You can use the library via `window.Slendr`
 
 ## Usage
 
-1) Include the base styles:
+Include the base styles:
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/slendr/dist/slendr.min.css">
@@ -37,7 +39,7 @@ You can use the library via `window.Slendr`
 
 _You can customize the styles editing the `slendr.scss` file._
 
-2) Define the markup:
+Define the markup:
 
 ```html
 <div class="slendr">
@@ -56,7 +58,7 @@ _You can customize the styles editing the `slendr.scss` file._
 </div>
 ```
 
-3) Create the slider:
+Create the slider:
 
 ```js
 import Slendr from 'slendr'
@@ -64,6 +66,7 @@ import Slendr from 'slendr'
 const slider = Slendr({
   slideshow: true
 })
+
 slider.on('move', (direction, index, element) => console.log(direction))
 ```
 
