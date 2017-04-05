@@ -34,3 +34,4 @@ coverage
 *.webpack.js
 *.config.js
 .nyc_output
+yarn.lock

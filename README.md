@@ -6,29 +6,19 @@ Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Ja
 
 ## Install
 
-#### CommonJS
+[Yarn](https://github.com/yarnpkg/):
+
+```sh
+yarn add slendr --dev
+```
+
+[NPM](https://www.npmjs.com/):
 
 ```sh
 npm install slendr --save-dev
 ```
 
-#### AMD
-
-```js
-requirejs(['slendr'], Slendr => {
-
-})
-```
-
-#### Browser
-
-##### Bower
-```sh
-bower install slendr --save
-```
-
-##### CDN
-The UMD and style files are also available on [unpkg](https://unpkg.com):
+The [UMD](https://github.com/umdjs/umd) and style build are also available on [unpkg](https://unpkg.com):
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/slendr/dist/slendr.min.css">
@@ -39,15 +29,15 @@ You can use the library via `window.Slendr`
 
 ## Usage
 
-Base styles:
+1) Include the base styles:
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/slendr/dist/slendr.min.css">
 ```
 
-_You can customize your slider editing the `slendr.scss` file._
+_You can customize the styles editing the `slendr.scss` file._
 
-Markup:
+2) Define the markup:
 
 ```html
 <div class="slendr">
@@ -66,122 +56,63 @@ Markup:
 </div>
 ```
 
-API:
+3) Create the slider:
 
 ```js
-const Slendr = require('slendr')
+import Slendr from 'slendr'
 
 const slider = Slendr({
-  slideshow: true,
-  ...
+  slideshow: true
 })
+slider.on('move', (direction, index, element) => console.log(direction))
 ```
 
-## Options
+## API
 
-```js
-{
-  container: '.slendr',
-  selector: '.slendr-slides > .slendr-slide',
-  animationClass: '.slendr-animate',
-  directionNavPrev: '.slendr-prev',
-  directionNavNext: '.slendr-next',
-  slideActive: '.slendr-active',
-  slideShowClass: '.slendr-show',
-  animationSpeed: 900,
-  slideshow: true,
-  slideshowSpeed: 4000,
-  directionNavs: true,
-  keyboard: false,
-  controlNavs: true,
-  controlNavClass: '.slendr-control',
-  controlNavClassActive: '.slendr-control-active'
-}
-```
+### Options
 
-## Methods
+Name | Type | Default | Description
+--- | --- | --- | ---
+__container__ | String | `.slendr` | The container supports string query selector or HTMLElement.
+__selector__ | String | `.slendr-slides > .slendr-slide` | Query selector for slides.
+__animationClass__ | String | `.slendr-animate` | Class name for animation used in slider translation.
+__directionNavs__ | Boolean | `true` | Display the direction navs (arrow buttons).
+__directionNavPrev__ | String | `.slendr-prev` | Class name for previous arrow button.
+__directionNavNext__ | String | `.slendr-next` | Class name for next arrow button.
+__slideShowClass__ | String | `.slendr-show` | Class name used for show the current slide.
+__slideActiveClass__ | String | `.slendr-active` | Class name used when some slide is active.
+__animationSpeed__ | Int | `900` | The animation speed (in milliseconds).
+__slideshow__ | Boolean | `true` | If slider should work like a slideshow.
+__slideshowSpeed__ | Int | `4000` | The slideshow speed (in milliseconds).
+__keyboard__ | Boolean | `false` | Activate the keyboard arrow navigation.
+__controlNavs__ | Boolean | `true` | Display the control navigation.
+__controlNavClass__ | Boolean | `.slendr-control` | Class name of control navigation.
+__controlNavClassActive__ | Boolean | `.slendr-control-active` | Class name for active control navigation.
 
-#### prev()
-Move to previous slide.
+### Methods
 
-```js
-slendr.prev()
-```
+Name | Usage | Description
+--- | --- | ---
+__prev__ | `slendr.prev()` | Move to previous slide.
+__next__ | `slendr.next()` | Move to next slide.
+__move__ | `slendr.move(2)` | Move the slider by index.
+__play__ | `slendr.play()` | Play the slideshow.
+__pause__ | `slendr.pause()` | Pause the slideshow.
 
-#### next()
-Move to next slide.
+### Events
 
-```js
-slendr.next()
-```
-
-#### move(index)
-Move slider by index.
-
-```js
-slendr.move(2)
-```
-
-#### play()
-Play the slideshow.
-
-```js
-slendr.play()
-```
-
-#### pause()
-Pause the slideshow.
-
-```js
-slendr.pause()
-```
-
-## Events
-
-#### move
-Trigger when slider moves to previous or next slide.
-
-```js
-slendr.on('move', (direction, index, element) => {
-})
-```
-
-#### prev
-Trigger when slider moves to previous slide.
-
-```js
-slendr.on('prev', (index, element) => {
-})
-```
-
-#### next
-Trigger when slider moves to next slide.
-
-```js
-slendr.on('next', (index, element) => {
-})
-```
-
-#### play
-Trigger when play the slideshow.
-
-```js
-slendr.on('play', (index) => {
-})
-```
-
-#### pause
-Trigger when pause the slideshow.
-
-```js
-slendr.on('pause', (index) => {
-})
-```
+Name | Usage | Description
+--- | --- | ---
+__move__ | `slendr.on('move', (direction, index, element) => {})` | Trigger when slider moves to previous or next slide.
+__prev__ | `slendr.on('prev', (index, element) => {})` | Trigger when slider moves to previous slide.
+__next__ | `slendr.on('next', (index, element) => {})` | Trigger when slider moves to next slide.
+__play__ | `slendr.on('play', (index) => {})` | Trigger when play the slideshow.
+__pause__ | `slendr.on('pause', (index) => {})` | Trigger when pause the slideshow.
 
 ## Development
 
 ```sh
-npm start
+yarn start
 ```
 
 ## Contributions

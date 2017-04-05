@@ -7,8 +7,8 @@ module.exports = {
   directionNavPrev: '.slendr-prev',
   directionNavNext: '.slendr-next',
 
-  slideActive: '.slendr-active',
   slideShowClass: '.slendr-show',
+  slideActiveClass: '.slendr-active',
 
   animationSpeed: 900,
 

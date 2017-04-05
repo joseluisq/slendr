@@ -234,7 +234,7 @@ module.exports = (options = {}) => {
   }
 
   function display (el, yes = true, cls = false) {
-    const active = opts.slideActive.replace(/^\./g, '')
+    const active = opts.slideActiveClass.replace(/^\./g, '')
     const show = opts.slideShowClass.replace(/^\./g, '')
 
     if (!yes) {
