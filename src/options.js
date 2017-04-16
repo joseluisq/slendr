@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // Selectors
   container: '.slendr',
   selector: '.slendr-slides > .slendr-slide',

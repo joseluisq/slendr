@@ -1,13 +1,13 @@
 import test from 'tape'
 import markup from './markup'
-import Slendr from '../src'
+import slendr from '../src'
 
 markup.init()
 
 test('move() event tests', t => {
   t.plan(5)
 
-  const slider = Slendr({ slideshow: false })
+  const slider = slendr({ slideshow: false })
 
   slider.on('move', (dir, i, el) => {
     t.equal(dir, 'next', 'equal param direction')

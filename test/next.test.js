@@ -1,13 +1,13 @@
 import test from 'tape'
 import markup from './markup'
-import Slendr from '../src'
+import slendr from '../src'
 
 markup.init()
 
 test('next(), play() and pause() event tests', t => {
   t.plan(2)
 
-  const slider = Slendr({ slideshow: false })
+  const slider = slendr({ slideshow: false })
 
   slider.on('next', () => setTimeout(() => slider.play(), 1000))
 

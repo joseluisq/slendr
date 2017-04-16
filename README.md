@@ -20,14 +20,14 @@ yarn add slendr --dev
 npm install slendr --save-dev
 ```
 
-The [UMD](https://github.com/umdjs/umd) and style build are also available on [unpkg](https://unpkg.com).
+The [UMD](https://github.com/umdjs/umd) and style builds are also available on [unpkg](https://unpkg.com).
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/slendr/dist/slendr.min.css">
 <script src="https://unpkg.com/slendr/dist/slendr.min.js"></script>
 ```
 
-You can use the library via `window.Slendr`
+You can use the component via `window.slendr`
 
 ## Usage
 
@@ -61,13 +61,13 @@ Define the markup:
 Create the slider:
 
 ```js
-import Slendr from 'slendr'
+import slendr from 'slendr'
 
-const slider = Slendr({
+const myslider = slendr({
   slideshow: true
 })
 
-slider.on('move', (direction, index, element) => console.log(direction))
+myslider.on('move', (direction, index, element) => console.log(direction))
 ```
 
 ## API
@@ -82,7 +82,7 @@ __animationClass__ | String | `.slendr-animate` | Class name for animation used 
 __directionNavs__ | Boolean | `true` | Display the direction navs (arrow buttons).
 __directionNavPrev__ | String | `.slendr-prev` | Class name for previous arrow button.
 __directionNavNext__ | String | `.slendr-next` | Class name for next arrow button.
-__slideShowClass__ | String | `.slendr-show` | Class name used for show the current slide.
+__slideVisibleClass__ | String | `.slendr-visible` | Class name used for show the current slide.
 __slideActiveClass__ | String | `.slendr-active` | Class name used when some slide is active.
 __animationSpeed__ | Int | `900` | The animation speed (in milliseconds).
 __slideshow__ | Boolean | `true` | If slider should work like a slideshow.

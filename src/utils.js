@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   child (el, selector) {
     return el.querySelector(selector)
   },

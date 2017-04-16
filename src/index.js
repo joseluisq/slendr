@@ -1,8 +1,8 @@
-const emitus = require('emitus')
-const utils = require('./utils')
-const defaults = require('./options')
+import emitus from 'emitus'
+import utils from './utils'
+import defaults from './options'
 
-module.exports = (options = {}) => {
+export default function slendr (options = {}) {
   let current = 0
   let timeout = 0
   let slide = null
