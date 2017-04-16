@@ -105,7 +105,7 @@
     ],
     "sourceMap": false,
     "instrument": false,
-    "checkCoverage": true,
+    "checkCoverage": false,
     "reporter": [
       "text",
       "lcov"
