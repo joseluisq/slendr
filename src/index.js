@@ -1,4 +1,5 @@
-const Emitus = require('emitus')
+const emitus = require('emitus')
+const utils = require('./utils')
 const defaults = require('./options')
 
 module.exports = (options = {}) => {
@@ -9,26 +10,22 @@ module.exports = (options = {}) => {
   let animating = false
 
   const opts = Object.assign(defaults, options)
+
   const container = typeof opts.container === 'string'
-    ? document.querySelector(opts.container) : opts.container
+    ? utils.child(document, opts.container)
+    : opts.container
 
   if (!container) return
 
   const selectorContainer = opts.selector.substr(0, opts.selector.search(' '))
-  const slidesContainer = container.querySelector(selectorContainer)
-  const slides = getElements(opts.selector, slidesContainer)
+  const slidesContainer = utils.child(container, selectorContainer)
+  const slides = utils.children(opts.selector, slidesContainer)
   const controlNavList = []
   let containerWidth = container.offsetWidth
 
   opts.animationClass = opts.animationClass.replace(/^\./g, '')
 
-  const emitr = Emitus({
-    prev,
-    next,
-    play,
-    pause,
-    move: i => goTo(i)
-  })
+  const emitr = emitus({ prev, next, play, pause, move: i => goTo(i) })
 
   init()
 
@@ -57,35 +54,26 @@ module.exports = (options = {}) => {
 
   function prev () {
     if (animating) return
-
     moveTo('prev')
   }
 
   function next () {
     if (animating) return
-
     moveTo('next')
   }
 
-  /* istanbul ignore next */
-  function moveTo (direction, indx = -1) {
+  function moveTo (direction, index = -1) {
     animating = true
     clearTimeout(timeout)
 
     display(slides[current])
 
-    if (indx !== -1) {
-      current = indx
-    } else {
-      current = (direction === 'next') ? current + 1 : current - 1
+    if (index !== -1) current = index
+    else {
+      current = direction === 'next' ? current + 1 : current - 1
 
-      if (current > slides.length - 1) {
-        current = 0
-      }
-
-      if (current < 0) {
-        current = slides.length - 1
-      }
+      if (current > slides.length - 1) current = 0
+      if (current < 0) current = slides.length - 1
     }
 
     slide = slides[current]
@@ -94,33 +82,41 @@ module.exports = (options = {}) => {
 
     slidesContainer.classList.add(opts.animationClass)
 
-    translateX(slidesContainer, (direction === 'next') ? `-${containerWidth}px` : `${containerWidth}px`)
-    translateX(slide, (direction === 'next') ? `${containerWidth}px` : `-${containerWidth}px`)
+    translateX(
+      slidesContainer,
+      direction === 'next' ? `-${containerWidth}px` : `${containerWidth}px`
+    )
+    translateX(
+      slide,
+      direction === 'next' ? `${containerWidth}px` : `-${containerWidth}px`
+    )
 
     controlNavActiveItem(current)
 
-    setTimeout(() => {
-      animating = false
-      slidesContainer.classList.remove(opts.animationClass)
+    setTimeout(
+      () => {
+        animating = false
+        slidesContainer.classList.remove(opts.animationClass)
 
-      transform(slidesContainer, 'none')
-      transform(slides[current], 'none')
-      displayByIndex(current)
+        transform(slidesContainer, 'none')
+        transform(slides[current], 'none')
+        displayByIndex(current)
 
-      emitr.emit('move', [direction, current, slide])
-      emitr.emit(direction, [current, slide])
+        emitr.emit('move', [ direction, current, slide ])
+        emitr.emit(direction, [ current, slide ])
 
-      slideshow()
-    }, opts.animationSpeed + 260)
+        slideshow()
+      },
+      opts.animationSpeed + 260
+    )
   }
 
   function goTo (i) {
     if (!animating && current !== i && (i >= 0 && i < slides.length)) {
-      moveTo((current - i < 0 ? 'next' : 'prev'), i)
+      moveTo(current - i < 0 ? 'next' : 'prev', i)
     }
   }
 
-  /* istanbul ignore next */
   function slideshow () {
     if (opts.slideshow) {
       paused = false
@@ -143,18 +139,20 @@ module.exports = (options = {}) => {
     el.style.setProperty('transform', val)
   }
 
-  /* istanbul ignore next */
   function bindEvents () {
-    window.addEventListener('resize', () => {
-      containerWidth = container.offsetWidth
-    }, false)
+    window.addEventListener(
+      'resize',
+      () => {
+        containerWidth = container.offsetWidth
+      },
+      false
+    )
   }
 
   function controlNavs () {
-    /* istanbul ignore if */
     if (!opts.controlNavs) return
 
-    const control = container.querySelector(opts.controlNavClass)
+    const control = utils.child(container, opts.controlNavClass)
 
     if (control) {
       while (control.firstChild) {
@@ -168,13 +166,10 @@ module.exports = (options = {}) => {
     let el
     const ul = document.createElement('ul')
 
-    /* istanbul ignore next */
     for (let i = 0; i < slides.length; i++) {
       el = document.createElement('a')
-      el.addEventListener('click', evnt => {
-        goTo(i)
-        evnt.preventDefault()
-      }, false)
+      utils.onClick(el, () => goTo(i))
+
       ul.appendChild(el)
       controlNavList.push(el)
     }
@@ -183,37 +178,27 @@ module.exports = (options = {}) => {
   }
 
   function directionNavs () {
-    /* istanbul ignore next */
-    if (!opts.directionNavs) {
+    if (!opts.directionNavs) return
+
+    const prevNav = utils.child(container, opts.directionNavPrev)
+    const nextNav = utils.child(container, opts.directionNavNext)
+
+    if (prevNav && nextNav) {
+      utils.onClick(prevNav, prev)
+      utils.onClick(nextNav, next)
       return
     }
 
-    const prevNav = container.querySelector(opts.directionNavPrev)
-    const nextNav = container.querySelector(opts.directionNavNext)
-
-    /* istanbul ignore next */
-    if (prevNav && nextNav) {
-      prevNav.addEventListener('click', evnt => {
-        evnt.preventDefault()
-        prev()
-      }, false)
-      nextNav.addEventListener('click', evnt => {
-        evnt.preventDefault()
-        next()
-      }, false)
-    } else {
-      opts.directionNavs = false
-    }
+    opts.directionNavs = false
   }
 
   function keyboard () {
     if (!opts.keyboard) return
 
-    /* istanbul ignore next */
-    document.addEventListener('keyup', evnt => {
-      if (evnt.which === 37) prev()
-      if (evnt.which === 39) next()
-    }, false)
+    utils.onKeyup(document, event => {
+      if (event.which === 37) prev()
+      if (event.which === 39) next()
+    })
   }
 
   function displayByIndex (i) {
@@ -235,19 +220,13 @@ module.exports = (options = {}) => {
 
   function display (el, yes = true, cls = false) {
     const active = opts.slideActiveClass.replace(/^\./g, '')
-    const show = opts.slideShowClass.replace(/^\./g, '')
+    const show = opts.slideVisibleClass.replace(/^\./g, '')
 
-    if (!yes) {
-      el.classList.remove(show)
-    } else {
-      el.classList.add(show)
-    }
+    if (yes) el.classList.add(show)
+    else el.classList.remove(show)
 
-    if (cls) {
-      el.classList.add(active)
-    } else {
-      el.classList.remove(active)
-    }
+    if (cls) el.classList.add(active)
+    else el.classList.remove(active)
   }
 
   function play () {
@@ -256,7 +235,7 @@ module.exports = (options = {}) => {
     opts.slideshow = true
     slideshow()
 
-    emitr.emit('play', [current])
+    emitr.emit('play', [ current ])
   }
 
   function pause () {
@@ -267,10 +246,6 @@ module.exports = (options = {}) => {
     animating = false
     opts.slideshow = false
 
-    emitr.emit('pause', [current])
-  }
-
-  function getElements (selector, parent = document) {
-    return Array.prototype.slice.call(parent.querySelectorAll(selector))
+    emitr.emit('pause', [ current ])
   }
 }
