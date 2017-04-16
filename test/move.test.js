@@ -7,9 +7,7 @@ markup.init()
 test('move() event tests', t => {
   t.plan(5)
 
-  const slider = Slendr({
-    slideshow: false
-  })
+  const slider = Slendr({ slideshow: false })
 
   slider.on('move', (dir, i, el) => {
     t.equal(dir, 'next', 'equal param direction')

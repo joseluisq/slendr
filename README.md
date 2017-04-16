@@ -1,6 +1,6 @@
 # Slendr [![Build Status](https://travis-ci.org/joseluisq/slendr.svg?branch=master)](https://travis-ci.org/joseluisq/slendr) [![Coverage Status](https://coveralls.io/repos/github/joseluisq/slendr/badge.svg?branch=master)](https://coveralls.io/github/joseluisq/slendr?branch=master) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-> Lightweight (1.8KB gzipped) and responsive slider for modern browsers.
+> A responsive & lightweight slider for modern browsers.
 
 Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Javascript and [CSS3 Hardware Acceleration](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/) performance in mind.
 
@@ -37,7 +37,7 @@ Include the base styles:
 <link rel="stylesheet" href="https://unpkg.com/slendr/dist/slendr.min.css">
 ```
 
-_You can customize the styles editing the `slendr.scss` file._
+_You can customize the styles editing the `./src/style.scss` file._
 
 Define the markup:
 

@@ -7,9 +7,7 @@ markup.init()
 test('prev() event tests', t => {
   t.plan(2)
 
-  const slider = Slendr({
-    slideshow: false
-  })
+  const slider = Slendr({ slideshow: false })
 
   slider.on('prev', (i, el) => {
     t.equal(i, 2, 'equal param index')
