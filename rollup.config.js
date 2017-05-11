@@ -2,6 +2,8 @@ import buble from 'rollup-plugin-buble'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import uglify from 'rollup-plugin-uglify'
+import inject from 'rollup-plugin-inject'
+import path from 'path'
 import fs from 'fs'
 
 const env = process.env.NODE_ENV
@@ -9,7 +11,7 @@ const pkg = JSON.parse(fs.readFileSync('./package.json'))
 
 const targets = []
 const external = []
-const plugins = [ resolve(), commonjs(), buble() ]
+const plugins = [resolve(), commonjs(), buble()]
 
 if (env === 'minified') {
   targets.push({
@@ -17,6 +19,11 @@ if (env === 'minified') {
     format: 'umd',
     moduleName: pkg.name
   })
+  plugins.push(
+    inject({
+      'Object.assign': path.resolve('node_modules/object-assign/index.js')
+    })
+  )
   plugins.push(uglify())
 }
 
