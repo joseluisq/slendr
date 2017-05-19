@@ -60,7 +60,7 @@
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-inject": "^2.0.0",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^1.0.1",
+    "rollup-plugin-uglify": "^2.0.0",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.17.0",
     "tape": "^4.6.3",
