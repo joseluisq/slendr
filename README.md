@@ -112,6 +112,13 @@ __next__ | `slendr.on('next', (index, element) => {})` | Trigger when slider mov
 __play__ | `slendr.on('play', (index) => {})` | Trigger when play the slideshow.
 __pause__ | `slendr.on('pause', (index) => {})` | Trigger when pause the slideshow.
 
+## Browser support
+
+- Firefox
+- Chrome
+- IE10, IE11, Edge
+- Safari, iOS Safari
+
 ## Development
 
 ```sh
