@@ -13,12 +13,12 @@ const config = {
       {
         test: /\.js$/,
         enforce: 'pre',
-        use: [ 'eslint-loader' ],
+        use: ['eslint-loader'],
         exclude: /node_modules/
       },
       {
         test: /\.(js|jsx)$/,
-        exclude: [ resolve('node_modules') ],
+        exclude: [resolve('node_modules')],
         use: { loader: 'babel-loader' }
       }
     ]
@@ -52,9 +52,11 @@ if (ENV === 'development') {
 
   config.plugins.push(new Webpack.HotModuleReplacementPlugin())
 
-  config.plugins.push(new HtmlWebpackPlugin({
-    template: resolve('app/index.html')
-  }))
+  config.plugins.push(
+    new HtmlWebpackPlugin({
+      template: resolve('app/index.html')
+    })
+  )
 }
 
 if (ENV !== 'development') {
@@ -65,10 +67,12 @@ if (ENV !== 'development') {
     outputFile = `${outputFile}.min`
   }
 
-  config.plugins.push(new Webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify('production'),
-    __DEVTOOLS__: false
-  }))
+  config.plugins.push(
+    new Webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      __DEVTOOLS__: false
+    })
+  )
 
   config.output = {
     path: resolve('dist'),

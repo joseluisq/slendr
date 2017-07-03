@@ -1,8 +1,9 @@
-import { jsdom } from 'jsdom'
+import { JSDOM } from 'jsdom'
 
+const { window } = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`)
 module.exports.init = () => {
-  global.document = jsdom('<!doctype html><html><body></body></html>')
-  global.window = document.defaultView
+  global.window = window
+  global.document = window.document
 
   const tmpl = `
   <div class="slendr">
