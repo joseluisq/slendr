@@ -84,13 +84,14 @@ __directionNavPrev__ | String | `.slendr-prev` | Class name for previous arrow b
 __directionNavNext__ | String | `.slendr-next` | Class name for next arrow button.
 __slideVisibleClass__ | String | `.slendr-visible` | Class name used for show the current slide.
 __slideActiveClass__ | String | `.slendr-active` | Class name used when some slide is active.
-__animationSpeed__ | Int | `900` | The animation speed (in milliseconds).
 __slideshow__ | Boolean | `true` | If slider should work like a slideshow.
 __slideshowSpeed__ | Int | `4000` | The slideshow speed (in milliseconds).
 __keyboard__ | Boolean | `false` | Activate the keyboard arrow navigation.
 __controlNavs__ | Boolean | `true` | Display the control navigation.
 __controlNavClass__ | Boolean | `.slendr-control` | Class name of control navigation.
 __controlNavClassActive__ | Boolean | `.slendr-control-active` | Class name for active control navigation.
+
+__animation speed:__ it's defined via the animation class at `style.scss`
 
 ### Methods
 

@@ -3,13 +3,13 @@ import { defaults } from './defaults'
 import background from './background'
 import keyboard from './keyboard'
 import { directionNavs, controlNavs } from './navs'
-import { ISlendr, IElements, IOptions } from './interfaces'
+import { ISlendr, IElements, IOptions, IOptionsRequired } from './interfaces'
 import { emitus, Emitus } from './emitus'
 
 const emitter: Emitus = emitus()
 
 export default function slendr (options?: IOptions): ISlendr | null {
-  const opts: IOptions = { ...defaults, ...options }
+  const opts: IOptionsRequired = { ...defaults, ...options } as IOptionsRequired
 
   if (!opts.container) return null
 
@@ -47,7 +47,7 @@ export default function slendr (options?: IOptions): ISlendr | null {
   return api
 }
 
-function getSlendr ({ container, slidesContainer, slides }: IElements, opts: IOptions): ISlendr {
+function getSlendr ({ container, slidesContainer, slides }: IElements, opts: IOptionsRequired): ISlendr {
   let current: number = 0
   let timeout: number = 0
   let slide: HTMLElement
@@ -55,6 +55,7 @@ function getSlendr ({ container, slidesContainer, slides }: IElements, opts: IOp
   let animating: boolean = false
   let containerWidth: number = container.offsetWidth
   let controlNavActive: Function | null = null
+  let translationDir: string
 
   opts.animationClass = cleanClass(opts.animationClass)
   opts.slideActiveClass = cleanClass(opts.slideActiveClass)
@@ -150,27 +151,34 @@ function getSlendr ({ container, slidesContainer, slides }: IElements, opts: IOp
     display(slide)
 
     slidesContainer.classList.add(opts.animationClass)
-
     translateX(slidesContainer, direction === 'next' ? `-${containerWidth}px` : `${containerWidth}px`)
     translateX(slide, direction === 'next' ? `${containerWidth}px` : `-${containerWidth}px`)
 
-    if (controlNavActive) {
-      controlNavActive(current)
-    }
+    window.requestAnimationFrame(() => {
+      if (controlNavActive) {
+        controlNavActive(current)
+      }
 
-    window.setTimeout(() => {
-      animating = false
-      slidesContainer.classList.remove(opts.animationClass)
+      translationDir = direction
 
-      transform(slidesContainer, 'none')
-      transform(slides[current], 'none')
-      displayByIndex(current)
+      slidesContainer.addEventListener('transitionend', onTransitionEnd, false)
+    })
+  }
 
-      emitter.emit('move', [ direction, current, slide ])
-      emitter.emit(direction, [ current, slide ])
+  function onTransitionEnd () {
+    animating = false
+    slidesContainer.classList.remove(opts.animationClass)
 
-      slideshow()
-    }, opts.animationSpeed + 260)
+    transform(slidesContainer, 'none')
+    transform(slides[current], 'none')
+    displayByIndex(current)
+
+    emitter.emit('move', [ translationDir, current, slide ])
+    emitter.emit(translationDir, [ current, slide ])
+
+    slidesContainer.removeEventListener('transitionend', onTransitionEnd, false)
+
+    slideshow()
   }
 
   function goTo (i: number): void {

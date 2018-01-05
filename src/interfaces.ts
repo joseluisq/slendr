@@ -10,7 +10,7 @@ export interface ISlendr {
 
   // Events
   on (type: string, func: EmitusHandler): void
-  off (type: string, func?: EmitusHandler): void
+  off (type: string, func: EmitusHandler): void
 }
 
 export interface IOptions {
@@ -18,8 +18,28 @@ export interface IOptions {
   container: HTMLElement | string
   selector: string
   // Animation
+  animationClass?: string
+  // Direction navs
+  directionNavs?: boolean
+  directionNavPrev?: string
+  directionNavNext?: string
+  // Control navs
+  controlNavs?: boolean
+  controlNavClass?: string
+  controlNavClassActive?: string
+  // Slide
+  slideVisibleClass?: string
+  slideActiveClass?: string
+  // Slideshow
+  slideshow?: boolean
+  slideshowSpeed?: number
+  // Keyboard
+  keyboard?: boolean
+}
+
+export interface IOptionsRequired extends IOptions {
+  // Animation
   animationClass: string
-  animationSpeed: number
   // Direction navs
   directionNavs: boolean
   directionNavPrev: string

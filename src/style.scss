@@ -34,8 +34,14 @@
     -moz-perspective: 1000;
     -ms-perspective: 1000;
     perspective: 1000;
+
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+
+    will-change: transform;
   }
 
+  // Customize here the transition
   .slendr-animate {
     -webkit-transition: -webkit-transform .9s cubic-bezier(.4, 0, .2, 1);
     -moz-transition: transform .9s cubic-bezier(.4, 0, .2, 1);
