@@ -4,9 +4,10 @@
   "description": "A responsive & lightweight slider for modern browsers.",
   "repository": "joseluisq/slendr",
   "license": "MIT",
-  "main": "dist/slendr.js",
+  "main": "dist/index.js",
+  "typings": "index.d.ts",
   "author": {
-    "name": "José Luis Quintana",
+    "name": "Jose Luis Quintana",
     "url": "http://git.io/joseluisq"
   },
   "keywords": [
@@ -25,27 +26,41 @@
   "engines": {
     "node": ">= 4.2"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@types/jasmine": "^2.8.2",
-    "@types/node": "^8.5.2",
+    "@types/jasmine": "^2.8.4",
+    "@types/node": "^9.3.0",
+    "banr": "^1.0.4",
+    "emitus": "^2.3.0",
     "jasmine-core": "^2.8.0",
     "jasmine-spec-reporter": "^4.2.1",
-    "karma": "^2.0.0",
+    "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-spec-reporter": "^0.0.32",
-    "karma-typescript": "^3.0.9",
-    "mitt": "^1.1.3",
+    "karma-typescript": "^3.0.5",
     "node-sass": "^4.7.2",
-    "rollup": "^0.53.0",
-    "tslint": "^5.8.0",
+    "rollup": "^0.54.0",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "tslint": "^5.9.1",
     "tslint-config-standard": "^7.0.0",
     "typescript": "^2.6.2",
     "uglifyjs": "^2.4.11"
   },
   "scripts": {
-    "start": "parcel serve app/index.html"
+    "start": "parcel serve app/index.html",
+    "version": "npm run build",
+    "build": "npm run clean && npm run compile && npm run minify:browser && npm run compile:clean",
+    "compile": "node node_modules/typescript/bin/tsc --outDir .cache --module es2015 && npm run compile:browser",
+    "compile:browser": "node_modules/rollup/bin/rollup -c && npm run minify:browser",
+    "compile:clean": "rm -rf .cache",
+    "minify:browser": "uglifyjs dist/${npm_package_name}.umd.js -cm --source-map -o dist/${npm_package_name}.umd.min.js",
+    "app:build": "parcel build ./src",
+    "watch": "node node_modules/typescript/bin/tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "node_modules/karma/bin/karma start --single-run --reporters spec",
+    "test:watch": "node_modules/karma/bin/karma start --auto-watch --reporters spec",
+    "lint": "node node_modules/tslint/bin/tslint --format stylish --project tsconfig.json --type-check"
   }
 }

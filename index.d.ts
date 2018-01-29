@@ -37,38 +37,4 @@ export interface IOptions {
   keyboard?: boolean
 }
 
-export interface IOptionsRequired extends IOptions {
-  // Animation
-  animationClass: string
-  // Direction navs
-  directionNavs: boolean
-  directionNavPrev: string
-  directionNavNext: string
-  // Control navs
-  controlNavs: boolean
-  controlNavClass: string
-  controlNavClassActive: string
-  // Slide
-  slideVisibleClass: string
-  slideActiveClass: string
-  // Slideshow
-  slideshow: boolean
-  slideshowSpeed: number
-  // Keyboard
-  keyboard: boolean
-}
-
-export interface IElements {
-  container: HTMLElement
-  slidesContainer: HTMLElement
-  slides: HTMLElement[]
-}
-
-export interface IControlNav {
-  controlNavClass: string
-  controlNavClassActive: string
-  bullets: number
-  callback: Function | null
-}
-
-export type IControlNavActive = (index: number) => void
+export default function slendr (options?: IOptions): ISlendr | null

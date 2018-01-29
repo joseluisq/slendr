@@ -4,14 +4,16 @@ import background from './background'
 import keyboard from './keyboard'
 import { directionNavs, controlNavs } from './navs'
 import { ISlendr, IElements, IOptions, IOptionsRequired } from './interfaces'
-import { emitus, Emitus } from './emitus'
+import { emitus, Emitus, EmitusListener } from 'emitus'
 
 const emitter: Emitus = emitus()
 
 export default function slendr (options?: IOptions): ISlendr | null {
   const opts: IOptionsRequired = { ...defaults, ...options } as IOptionsRequired
 
-  if (!opts.container) return null
+  if (!opts.container) {
+    return null
+  }
 
   let container: HTMLElement
 
@@ -46,6 +48,8 @@ export default function slendr (options?: IOptions): ISlendr | null {
 
   return api
 }
+
+export { slendr, ISlendr, IElements, IOptions, IOptionsRequired, EmitusListener, Emitus }
 
 function getSlendr ({ container, slidesContainer, slides }: IElements, opts: IOptionsRequired): ISlendr {
   let current: number = 0

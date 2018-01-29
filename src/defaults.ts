@@ -6,7 +6,6 @@ export const defaults: IOptions = {
   selector: '.slendr-slides > .slendr-slide',
   // Animation
   animationClass: '.slendr-animate',
-  animationSpeed: 900,
   // Direction navs
   directionNavs: true,
   directionNavPrev: '.slendr-prev',

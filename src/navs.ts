@@ -21,15 +21,14 @@ export function directionNavs (
 }
 
 export function controlNavs (container: HTMLElement, options: IControlNav): IControlNavActive | null {
-  const opts: IControlNav = Object.assign(
-    {
-      controlNavClass: 'slendr-control',
-      controlNavClassActive: 'slendr-control-active',
-      bullets: 0,
-      callback: null
-    },
-    options
-  )
+  const defaults: IControlNav = {
+    controlNavClass: 'slendr-control',
+    controlNavClassActive: 'slendr-control-active',
+    bullets: 0,
+    callback: null
+  }
+
+  const opts: IControlNav = { ...defaults, ...options }
 
   const control: HTMLElement | null = child(container, `.${opts.controlNavClass}`)
 

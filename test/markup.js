@@ -1,10 +1,4 @@
-import { JSDOM } from 'jsdom'
-
-const { window } = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`)
 module.exports.init = () => {
-  global.window = window
-  global.document = window.document
-
   const tmpl = `
   <div class="slendr">
     <nav class="slendr-control"></nav>
