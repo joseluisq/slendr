@@ -4,7 +4,7 @@
   "description": "A responsive & lightweight slider for modern browsers.",
   "repository": "joseluisq/slendr",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "./dist/slendr.umd.js",
   "typings": "index.d.ts",
   "author": {
     "name": "Jose Luis Quintana",
