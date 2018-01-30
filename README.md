@@ -2,7 +2,7 @@
 
 > A responsive & lightweight slider for modern browsers.
 
-Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Javascript (1.6KB gzipped) and [CSS3 Hardware Acceleration](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/) performance in mind.
+Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Javascript (1.9KB gzipped) and [CSS3 Hardware Acceleration](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/) performance in mind.
 
 :tada: View demo on [Codepen](http://codepen.io/joseluisq/full/wGXaKx/).
 
