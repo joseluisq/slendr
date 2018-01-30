@@ -1,6 +1,9 @@
-import { EmitusListener } from 'emitus'
+import { EmitusListener as Listener } from 'emitus'
 
-export interface ISlendr {
+// Events
+type Event = 'move' | 'next' | 'prev' | 'start' | 'pause'
+
+interface Slendr {
   // Methods
   prev (): void
   next (): void
@@ -9,11 +12,11 @@ export interface ISlendr {
   move (i: number): void
 
   // Events
-  on (eventName: string, listener: EmitusListener): void
-  off (eventName: string, listener?: EmitusListener): void
+  on (eventName: Event, listener: Listener): void
+  off (eventName: Event, listener?: Listener): void
 }
 
-export interface IOptions {
+interface Options {
   // Selectors
   container: HTMLElement | string
   selector: string
@@ -37,4 +40,7 @@ export interface IOptions {
   keyboard?: boolean
 }
 
-export default function slendr (options?: IOptions): ISlendr | null
+declare function slendr (options?: Options): Slendr | null
+
+export default slendr
+export { slendr, Slendr, Options, Listener, Event }
