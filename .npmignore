@@ -37,3 +37,6 @@ coverage
 *.config.js
 .nyc_output
 yarn.lock
+tsconfig.json
+tslint.json
+.cache

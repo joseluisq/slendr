@@ -4,9 +4,10 @@
   "description": "A responsive & lightweight slider for modern browsers.",
   "repository": "joseluisq/slendr",
   "license": "MIT",
-  "main": "dist/slendr.js",
+  "main": "dist/index.js",
+  "typings": "index.d.ts",
   "author": {
-    "name": "José Luis Quintana",
+    "name": "Jose Luis Quintana",
     "url": "http://git.io/joseluisq"
   },
   "keywords": [
@@ -25,96 +26,41 @@
   "engines": {
     "node": ">= 4.2"
   },
-  "dependencies": {
-    "emitus": "^2.0.3"
-  },
   "devDependencies": {
-    "autoprefixer": "^7.1.1",
-    "babel-core": "^6.25.0",
-    "babel-eslint": "^7.2.3",
-    "babel-loader": "^7.1.1",
-    "babel-plugin-istanbul": "^4.1.4",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "babel-register": "^6.24.1",
-    "clean-css-cli": "^4.1.6",
-    "coveralls": "^2.13.1",
-    "cross-env": "^5.0.1",
-    "css-loader": "^0.28.4",
-    "eslint": "^4.1.1",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-loader": "^1.8.0",
-    "eslint-plugin-import": "^2.6.1",
-    "eslint-plugin-node": "^5.1.0",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "html-loader": "^0.4.5",
-    "html-webpack-plugin": "^2.29.0",
-    "jsdom": "^11.0.0",
-    "node-sass": "4.5.3",
-    "nyc": "^11.0.3",
-    "object-assign": "^4.1.1",
-    "postcss-loader": "^2.0.6",
-    "rollup": "^0.43.0",
-    "rollup-plugin-buble": "^0.15.0",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-inject": "^2.0.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^2.0.1",
-    "sass-loader": "^6.0.6",
-    "style-loader": "^0.18.2",
-    "tape": "^4.7.0",
-    "webpack": "^2.6.1",
-    "webpack-dev-server": "^2.5.0"
+    "@types/jasmine": "^2.8.4",
+    "@types/node": "^9.3.0",
+    "banr": "^1.0.4",
+    "emitus": "^2.3.0",
+    "jasmine-core": "^2.8.0",
+    "jasmine-spec-reporter": "^4.2.1",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.1",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-spec-reporter": "^0.0.32",
+    "karma-typescript": "^3.0.5",
+    "node-sass": "^4.7.2",
+    "rollup": "^0.54.0",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "tslint": "^5.9.1",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.6.2",
+    "uglifyjs": "^2.4.11"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server",
+    "start": "parcel serve app/index.html",
     "version": "npm run build",
-    "build": "npm run js && npm run css",
-    "js": "npm run js:min && npm run js:unmin",
-    "js:min": "cross-env NODE_ENV=minified rollup -c",
-    "js:unmin": "cross-env NODE_ENV=unminified rollup -c",
-    "css": "cross-env NODE_ENV=css npm run css:sass && npm run css:min",
-    "css:sass": "node-sass src/style.scss dist/${npm_package_name}.css",
-    "css:min": "cleancss dist/${npm_package_name}.css -do dist/${npm_package_name}.min.css",
-    "lint": "eslint src test",
-    "test": "npm run lint && cross-env BABEL_ENV=test nyc npm run test:tape",
-    "test:tape": "tape -r babel-register ./test/*.test.js",
-    "coverage": "coveralls < ./coverage/lcov.info"
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-0"
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": "standard"
-  },
-  "standard": {
-    "parser": "babel-eslint"
-  },
-  "nyc": {
-    "include": [
-      "src/index.js"
-    ],
-    "require": [
-      "babel-register"
-    ],
-    "sourceMap": false,
-    "instrument": false,
-    "checkCoverage": false,
-    "reporter": [
-      "text",
-      "lcov"
-    ]
+    "build": "npm run clean && npm run compile && npm run minify:browser && npm run compile:clean",
+    "compile": "node node_modules/typescript/bin/tsc --outDir .cache --module es2015 && npm run compile:browser",
+    "compile:browser": "node_modules/rollup/bin/rollup -c && npm run minify:browser",
+    "compile:clean": "rm -rf .cache",
+    "minify:browser": "uglifyjs dist/${npm_package_name}.umd.js -cm --source-map -o dist/${npm_package_name}.umd.min.js",
+    "app:build": "parcel build ./src",
+    "watch": "node node_modules/typescript/bin/tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "node_modules/karma/bin/karma start --single-run --reporters spec",
+    "test:watch": "node_modules/karma/bin/karma start --auto-watch --reporters spec",
+    "lint": "node node_modules/tslint/bin/tslint --format stylish --project tsconfig.json --type-check"
   }
 }

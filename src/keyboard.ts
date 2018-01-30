@@ -1,4 +1,4 @@
-export default (prev, next) => {
+export default (prev: Function, next: Function) => {
   document.addEventListener(
     'keyup',
     ({ which }) => {
