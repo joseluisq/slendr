@@ -30,7 +30,6 @@
     "@types/jasmine": "^2.8.4",
     "@types/node": "^9.3.0",
     "banr": "^1.0.4",
-    "emitus": "^2.3.0",
     "jasmine-core": "^2.8.0",
     "jasmine-spec-reporter": "^4.2.1",
     "karma": "^1.7.1",
@@ -62,5 +61,8 @@
     "test": "node_modules/karma/bin/karma start --single-run --reporters spec",
     "test:watch": "node_modules/karma/bin/karma start --auto-watch --reporters spec",
     "lint": "node node_modules/tslint/bin/tslint --format stylish --project tsconfig.json --type-check"
+  },
+  "dependencies": {
+    "emitus": "^2.3.0"
   }
 }

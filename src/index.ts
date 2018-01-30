@@ -3,13 +3,13 @@ import { defaults } from './defaults'
 import background from './background'
 import keyboard from './keyboard'
 import { directionNavs, controlNavs } from './navs'
-import { ISlendr, IElements, IOptions, IOptionsRequired } from './interfaces'
-import { emitus, Emitus, EmitusListener } from 'emitus'
+import { Slendr, Elements, Options, OptionsRequired, Event } from './interfaces'
+import { emitus, Emitus, EmitusListener as Listener } from 'emitus'
 
 const emitter: Emitus = emitus()
 
-export default function slendr (options?: IOptions): ISlendr | null {
-  const opts: IOptionsRequired = { ...defaults, ...options } as IOptionsRequired
+export default function slendr (options?: Options): Slendr | null {
+  const opts: OptionsRequired = { ...defaults, ...options } as OptionsRequired
 
   if (!opts.container) {
     return null
@@ -32,7 +32,7 @@ export default function slendr (options?: IOptions): ISlendr | null {
   const selectorContainer: string = opts.selector.substr(0, opts.selector.search(' '))
   const slidesContainer: HTMLElement | null = child(container, selectorContainer)
 
-  let api: ISlendr | null = null
+  let api: Slendr | null = null
 
   if (slidesContainer) {
     const slides: HTMLElement[] = children(opts.selector, slidesContainer)
@@ -41,7 +41,7 @@ export default function slendr (options?: IOptions): ISlendr | null {
       return null
     }
 
-    const els: IElements = { container, slidesContainer, slides }
+    const els: Elements = { container, slidesContainer, slides }
 
     api = getSlendr(els, opts)
   }
@@ -49,9 +49,9 @@ export default function slendr (options?: IOptions): ISlendr | null {
   return api
 }
 
-export { slendr, ISlendr, IElements, IOptions, IOptionsRequired, EmitusListener, Emitus }
+export { slendr, Slendr, Elements, Options, OptionsRequired, Listener, Event, Emitus }
 
-function getSlendr ({ container, slidesContainer, slides }: IElements, opts: IOptionsRequired): ISlendr {
+function getSlendr ({ container, slidesContainer, slides }: Elements, opts: OptionsRequired): Slendr {
   let current: number = 0
   let timeout: number = 0
   let slide: HTMLElement
@@ -67,7 +67,7 @@ function getSlendr ({ container, slidesContainer, slides }: IElements, opts: IOp
   opts.controlNavClass = cleanClass(opts.controlNavClass)
   opts.controlNavClassActive = cleanClass(opts.controlNavClassActive)
 
-  const api: ISlendr = {
+  const api: Slendr = {
     // Methods
     prev,
     next,

@@ -1,10 +1,10 @@
 import markup from './markup'
-import { slendr, ISlendr, EmitusListener } from '../src'
+import { slendr, Slendr, Listener } from '../src'
 
 markup.init()
 
 describe('Slendr', () => {
-  let slider: ISlendr
+  let slider: Slendr
 
   beforeEach(() => {
     slider = slendr({
@@ -54,7 +54,7 @@ describe('Slendr', () => {
 
   describe('on', () => {
     let onSpy: jasmine.Spy
-    const onEvent: EmitusListener = () => {}
+    const onEvent: Listener = () => console.log('ok!')
 
     describe('`move` event', () => {
       beforeEach(() => {

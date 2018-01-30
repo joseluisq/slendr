@@ -1,4 +1,4 @@
-import { IControlNav, IControlNavActive } from './interfaces'
+import { ControlNav, ControlNavActive } from './interfaces'
 import { child, onClick } from './utils'
 
 export function directionNavs (
@@ -20,15 +20,15 @@ export function directionNavs (
   }
 }
 
-export function controlNavs (container: HTMLElement, options: IControlNav): IControlNavActive | null {
-  const defaults: IControlNav = {
+export function controlNavs (container: HTMLElement, options: ControlNav): ControlNavActive | null {
+  const defaults: ControlNav = {
     controlNavClass: 'slendr-control',
     controlNavClassActive: 'slendr-control-active',
     bullets: 0,
     callback: null
   }
 
-  const opts: IControlNav = { ...defaults, ...options }
+  const opts: ControlNav = { ...defaults, ...options }
 
   const control: HTMLElement | null = child(container, `.${opts.controlNavClass}`)
 

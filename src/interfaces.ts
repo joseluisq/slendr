@@ -1,6 +1,9 @@
-import { EmitusListener } from 'emitus'
+import { EmitusListener as Listener } from 'emitus'
 
-export interface ISlendr {
+// Events
+export type Event = 'move' | 'next' | 'prev' | 'play' | 'pause'
+
+export interface Slendr {
   // Methods
   prev (): void
   next (): void
@@ -9,11 +12,11 @@ export interface ISlendr {
   move (i: number): void
 
   // Events
-  on (eventName: string, listener: EmitusListener): void
-  off (eventName: string, listener?: EmitusListener): void
+  on (eventName: Event, listener: Listener): void
+  off (eventName: Event, listener?: Listener): void
 }
 
-export interface IOptions {
+export interface Options {
   // Selectors
   container: HTMLElement | string
   selector: string
@@ -37,7 +40,7 @@ export interface IOptions {
   keyboard?: boolean
 }
 
-export interface IOptionsRequired extends IOptions {
+export interface OptionsRequired extends Options {
   // Animation
   animationClass: string
   // Direction navs
@@ -58,17 +61,17 @@ export interface IOptionsRequired extends IOptions {
   keyboard: boolean
 }
 
-export interface IElements {
+export interface Elements {
   container: HTMLElement
   slidesContainer: HTMLElement
   slides: HTMLElement[]
 }
 
-export interface IControlNav {
+export interface ControlNav {
   controlNavClass: string
   controlNavClassActive: string
   bullets: number
   callback: Function | null
 }
 
-export type IControlNavActive = (index: number) => void
+export type ControlNavActive = (index: number) => void

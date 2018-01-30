@@ -1,7 +1,7 @@
 import { EmitusListener as Listener } from 'emitus'
 
 // Events
-type Event = 'move' | 'next' | 'prev' | 'start' | 'pause'
+type Event = 'move' | 'next' | 'prev' | 'play' | 'pause'
 
 interface Slendr {
   // Methods

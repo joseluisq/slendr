@@ -1,6 +1,6 @@
-import { IOptions } from './interfaces'
+import { Options } from './interfaces'
 
-export const defaults: IOptions = {
+export const defaults: Options = {
   // Selectors
   container: '.slendr',
   selector: '.slendr-slides > .slendr-slide',
