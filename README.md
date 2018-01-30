@@ -61,7 +61,7 @@ Define the markup:
 Create the slider:
 
 ```js
-import slendr from 'slendr'
+import { slendr } from 'slendr'
 
 const myslider = slendr({
   slideshow: true
@@ -69,6 +69,22 @@ const myslider = slendr({
 
 myslider.on('move', (direction, index, element) => console.log(direction))
 ```
+
+**Typescript:**
+
+```js
+import { slendr, ISlendr } from 'slendr'
+
+const myslider: ISlendr  = slendr({
+  container: '.slendr',
+  selector: '.slendr-slides > .slendr-slide',
+  slideshow: false
+})
+
+myslider.on('move', (direction, index, element) => console.log(direction))
+```
+
+*For more detail check out [test.spec.ts](./test/test.spec.ts) file.*
 
 ## API
 
@@ -133,4 +149,4 @@ yarn start
 ## License
 MIT license
 
-© 2017 [José Luis Quintana](http://git.io/joseluisq)
+© 2018 [José Luis Quintana](http://git.io/joseluisq)
