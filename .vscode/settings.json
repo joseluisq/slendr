@@ -13,5 +13,9 @@
     "coverage": true,
     "npm": true
   },
+  "[makefile]": {
+    "editor.insertSpaces": false,
+    "editor.tabSize": 4
+  },
   "typescript.tsdk": "node_modules/typescript/lib"
 }

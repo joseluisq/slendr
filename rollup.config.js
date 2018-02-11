@@ -1,5 +1,4 @@
 import pkg from './package.json'
-import banner from 'banr'
 import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 
@@ -10,8 +9,7 @@ export default {
     file: `dist/${pkg.name}.umd.js`,
     format: 'umd',
     exports: 'named',
-    sourcemap: true,
-    banner: banner()
+    sourcemap: true
   },
   plugins: [
     resolve(),
