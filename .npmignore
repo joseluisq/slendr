@@ -40,3 +40,4 @@ yarn.lock
 tsconfig.json
 tslint.json
 .cache
+.vscode

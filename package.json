@@ -21,7 +21,8 @@
     "umd",
     "es6",
     "commonjs",
-    "hardware accelerated"
+    "hardware accelerated",
+    "typescript"
   ],
   "engines": {
     "node": ">= 4.2"
@@ -29,7 +30,7 @@
   "devDependencies": {
     "@types/jasmine": "^2.8.4",
     "@types/node": "^9.3.0",
-    "banr": "^1.0.4",
+    "clean-css-cli": "^4.1.10",
     "jasmine-core": "^2.8.0",
     "jasmine-spec-reporter": "^4.2.1",
     "karma": "^1.7.1",
@@ -48,19 +49,11 @@
     "uglifyjs": "^2.4.11"
   },
   "scripts": {
-    "start": "parcel serve app/index.html",
+    "start": "make app",
+    "appc": "make appc",
+    "build": "env PKG_NAME=$npm_package_name make build",
     "version": "npm run build",
-    "build": "npm run clean && npm run compile && npm run minify:browser && npm run compile:clean",
-    "compile": "node node_modules/typescript/bin/tsc --outDir .cache --module es2015 && npm run compile:browser",
-    "compile:browser": "node_modules/rollup/bin/rollup -c && npm run minify:browser",
-    "compile:clean": "rm -rf .cache",
-    "minify:browser": "uglifyjs dist/${npm_package_name}.umd.js -cm --source-map -o dist/${npm_package_name}.umd.min.js",
-    "app:build": "parcel build ./src",
-    "watch": "node node_modules/typescript/bin/tsc --watch",
-    "clean": "rm -rf dist",
-    "test": "node_modules/karma/bin/karma start --single-run --reporters spec",
-    "test:watch": "node_modules/karma/bin/karma start --auto-watch --reporters spec",
-    "lint": "node node_modules/tslint/bin/tslint --format stylish --project tsconfig.json --type-check"
+    "test": "make test"
   },
   "dependencies": {
     "emitus": "^2.3.0"
