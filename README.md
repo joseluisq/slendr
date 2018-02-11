@@ -1,4 +1,4 @@
-# Slendr [![Build Status](https://travis-ci.org/joseluisq/slendr.svg?branch=master)](https://travis-ci.org/joseluisq/slendr) [![Coverage Status](https://coveralls.io/repos/github/joseluisq/slendr/badge.svg?branch=master)](https://coveralls.io/github/joseluisq/slendr?branch=master) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+# Slendr [![Build Status](https://travis-ci.org/joseluisq/slendr.svg?branch=master)](https://travis-ci.org/joseluisq/slendr) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 > A responsive & lightweight slider for modern browsers.
 
@@ -37,7 +37,7 @@ Include the base styles:
 <link rel="stylesheet" href="https://unpkg.com/slendr/dist/slendr.min.css">
 ```
 
-_You can customize the styles editing the `./src/style.scss` file._
+__Styles:__ It can customize the bases styles via the SCSS file at [`slendr/dist/slendr.scss`](https://unpkg.com/slendr/dist/slendr.scss).
 
 Define the markup:
 
@@ -84,7 +84,7 @@ const myslider: ISlendr  = slendr({
 myslider.on('move', (direction, index, element) => console.log(direction))
 ```
 
-*For more detail check out [test.spec.ts](./test/test.spec.ts) file.*
+For more detail check out [test.spec.ts](./test/test.spec.ts) file.
 
 ## API
 
@@ -107,7 +107,7 @@ __controlNavs__ | Boolean | `true` | Display the control navigation.
 __controlNavClass__ | Boolean | `.slendr-control` | Class name of control navigation.
 __controlNavClassActive__ | Boolean | `.slendr-control-active` | Class name for active control navigation.
 
-__animation speed:__ it's defined via the animation class at `style.scss`
+__Animation speed:__ It's defined via the animation class at `style.scss`. Feel free to customize your [CSS animation timing function](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function).
 
 ### Methods
 
@@ -115,7 +115,7 @@ Name | Usage | Description
 --- | --- | ---
 __prev__ | `slendr.prev()` | Move to previous slide.
 __next__ | `slendr.next()` | Move to next slide.
-__move__ | `slendr.move(2)` | Move the slider by index.
+__move__ | `slendr.move(index)` | Move the slider by index.
 __play__ | `slendr.play()` | Play the slideshow.
 __pause__ | `slendr.pause()` | Pause the slideshow.
 
@@ -136,6 +136,8 @@ __pause__ | `slendr.on('pause', (index) => {})` | Trigger when pause the slidesh
 - IE10, IE11, Edge
 - Safari, iOS Safari
 
+__Note:__ Slendr requires [`window.requestAnimationFrame`](https://caniuse.com/#search=requestAnimationFrame).
+
 ## Development
 
 ```sh
@@ -144,7 +146,7 @@ yarn start
 
 ## Contributions
 
-[Pull requests](https://github.com/joseluisq/slendr/pulls) and [issues](https://github.com/joseluisq/slendr/issues) are very appreciated.
+[Pull requests](https://github.com/joseluisq/slendr/pulls) or [issues](https://github.com/joseluisq/slendr/issues) are very appreciated.
 
 ## License
 MIT license
