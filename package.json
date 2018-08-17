@@ -57,7 +57,7 @@
   },
   "scripts": {
     "version": "npm run build",
-    "build": "npm run clean && npm run compile",
+    "build": "npm run test && npm run clean && npm run compile",
     "compile": "npm run compile:browser && npm run compile:cjs",
     "compile:cjs": "tsc --module commonjs --target es5",
     "compile:browser": "rollup -c",
