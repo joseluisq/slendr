@@ -1,9 +1,9 @@
-import { child, children, transform, translateX, cleanClass } from './utils'
+import { child, children, cleanClass, transform, translateX } from './utils'
 import { defaults } from './defaults'
 import background from './background'
 import keyboard from './keyboard'
-import { directionNavs, controlNavs } from './navs'
-import { Slendr, Elements, Options, OptionsRequired, Event } from './interfaces'
+import { controlNavs, directionNavs } from './navs'
+import { Elements, Event, Options, OptionsRequired, Slendr } from './interfaces'
 import { emitus, Emitus, EmitusListener as Listener } from 'emitus'
 
 const emitter: Emitus = emitus()
@@ -18,7 +18,7 @@ export default function slendr (options?: Options): Slendr | null {
   let container: HTMLElement
 
   if (typeof opts.container === 'string') {
-    let childContainer: HTMLElement | null = child(document.body, opts.container)
+    const childContainer: HTMLElement | null = child(document.body, opts.container)
 
     if (!childContainer) {
       return null
@@ -52,14 +52,14 @@ export default function slendr (options?: Options): Slendr | null {
 export { slendr, Slendr, Elements, Options, OptionsRequired, Listener, Event, Emitus }
 
 function getSlendr ({ container, slidesContainer, slides }: Elements, opts: OptionsRequired): Slendr {
-  let current: number = 0
-  let timeout: number = 0
+  let current = 0
+  let timeout = 0
   let slide: HTMLElement
-  let paused: boolean = true
-  let animating: boolean = false
+  let paused = true
+  let animating = false
   let containerWidth: number = container.offsetWidth
   let controlNavActive: Function | null = null
-  let translationDir: string
+  let translationDir: number
 
   opts.animationClass = cleanClass(opts.animationClass)
   opts.slideActiveClass = cleanClass(opts.slideActiveClass)
@@ -127,15 +127,15 @@ function getSlendr ({ container, slidesContainer, slides }: Elements, opts: Opti
 
   function prev (): void {
     if (animating) return
-    moveTo('prev')
+    moveTo(0)
   }
 
   function next (): void {
     if (animating) return
-    moveTo('next')
+    moveTo(0)
   }
 
-  function moveTo (direction: string, index: number = -1): void {
+  function moveTo (direction: number, index = -1): void {
     animating = true
     window.clearTimeout(timeout)
 
@@ -144,7 +144,7 @@ function getSlendr ({ container, slidesContainer, slides }: Elements, opts: Opti
     if (index !== -1) {
       current = index
     } else {
-      current = direction === 'next' ? current + 1 : current - 1
+      current = direction === 1 ? current + 1 : current - 1
 
       if (current > slides.length - 1) current = 0
       if (current < 0) current = slides.length - 1
@@ -155,8 +155,8 @@ function getSlendr ({ container, slidesContainer, slides }: Elements, opts: Opti
     display(slide)
 
     slidesContainer.classList.add(opts.animationClass)
-    translateX(slidesContainer, direction === 'next' ? `-${containerWidth}px` : `${containerWidth}px`)
-    translateX(slide, direction === 'next' ? `${containerWidth}px` : `-${containerWidth}px`)
+    translateX(slidesContainer, direction === 1 ? `-${containerWidth}px` : `${containerWidth}px`)
+    translateX(slide, direction === 1 ? `${containerWidth}px` : `-${containerWidth}px`)
 
     window.requestAnimationFrame(() => {
       if (controlNavActive) {
@@ -178,7 +178,7 @@ function getSlendr ({ container, slidesContainer, slides }: Elements, opts: Opti
     displayByIndex(current)
 
     emitter.emit('move', [ translationDir, current, slide ])
-    emitter.emit(translationDir, [ current, slide ])
+    emitter.emit(translationDir ? 'next' : 'prev', [ current, slide ])
 
     slidesContainer.removeEventListener('transitionend', onTransitionEnd, false)
 
@@ -187,7 +187,7 @@ function getSlendr ({ container, slidesContainer, slides }: Elements, opts: Opti
 
   function goTo (i: number): void {
     if (!animating && current !== i && (i >= 0 && i < slides.length)) {
-      moveTo(current - i < 0 ? 'next' : 'prev', i)
+      moveTo(current - i < 0 ? 1 : 0, i)
     }
   }
 
@@ -213,7 +213,7 @@ function getSlendr ({ container, slidesContainer, slides }: Elements, opts: Opti
     container.setAttribute('data-slendr-length', slides.length.toString())
   }
 
-  function display (el: HTMLElement, yes: boolean = true, cls: boolean = false): void {
+  function display (el: HTMLElement, yes = true, cls = false): void {
     if (yes) {
       el.classList.add(opts.slideVisibleClass)
     } else {

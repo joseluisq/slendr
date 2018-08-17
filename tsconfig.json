@@ -1,24 +1,34 @@
 {
   "compileOnSave": false,
-  "include": [ "src", "test" ],
-  "exclude": [ "test" ],
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "test",
+    "dist",
+    "node_modules"
+  ],
   "compilerOptions": {
     "outDir": "./dist",
-    "sourceMap": true,
-    "declaration": false,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
+    "strict": true,
+    "declaration": true,
+    "sourceMap": false,
+    "pretty": true,
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "module": "ES2015",
     "target": "es5",
-    "typeRoots": [ "node_modules/@types" ],
-    "types": [ "@types/jasmine", "@types/node" ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "@types/jasmine",
+      "@types/node"
+    ],
     "lib": [
       "es2017",
       "dom",

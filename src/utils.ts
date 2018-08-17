@@ -5,11 +5,7 @@ export function child (element: HTMLElement | null, selector: string): HTMLEleme
 }
 
 export function children (selector: string, parent?: HTMLElement | null): HTMLElement[] {
-  if (!parent) {
-    parent = document.body
-  }
-
-  return Array.prototype.slice.call(parent.querySelectorAll(selector))
+  return Array.prototype.slice.call((parent || document.body).querySelectorAll(selector))
 }
 
 export function onClick (element: HTMLElement, func: Function): void {
@@ -33,7 +29,7 @@ export function transform (element: HTMLElement, value: string): void {
   element.style.setProperty('transform', value)
 }
 
-export function translateX (element: HTMLElement, x: string = '0px'): void {
+export function translateX (element: HTMLElement, x = '0px'): void {
   transform(element, `translateX(${x.toString()})`)
 }
 

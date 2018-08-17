@@ -1,5 +1,5 @@
 import markup from './markup'
-import { slendr, Slendr, Listener } from '../src'
+import { Listener, slendr, Slendr } from '../src'
 
 markup.init()
 
@@ -16,39 +16,39 @@ describe('Slendr', () => {
 
   describe('api', () => {
     it('should be a function', () => {
-      expect(typeof slendr).toBe('function')
+      expect(typeof slendr).toEqual('function')
     })
 
     it('should return an object', () => {
-      expect(typeof slider).toBe('object')
+      expect(typeof slider).toEqual('object')
     })
 
     it('should contain an `on` function', () => {
-      expect(typeof slider.on).toBe('function')
+      expect(typeof slider.on).toEqual('function')
     })
 
     it('should contain an `off` function', () => {
-      expect(typeof slider.off).toBe('function')
+      expect(typeof slider.off).toEqual('function')
     })
 
     it('should contain a `move` function', () => {
-      expect(typeof slider.move).toBe('function')
+      expect(typeof slider.move).toEqual('function')
     })
 
     it('should contain a `prev` function', () => {
-      expect(typeof slider.prev).toBe('function')
+      expect(typeof slider.prev).toEqual('function')
     })
 
     it('should contain a `next` function', () => {
-      expect(typeof slider.next).toBe('function')
+      expect(typeof slider.next).toEqual('function')
     })
 
     it('should contain a `play` function', () => {
-      expect(typeof slider.play).toBe('function')
+      expect(typeof slider.play).toEqual('function')
     })
 
     it('should contain a `pause` function', () => {
-      expect(typeof slider.pause).toBe('function')
+      expect(typeof slider.pause).toEqual('function')
     })
   })
 
@@ -64,7 +64,7 @@ describe('Slendr', () => {
       })
 
       it('should be a function', () => {
-        expect(typeof slider.move).toBe('function')
+        expect(typeof slider.move).toEqual('function')
       })
 
       it('should be called', () => {
@@ -78,7 +78,7 @@ describe('Slendr', () => {
       it('should contain the given arguments (`move` event)', () => {
         const [ type, args ] = onSpy.calls.argsFor(0)
 
-        expect(type).toBe('move')
+        expect(type).toEqual('move')
         expect(args).toEqual(onEvent)
       })
     })
@@ -91,7 +91,7 @@ describe('Slendr', () => {
       })
 
       it('should be a function', () => {
-        expect(typeof slider.next).toBe('function')
+        expect(typeof slider.next).toEqual('function')
       })
 
       it('should be called', () => {
@@ -105,7 +105,7 @@ describe('Slendr', () => {
       it('should contain the given arguments (`next` event)', () => {
         const [ type, args ] = onSpy.calls.argsFor(0)
 
-        expect(type).toBe('next')
+        expect(type).toEqual('next')
         expect(args).toEqual(onEvent)
       })
     })
@@ -118,7 +118,7 @@ describe('Slendr', () => {
       })
 
       it('should be a function', () => {
-        expect(typeof slider.prev).toBe('function')
+        expect(typeof slider.prev).toEqual('function')
       })
 
       it('should be called', () => {
@@ -132,7 +132,7 @@ describe('Slendr', () => {
       it('should contain the given arguments (`prev` event)', () => {
         const [ type, args ] = onSpy.calls.argsFor(0)
 
-        expect(type).toBe('prev')
+        expect(type).toEqual('prev')
         expect(args).toEqual(onEvent)
       })
     })
@@ -145,7 +145,7 @@ describe('Slendr', () => {
       })
 
       it('should be a function', () => {
-        expect(typeof slider.play).toBe('function')
+        expect(typeof slider.play).toEqual('function')
       })
 
       it('should be called', () => {
@@ -159,7 +159,7 @@ describe('Slendr', () => {
       it('should contain the given arguments (`play` event)', () => {
         const [ type, args ] = onSpy.calls.argsFor(0)
 
-        expect(type).toBe('play')
+        expect(type).toEqual('play')
         expect(args).toEqual(onEvent)
       })
     })
@@ -172,7 +172,7 @@ describe('Slendr', () => {
       })
 
       it('should be a function', () => {
-        expect(typeof slider.pause).toBe('function')
+        expect(typeof slider.pause).toEqual('function')
       })
 
       it('should be called', () => {
@@ -186,7 +186,7 @@ describe('Slendr', () => {
       it('should contain the given arguments (`pause` event)', () => {
         const [ type, args ] = onSpy.calls.argsFor(0)
 
-        expect(type).toBe('pause')
+        expect(type).toEqual('pause')
         expect(args).toEqual(onEvent)
       })
     })

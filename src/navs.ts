@@ -43,8 +43,10 @@ export function controlNavs (container: HTMLElement, options: ControlNav): Contr
   const controlNavList: HTMLElement[] = []
   const ul: HTMLElement = document.createElement('ul')
 
-  for (let i: number = 0; i < opts.bullets; i++) {
-    const el: HTMLElement | null = createBullet(i, opts.callback)
+  let i = 0
+
+  while (i < opts.bullets) {
+    const el: HTMLElement | null = createBullet(i++, opts.callback)
 
     if (el) {
       controlNavList.push(el)
@@ -55,13 +57,14 @@ export function controlNavs (container: HTMLElement, options: ControlNav): Contr
 
   return controlNavActive
 
-  function controlNavActive (index: number = 0): void {
+  function controlNavActive (index: number): void {
     if (opts.bullets > 1) {
-      controlNavList.forEach((_, n) => {
-        controlNavList[n].classList.remove(opts.controlNavClassActive)
-      })
+      let n = 0
+      while (n < controlNavList.length) {
+        controlNavList[n++].classList.remove(opts.controlNavClassActive)
+      }
 
-      controlNavList[index].classList.add(opts.controlNavClassActive)
+      controlNavList[index || 0].classList.add(opts.controlNavClassActive)
     }
   }
 

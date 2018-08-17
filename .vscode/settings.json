@@ -1,21 +1,22 @@
-// Place your settings in this file to overwrite default and user settings.
 {
+  "editor.formatOnSave": true,
   "editor.tabSize": 2,
-  "editor.rulers": [140],
+  "editor.rulers": [
+    120
+  ],
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
-    "node_modules": false,
+    "node_modules": true,
     "test-lib": true,
     "lib": true,
     "coverage": true,
     "npm": true
   },
-  "[makefile]": {
-    "editor.insertSpaces": false,
-    "editor.tabSize": 4
-  },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "eslint.enable": false,
+  "typescript.format.enable": false,
+  "tslint.enable": true,
+  "tslint.autoFixOnSave": true,
 }

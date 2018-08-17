@@ -4,8 +4,14 @@
   "description": "A responsive & lightweight slider for modern browsers.",
   "repository": "joseluisq/slendr",
   "license": "MIT",
-  "main": "./dist/slendr.umd.js",
-  "typings": "index.d.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "files": [
+    "/dist/*.js",
+    "/dist/*.d.ts",
+    "README.md",
+    "LICENSE.md"
+  ],
   "author": {
     "name": "Jose Luis Quintana",
     "url": "http://git.io/joseluisq"
@@ -24,38 +30,41 @@
     "hardware accelerated",
     "typescript"
   ],
-  "engines": {
-    "node": ">= 4.2"
+  "dependencies": {
+    "emitus": "^2.3.1"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.8.4",
-    "@types/node": "^9.3.0",
+    "@types/jasmine": "^2.8.8",
+    "@types/node": "^10.7.1",
     "clean-css-cli": "^4.1.10",
-    "jasmine-core": "^2.8.0",
+    "jasmine-core": "^3.2.1",
     "jasmine-spec-reporter": "^4.2.1",
-    "karma": "^1.7.1",
+    "karma": "^2.0.5",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-jasmine": "^1.1.1",
-    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-jasmine": "^1.1.2",
+    "karma-jasmine-html-reporter": "^1.3.0",
     "karma-spec-reporter": "^0.0.32",
-    "karma-typescript": "^3.0.5",
-    "node-sass": "^4.7.2",
-    "rollup": "^0.54.0",
-    "rollup-plugin-commonjs": "^8.3.0",
-    "rollup-plugin-node-resolve": "^3.0.2",
-    "tslint": "^5.9.1",
-    "tslint-config-standard": "^7.0.0",
-    "typescript": "^2.6.2",
-    "uglifyjs": "^2.4.11"
+    "karma-typescript": "^3.0.13",
+    "node-sass": "^4.9.3",
+    "rollup": "^0.64.1",
+    "rollup-plugin-commonjs": "^9.1.5",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-terser": "^1.0.1",
+    "rollup-plugin-typescript2": "^0.16.1",
+    "tslint": "^5.11.0",
+    "tslint-config-standard-plus": "^2.0.1",
+    "typescript": "^2.9.2"
   },
   "scripts": {
-    "start": "make app",
-    "appc": "make appc",
-    "build": "env PKG_NAME=$npm_package_name make build",
     "version": "npm run build",
-    "test": "make test"
-  },
-  "dependencies": {
-    "emitus": "^2.3.0"
+    "build": "npm run clean && npm run compile",
+    "compile": "npm run compile:browser && npm run compile:cjs",
+    "compile:cjs": "tsc --module commonjs --target es5",
+    "compile:browser": "rollup -c",
+    "watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "npm run lint && karma start --single-run --reporters spec",
+    "test:watch": "env NODE_ENV=debug karma start",
+    "lint": "tslint --format stylish --project tsconfig.json"
   }
 }
