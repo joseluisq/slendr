@@ -42,7 +42,7 @@ normal=$(tput sgr0)
 
 function build () {
     clean
-    # test
+    test
     compile
     cssc
     cssmin

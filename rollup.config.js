@@ -15,19 +15,15 @@ const output = {
   exports: 'named'
 }
 const plugins = [
-  typescript(),
-  resolve()
+  typescript()
 ]
 
 if (isUMD) {
+  plugins.push(resolve())
   plugins.push(terser())
   plugins.push(commonjs({
     sourceMap: false,
     include: 'node_modules/emitus/index.js'
-  }))
-} else {
-  plugins.push(commonjs({
-    sourceMap: false
   }))
 }
 
