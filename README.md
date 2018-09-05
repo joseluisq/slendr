@@ -24,7 +24,7 @@ The [UMD](https://github.com/umdjs/umd) and style builds are also available on [
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/slendr/dist/slendr.min.css">
-<script src="https://unpkg.com/slendr/dist/slendr.umd.min.js"></script>
+<script src="https://unpkg.com/slendr/dist/slendr.min.js"></script>
 ```
 
 You can use the component via `window.slendr`

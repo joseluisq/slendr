@@ -1,4 +1,4 @@
-import { EmitusListener as Listener } from 'emitus'
+import { EmitusListener } from 'emitus'
 
 // Events
 export type Event = 'move' | 'next' | 'prev' | 'play' | 'pause'
@@ -12,8 +12,8 @@ export interface Slendr {
   move (i: number): void
 
   // Events
-  on (eventName: Event, listener: Listener): void
-  off (eventName: Event, listener?: Listener): void
+  on (eventName: Event, listener: EmitusListener): void
+  off (eventName: Event, listener?: EmitusListener): void
 }
 
 export interface Options {

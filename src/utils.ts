@@ -1,4 +1,4 @@
-export function child (element: HTMLElement | null, selector: string): HTMLElement | null {
+export function child (element: HTMLElement, selector: string): HTMLElement | null {
   if (!element || !selector) return null
 
   return element.querySelector(selector) as HTMLElement

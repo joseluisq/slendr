@@ -3,17 +3,13 @@ import { defaults } from './defaults'
 import background from './background'
 import keyboard from './keyboard'
 import { controlNavs, directionNavs } from './navs'
-import { Elements, Event, Options, OptionsRequired, Slendr } from './interfaces'
-import { emitus, Emitus, EmitusListener as Listener } from 'emitus'
+import { Elements, Options, OptionsRequired, Slendr } from './interfaces'
+import { emitus, Emitus } from 'emitus'
 
 const emitter: Emitus = emitus()
 
-export default function slendr (options?: Options): Slendr | null {
+export function slendr (options?: Options): Slendr {
   const opts: OptionsRequired = { ...defaults, ...options } as OptionsRequired
-
-  if (!opts.container) {
-    return null
-  }
 
   let container: HTMLElement
 
@@ -21,7 +17,7 @@ export default function slendr (options?: Options): Slendr | null {
     const childContainer: HTMLElement | null = child(document.body, opts.container)
 
     if (!childContainer) {
-      return null
+      throw new Error('No container found')
     }
 
     container = childContainer
@@ -32,24 +28,17 @@ export default function slendr (options?: Options): Slendr | null {
   const selectorContainer: string = opts.selector.substr(0, opts.selector.search(' '))
   const slidesContainer: HTMLElement | null = child(container, selectorContainer)
 
-  let api: Slendr | null = null
-
-  if (slidesContainer) {
-    const slides: HTMLElement[] = children(opts.selector, slidesContainer)
-
-    if (!slides.length) {
-      return null
-    }
-
-    const els: Elements = { container, slidesContainer, slides }
-
-    api = getSlendr(els, opts)
+  if (!slidesContainer) {
+    throw new Error('No slides container found')
   }
+
+  const slides: HTMLElement[] = children(opts.selector, slidesContainer)
+  const api: Slendr = getSlendr({ container, slidesContainer, slides }, opts)
 
   return api
 }
 
-export { slendr, Slendr, Elements, Options, OptionsRequired, Listener, Event, Emitus }
+export { Slendr, Options, Emitus }
 
 function getSlendr ({ container, slidesContainer, slides }: Elements, opts: OptionsRequired): Slendr {
   let current = 0
