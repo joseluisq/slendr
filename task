@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Small Tasks runner script
 # -------------------------
@@ -38,7 +38,7 @@ normal=$(tput sgr0)
 
 # Tasks start
 
-build() {
+function build () {
     test
     clean
     compile
@@ -47,52 +47,52 @@ build() {
     copy
 }
 
-test() {
+function test () {
     lint
     $KRM start --single-run --reporters spec
 }
 
-lint() {
+function lint () {
     $TSL --format stylish --project $TSL_FILE
 }
 
-clean() {
+function clean () {
     rm -rf .cache
     rm -rf $DIST_DIR
 }
 
-compile() {
+function compile () {
     tsc
     jsc
     cjs
     cssc
 }
 
-tsc() {
+function tsc () {
     $TSC --outDir .cache --module es2015
 }
 
-cjs() {
+function cjs () {
     $TSC --module commonjs --target es5
 }
 
-jsc() {
+function jsc () {
     $RUP -c
 }
 
-cssc() {
+function cssc () {
     $SCSS $SCSS_FILE $DIST_DIR/$PKG_NAME.css
 }
 
-cssmin() {
+function cssmin () {
     $CCSS $DIST_DIR/$PKG_NAME.css -o $DIST_DIR/$PKG_NAME.min.css
 }
 
-test_watch() {
+function test_watch () {
     env NODE_ENV=debug $KRM start
 }
 
-copy() {
+function copy () {
     cp $SCSS_FILE $DIST_DIR/$PKG_NAME.scss
 }
 
