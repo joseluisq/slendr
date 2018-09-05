@@ -38,62 +38,61 @@ normal=$(tput sgr0)
 
 # Tasks start
 
-function build () {
+function build {
     test
     clean
     compile
     cssc
     cssmin
     copy
-    # clean
 }
 
-function test () {
+function test {
     lint
     $KRM start --single-run --reporters spec
 }
 
-function lint () {
+function lint {
     $TSL --format stylish --project $TSL_FILE
 }
 
-function clean () {
+function clean {
     rm -rf .cache
     rm -rf $DIST_DIR
 }
 
-function compile () {
+function compile {
     tsc
     jsc
     cjs
     cssc
 }
 
-function tsc () {
+function tsc {
     $TSC --outDir .cache --module es2015
 }
 
-function cjs () {
+function cjs {
     $TSC --module commonjs --target es5
 }
 
-function jsc () {
+function jsc {
     $RUP -c
 }
 
-function cssc () {
+function cssc {
     $SCSS $SCSS_FILE $DIST_DIR/$PKG_NAME.css
 }
 
-function cssmin () {
+function cssmin {
     $CCSS $DIST_DIR/$PKG_NAME.css -o $DIST_DIR/$PKG_NAME.min.css
 }
 
-function test_watch () {
+function test_watch {
     env NODE_ENV=debug $KRM start
 }
 
-function copy () {
+function copy {
     cp $SCSS_FILE $DIST_DIR/$PKG_NAME.scss
 }
 

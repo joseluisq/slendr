@@ -37,6 +37,7 @@
     "@types/jasmine": "^2.8.8",
     "@types/node": "^10.7.1",
     "clean-css-cli": "^4.1.10",
+    "git-testing-hook": "^0.3.0",
     "jasmine-core": "^3.2.1",
     "jasmine-spec-reporter": "^4.2.1",
     "karma": "^2.0.5",
