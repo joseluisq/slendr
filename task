@@ -1,0 +1,124 @@
+#!/bin/sh
+
+# Small Tasks runner script
+# -------------------------
+# Usage: ./task task_name
+# Note: It requires `PKG_NAME` env variable for `build` task in your `package.json`.
+#
+#    "scripts": {
+#        "build": env NODE_ENV=production PKG_NAME=$npm_package_name ./task build
+#    }
+#
+
+# Packages:
+#  Typescript
+TSC=node_modules/typescript/bin/tsc
+#  Node Sass
+SCSS=node_modules/node-sass/bin/node-sass
+#  Clean CSS
+CCSS=node_modules/clean-css-cli/bin/cleancss
+#  Rollup
+RUP=node_modules/rollup/bin/rollup
+#  Karma
+KRM=node_modules/karma/bin/karma
+#  TSLint
+TSL=node_modules/tslint/bin/tslint
+
+# Files & directories
+TSL_FILE=tsconfig.json
+SCSS_FILE=src/style.scss
+DIST_DIR=dist
+
+# Allowed tasks
+ALLOWED_TASKS="^(build|test|lint|clean)$"
+
+# Styles
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+# Tasks start
+
+function build () {
+    test
+    clean
+    compile
+    cssc
+    cssmin
+    copy
+    # clean
+}
+
+function test () {
+    lint
+    $KRM start --single-run --reporters spec
+}
+
+function lint () {
+    $TSL --format stylish --project $TSL_FILE
+}
+
+function clean () {
+    rm -rf .cache
+    rm -rf $DIST_DIR
+}
+
+function compile () {
+    tsc
+    jsc
+    cjs
+    cssc
+}
+
+function tsc () {
+    $TSC --outDir .cache --module es2015
+}
+
+function cjs () {
+    $TSC --module commonjs --target es5
+}
+
+function jsc () {
+    $RUP -c
+}
+
+function cssc () {
+    $SCSS $SCSS_FILE $DIST_DIR/$PKG_NAME.css
+}
+
+function cssmin () {
+    $CCSS $DIST_DIR/$PKG_NAME.css -o $DIST_DIR/$PKG_NAME.min.css
+}
+
+function test_watch () {
+    env NODE_ENV=debug $KRM start
+}
+
+function copy () {
+    cp $SCSS_FILE $DIST_DIR/$PKG_NAME.scss
+}
+
+# Tasks end
+
+
+# Check the incoming task
+if [[ -z "$1" ]]; then
+    echo
+    echo "⛔️  No task was provided."
+    echo
+    exit 1
+fi
+
+# Validate if the task is allowed
+if [[ $1 =~ $ALLOWED_TASKS ]]; then
+    echo
+    echo "✅  Running ${bold}$1${normal} task..."
+    echo
+
+    # Ok, just let it be!
+    $1
+else
+    echo
+    echo "⛔️  Task provided is not available."
+    echo
+    exit 1
+fi

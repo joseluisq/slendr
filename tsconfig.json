@@ -11,16 +11,14 @@
   "compilerOptions": {
     "outDir": "./dist",
     "strict": true,
-    "declaration": true,
-    "sourceMap": false,
     "pretty": true,
-    "noImplicitReturns": true,
-    "noUnusedParameters": true,
+    "sourceMap": true,
+    "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "module": "ES2015",
+    "module": "es2015",
     "target": "es5",
     "typeRoots": [
       "node_modules/@types"

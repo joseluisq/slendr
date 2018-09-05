@@ -52,19 +52,12 @@
     "rollup-plugin-terser": "^1.0.1",
     "rollup-plugin-typescript2": "^0.16.1",
     "tslint": "^5.11.0",
-    "tslint-config-standard-plus": "^2.0.1",
+    "tslint-config-standard-plus": "^2.1.0",
     "typescript": "^2.9.2"
   },
   "scripts": {
     "version": "npm run build",
-    "build": "npm run test && npm run clean && npm run compile",
-    "compile": "npm run compile:browser && npm run compile:cjs",
-    "compile:cjs": "tsc --module commonjs --target es5",
-    "compile:browser": "rollup -c",
-    "watch": "tsc --watch",
-    "clean": "rm -rf dist",
-    "test": "npm run lint && karma start --single-run --reporters spec",
-    "test:watch": "env NODE_ENV=debug karma start",
-    "lint": "tslint --format stylish --project tsconfig.json"
+    "build": "env NODE_ENV=production PKG_NAME=$npm_package_name ./task build",
+    "test": "env NODE_ENV=testing ./task test"
   }
 }
