@@ -86,7 +86,7 @@ export class Slendr implements SlendrInterface {
   }
 
   next () {
-    if (!this.animating) this.moveTo(0)
+    if (!this.animating) this.moveTo(1)
   }
 
   play () {
@@ -142,7 +142,7 @@ export class Slendr implements SlendrInterface {
         controlNavClass: this.opts.controlNavClass,
         controlNavClassActive: this.opts.controlNavClassActive,
         bullets: this.slides.length,
-        callback: (i: number) => this.goTo(i)
+        callback: this.goTo.bind(this)
       })
 
       if (this.controlNavActive) {
@@ -155,15 +155,15 @@ export class Slendr implements SlendrInterface {
         this.container,
         this.opts.directionNavPrev,
         this.opts.directionNavNext,
-        () => this.prev(),
-        () => this.next()
+        this.prev.bind(this),
+        this.next.bind(this)
       )
     } else {
       this.opts.directionNavs = false
     }
 
     if (this.opts.keyboard) {
-      this.keyboard(() => this.prev(), () => this.next())
+      this.keyboard(this.prev.bind(this), this.next.bind(this))
     }
 
     this.slideshow()
@@ -205,14 +205,15 @@ export class Slendr implements SlendrInterface {
       }
 
       this.translationDir = direction
-      this.slidesContainer.addEventListener('transitionend', this.onTransitionEnd, false)
+      this.slidesContainer.addEventListener('transitionend', this.onTransitionEnd.bind(this), false)
     })
   }
 
   private slideshow () {
     if (this.opts.slideshow) {
       this.paused = false
-      this.timeout = window.setTimeout(() => this.next(), this.opts.slideshowSpeed)
+      window.clearTimeout(this.timeout)
+      this.timeout = window.setTimeout(this.next.bind(this), this.opts.slideshowSpeed)
     }
   }
 
@@ -261,7 +262,7 @@ export class Slendr implements SlendrInterface {
     this.emitter.emit('move', [ this.translationDir, this.current, this.slide ])
     this.emitter.emit(this.translationDir ? 'next' : 'prev', [ this.current, this.slide ])
 
-    this.slidesContainer.removeEventListener('transitionend', this.onTransitionEnd, false)
+    this.slidesContainer.removeEventListener('transitionend', this.onTransitionEnd.bind(this), false)
 
     this.slideshow()
   }
