@@ -9,6 +9,9 @@
   "files": [
     "/dist/*.js",
     "/dist/*.d.ts",
+    "/dist/*.css",
+    "/dist/*.scss",
+    "/dist/*.map",
     "README.md",
     "LICENSE.md"
   ],

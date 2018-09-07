@@ -1,250 +1,304 @@
-import { child, children, cleanClass, transform, translateX } from './utils'
-import { defaults } from './defaults'
-import background from './background'
-import keyboard from './keyboard'
+import { emitus, Emitus, EmitusListener } from 'emitus'
 import { controlNavs, directionNavs } from './navs'
-import { Elements, Event, Options, OptionsRequired, Slendr } from './interfaces'
-import { emitus, Emitus, EmitusListener as Listener } from 'emitus'
+import { OptionsRequired, SlendrEvent, SlendrInterface, SlendrOptions } from './interfaces'
+import { child, children, cleanClass, transform, translateX } from './utils'
 
-const emitter: Emitus = emitus()
-
-export default function slendr (options?: Options): Slendr | null {
-  const opts: OptionsRequired = { ...defaults, ...options } as OptionsRequired
-
-  if (!opts.container) {
-    return null
-  }
-
-  let container: HTMLElement
-
-  if (typeof opts.container === 'string') {
-    const childContainer: HTMLElement | null = child(document.body, opts.container)
-
-    if (!childContainer) {
-      return null
-    }
-
-    container = childContainer
-  } else {
-    container = opts.container
-  }
-
-  const selectorContainer: string = opts.selector.substr(0, opts.selector.search(' '))
-  const slidesContainer: HTMLElement | null = child(container, selectorContainer)
-
-  let api: Slendr | null = null
-
-  if (slidesContainer) {
-    const slides: HTMLElement[] = children(opts.selector, slidesContainer)
-
-    if (!slides.length) {
-      return null
-    }
-
-    const els: Elements = { container, slidesContainer, slides }
-
-    api = getSlendr(els, opts)
-  }
-
-  return api
+const defaults: SlendrOptions = {
+  // Selectors
+  container: '.slendr',
+  selector: '.slendr-slides > .slendr-slide',
+  // Animation
+  animationClass: '.slendr-animate',
+  // Direction navs
+  directionNavs: true,
+  directionNavPrev: '.slendr-prev',
+  directionNavNext: '.slendr-next',
+  // Control navs
+  controlNavs: true,
+  controlNavClass: '.slendr-control',
+  controlNavClassActive: '.slendr-control-active',
+  // Slide
+  slideVisibleClass: '.slendr-visible',
+  slideActiveClass: '.slendr-active',
+  // Slideshow
+  slideshow: true,
+  slideshowSpeed: 4000,
+  // Keyboard
+  keyboard: false
 }
 
-export { slendr, Slendr, Elements, Options, OptionsRequired, Listener, Event, Emitus }
+export { SlendrOptions }
 
-function getSlendr ({ container, slidesContainer, slides }: Elements, opts: OptionsRequired): Slendr {
-  let current = 0
-  let timeout = 0
-  let slide: HTMLElement
-  let paused = true
-  let animating = false
-  let containerWidth: number = container.offsetWidth
-  let controlNavActive: Function | null = null
-  let translationDir: number
+/**
+ * Slendr is a responsive & lightweight slider for modern browsers.
+ */
+export class Slendr implements SlendrInterface {
+  private readonly opts: OptionsRequired
+  private readonly container: HTMLElement
+  private readonly slidesContainer: HTMLElement
+  private readonly slides: HTMLElement[]
+  private readonly emitter: Emitus
 
-  opts.animationClass = cleanClass(opts.animationClass)
-  opts.slideActiveClass = cleanClass(opts.slideActiveClass)
-  opts.slideVisibleClass = cleanClass(opts.slideVisibleClass)
-  opts.controlNavClass = cleanClass(opts.controlNavClass)
-  opts.controlNavClassActive = cleanClass(opts.controlNavClassActive)
+  private current = 0
+  private timeout = 0
+  private paused = true
+  private animating = false
+  private containerWidth = 0
+  private translationDir = 0
+  private slide: HTMLElement | null = null
+  private controlNavActive: Function | null = null
 
-  const api: Slendr = {
-    // Methods
-    prev,
-    next,
-    play,
-    pause,
-    move: goTo,
+  constructor (private readonly options?: SlendrOptions) {
+    this.opts = { ...defaults, ...this.options } as OptionsRequired
 
-    // Events
-    on: emitter.on,
-    off: emitter.off
+    if (typeof this.opts.container === 'string') {
+      const childContainer = child(document.body, this.opts.container)
+
+      if (!childContainer) {
+        throw new Error('No container found')
+      }
+
+      this.container = childContainer
+    } else {
+      this.container = this.opts.container
+    }
+
+    const selectorContainer = this.opts.selector.substr(0, this.opts.selector.search(' '))
+    const slidesContainer = child(this.container, selectorContainer)
+
+    if (!slidesContainer) {
+      throw new Error('No slides container found')
+    }
+
+    this.slidesContainer = slidesContainer
+    this.slides = children(this.opts.selector, slidesContainer)
+    this.containerWidth = this.container.offsetWidth
+    this.opts.animationClass = cleanClass(this.opts.animationClass)
+    this.opts.slideActiveClass = cleanClass(this.opts.slideActiveClass)
+    this.opts.slideVisibleClass = cleanClass(this.opts.slideVisibleClass)
+    this.opts.controlNavClass = cleanClass(this.opts.controlNavClass)
+    this.opts.controlNavClassActive = cleanClass(this.opts.controlNavClassActive)
+
+    this.emitter = emitus()
+
+    this.initialize()
   }
 
-  init()
+  /**
+   * Moves the current slider to the previous slide
+   */
+  prev () {
+    if (!this.animating) this.moveTo(0)
+  }
 
-  return api
+  /**
+   * Moves the current slider to the next slide
+   */
+  next () {
+    if (!this.animating) this.moveTo(1)
+  }
 
-  function init (): void {
-    if (slides.length < 2) {
-      if (slides.length === 1) {
-        background(slides[0])
-        displayByIndex(0)
+  /**
+   * Plays the current slider
+   */
+  play () {
+    if (!this.paused) return
+
+    this.opts.slideshow = true
+    this.slideshow()
+
+    this.emitter.emit('play', [ this.current ])
+  }
+
+  /**
+   * Pauses the current slider
+   */
+  pause () {
+    if (!this.opts.slideshow) return
+
+    clearTimeout(this.timeout)
+
+    this.paused = true
+    this.animating = false
+    this.opts.slideshow = false
+
+    this.emitter.emit('pause', [ this.current ])
+  }
+
+  /**
+   * Moves the current slider by index
+   */
+  move (index: number) {
+    this.goTo(index)
+  }
+
+  /**
+   * Adds some event listener
+   * Events supported: 'move' | 'next' | 'prev' | 'play' | 'pause'
+   *
+   * @param eventName SlendrEvent
+   * @param listener EmitusListener
+   */
+  on (eventName: SlendrEvent, listener: EmitusListener) {
+    this.emitter.on(eventName, listener)
+  }
+
+  /**
+   * Removes some event listener
+   *
+   * @param eventName SlendrEvent like 'move' | 'next' | 'prev' | 'play' | 'pause'
+   * @param listener EmitusListener
+   */
+  off (eventName: SlendrEvent, listener?: EmitusListener) {
+    this.emitter.off(eventName, listener)
+  }
+
+  private initialize () {
+    if (this.slides.length < 2) {
+      if (this.slides.length === 1) {
+        this.background(this.slides[0])
+        this.displayByIndex(0)
       }
 
       return
     }
 
-    slides.forEach((slide) => background(slide))
+    this.slides.forEach((slide) => this.background(slide))
 
-    displayByIndex(0)
-    bindEvents()
+    this.displayByIndex(0)
+    this.bindEvents()
 
-    if (opts.controlNavs) {
-      controlNavActive = controlNavs(container, {
-        controlNavClass: opts.controlNavClass,
-        controlNavClassActive: opts.controlNavClassActive,
-        bullets: slides.length,
-        callback: goTo
+    if (this.opts.controlNavs) {
+      this.controlNavActive = controlNavs(this.container, {
+        controlNavClass: this.opts.controlNavClass,
+        controlNavClassActive: this.opts.controlNavClassActive,
+        bullets: this.slides.length,
+        callback: this.goTo.bind(this)
       })
 
-      if (controlNavActive) {
-        controlNavActive(0)
+      if (this.controlNavActive) {
+        this.controlNavActive(0)
       }
     }
 
-    if (opts.directionNavs) {
-      directionNavs(container, opts.directionNavPrev, opts.directionNavNext, prev, next)
+    if (this.opts.directionNavs) {
+      directionNavs(
+        this.container,
+        this.opts.directionNavPrev,
+        this.opts.directionNavNext,
+        this.prev.bind(this),
+        this.next.bind(this)
+      )
     } else {
-      opts.directionNavs = false
+      this.opts.directionNavs = false
     }
 
-    if (opts.keyboard) {
-      keyboard(prev, next)
+    if (this.opts.keyboard) {
+      this.keyboard(this.prev.bind(this), this.next.bind(this))
     }
 
-    slideshow()
+    this.slideshow()
   }
 
-  function prev (): void {
-    if (animating) return
-    moveTo(0)
+  private goTo (i: number) {
+    if (!this.animating && this.current !== i && (i >= 0 && i < this.slides.length)) {
+      this.moveTo(this.current - i < 0 ? 1 : 0, i)
+    }
   }
 
-  function next (): void {
-    if (animating) return
-    moveTo(0)
-  }
+  private moveTo (direction: number, index = -1) {
+    this.animating = true
+    window.clearTimeout(this.timeout)
 
-  function moveTo (direction: number, index = -1): void {
-    animating = true
-    window.clearTimeout(timeout)
-
-    display(slides[current])
+    this.display(this.slides[this.current])
 
     if (index !== -1) {
-      current = index
+      this.current = index
     } else {
-      current = direction === 1 ? current + 1 : current - 1
+      this.current = direction === 1 ? this.current + 1 : this.current - 1
 
-      if (current > slides.length - 1) current = 0
-      if (current < 0) current = slides.length - 1
+      if (this.current > this.slides.length - 1) this.current = 0
+      if (this.current < 0) this.current = this.slides.length - 1
     }
 
-    slide = slides[current]
+    this.slide = this.slides[this.current]
 
-    display(slide)
+    this.display(this.slide)
 
-    slidesContainer.classList.add(opts.animationClass)
-    translateX(slidesContainer, direction === 1 ? `-${containerWidth}px` : `${containerWidth}px`)
-    translateX(slide, direction === 1 ? `${containerWidth}px` : `-${containerWidth}px`)
+    this.slidesContainer.classList.add(this.opts.animationClass)
+
+    translateX(this.slidesContainer, direction === 1 ? `-${this.containerWidth}px` : `${this.containerWidth}px`)
+    translateX(this.slide, direction === 1 ? `${this.containerWidth}px` : `-${this.containerWidth}px`)
 
     window.requestAnimationFrame(() => {
-      if (controlNavActive) {
-        controlNavActive(current)
+      if (this.controlNavActive) {
+        this.controlNavActive(this.current)
       }
 
-      translationDir = direction
-
-      slidesContainer.addEventListener('transitionend', onTransitionEnd, false)
+      this.translationDir = direction
+      this.slidesContainer.addEventListener('transitionend', this.onTransitionEnd.bind(this), false)
     })
   }
 
-  function onTransitionEnd () {
-    animating = false
-    slidesContainer.classList.remove(opts.animationClass)
-
-    transform(slidesContainer, 'none')
-    transform(slides[current], 'none')
-    displayByIndex(current)
-
-    emitter.emit('move', [ translationDir, current, slide ])
-    emitter.emit(translationDir ? 'next' : 'prev', [ current, slide ])
-
-    slidesContainer.removeEventListener('transitionend', onTransitionEnd, false)
-
-    slideshow()
-  }
-
-  function goTo (i: number): void {
-    if (!animating && current !== i && (i >= 0 && i < slides.length)) {
-      moveTo(current - i < 0 ? 1 : 0, i)
+  private slideshow () {
+    if (this.opts.slideshow) {
+      this.paused = false
+      window.clearTimeout(this.timeout)
+      this.timeout = window.setTimeout(this.next.bind(this), this.opts.slideshowSpeed)
     }
   }
 
-  function slideshow (): void {
-    if (opts.slideshow) {
-      paused = false
-      timeout = window.setTimeout(next, opts.slideshowSpeed)
-    }
+  private displayByIndex (i: number) {
+    this.slides.forEach((el, n) => this.display(el, i === n, i === n))
+    this.container.setAttribute('data-slendr-length', this.slides.length.toString())
   }
 
-  function bindEvents (): void {
-    window.addEventListener(
-      'resize',
-      () => {
-        containerWidth = container.offsetWidth
-      },
-      false
-    )
-  }
-
-  function displayByIndex (i: number): void {
-    slides.forEach((el, n) => display(el, i === n, i === n))
-    container.setAttribute('data-slendr-length', slides.length.toString())
-  }
-
-  function display (el: HTMLElement, yes = true, cls = false): void {
+  private display (el: HTMLElement, yes = true, cls = false) {
     if (yes) {
-      el.classList.add(opts.slideVisibleClass)
+      el.classList.add(this.opts.slideVisibleClass)
     } else {
-      el.classList.remove(opts.slideVisibleClass)
+      el.classList.remove(this.opts.slideVisibleClass)
     }
 
     if (cls) {
-      el.classList.add(opts.slideActiveClass)
+      el.classList.add(this.opts.slideActiveClass)
     } else {
-      el.classList.remove(opts.slideActiveClass)
+      el.classList.remove(this.opts.slideActiveClass)
     }
   }
 
-  function play (): void {
-    if (!paused) return
+  private background (slide: HTMLElement | null) {
+    if (!slide) return
 
-    opts.slideshow = true
-    slideshow()
-
-    emitter.emit('play', [ current ])
+    const src = slide.getAttribute('data-src')
+    slide.style.setProperty('background-image', `url('${src}')`)
   }
 
-  function pause (): void {
-    if (!opts.slideshow) return
+  private keyboard (prev: Function, next: Function) {
+    document.addEventListener('keyup', ({ which }) => {
+      if (which === 37) prev()
+      if (which === 39) next()
+    }, false)
+  }
 
-    clearTimeout(timeout)
+  private onTransitionEnd () {
+    this.animating = false
+    this.slidesContainer.classList.remove(this.opts.animationClass)
 
-    paused = true
-    animating = false
-    opts.slideshow = false
+    transform(this.slidesContainer, 'none')
+    transform(this.slides[this.current], 'none')
 
-    emitter.emit('pause', [ current ])
+    this.displayByIndex(this.current)
+
+    this.emitter.emit('move', [ this.translationDir, this.current, this.slide ])
+    this.emitter.emit(this.translationDir ? 'next' : 'prev', [ this.current, this.slide ])
+
+    this.slidesContainer.removeEventListener('transitionend', this.onTransitionEnd.bind(this), false)
+
+    this.slideshow()
+  }
+
+  private bindEvents () {
+    window.addEventListener('resize', () => this.containerWidth = this.container.offsetWidth, false)
   }
 }

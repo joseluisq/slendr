@@ -23,6 +23,8 @@ RUP=node_modules/rollup/bin/rollup
 KRM=node_modules/karma/bin/karma
 #  TSLint
 TSL=node_modules/tslint/bin/tslint
+#  dts-bundle-generator
+DTS=./node_modules/.bin/dts-bundle-generator
 
 # Files & directories
 TSL_FILE=tsconfig.json
@@ -30,7 +32,7 @@ SCSS_FILE=src/style.scss
 DIST_DIR=dist
 
 # Allowed tasks
-ALLOWED_TASKS="^(build|test|lint|clean)$"
+ALLOWED_TASKS="^(build|test|lint|clean|dts|tsc)$"
 
 # Styles
 bold=$(tput bold)
@@ -39,8 +41,8 @@ normal=$(tput sgr0)
 # Tasks start
 
 function build () {
-    test
     clean
+    test
     compile
     cssc
     cssmin
@@ -73,11 +75,11 @@ function tsc () {
 }
 
 function cjs () {
-    $TSC --module commonjs --target es5
+    env MODULE_FORMAT=cjs $RUP -c
 }
 
 function jsc () {
-    $RUP -c
+    env MODULE_FORMAT=umd $RUP -c
 }
 
 function cssc () {
@@ -94,6 +96,7 @@ function test_watch () {
 
 function copy () {
     cp $SCSS_FILE $DIST_DIR/$PKG_NAME.scss
+    cp ./index.d.ts $DIST_DIR/
 }
 
 # Tasks end

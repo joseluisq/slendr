@@ -1,9 +1,9 @@
-import { EmitusListener as Listener } from 'emitus'
+import { EmitusListener } from 'emitus'
 
 // Events
-export type Event = 'move' | 'next' | 'prev' | 'play' | 'pause'
+export type SlendrEvent = 'move' | 'next' | 'prev' | 'play' | 'pause'
 
-export interface Slendr {
+export interface SlendrInterface {
   // Methods
   prev (): void
   next (): void
@@ -12,11 +12,11 @@ export interface Slendr {
   move (i: number): void
 
   // Events
-  on (eventName: Event, listener: Listener): void
-  off (eventName: Event, listener?: Listener): void
+  on (eventName: SlendrEvent, listener: EmitusListener): void
+  off (eventName: SlendrEvent, listener?: EmitusListener): void
 }
 
-export interface Options {
+export interface SlendrOptions {
   // Selectors
   container: HTMLElement | string
   selector: string
@@ -40,7 +40,7 @@ export interface Options {
   keyboard?: boolean
 }
 
-export interface OptionsRequired extends Options {
+export interface OptionsRequired extends SlendrOptions {
   // Animation
   animationClass: string
   // Direction navs
@@ -59,12 +59,6 @@ export interface OptionsRequired extends Options {
   slideshowSpeed: number
   // Keyboard
   keyboard: boolean
-}
-
-export interface Elements {
-  container: HTMLElement
-  slidesContainer: HTMLElement
-  slides: HTMLElement[]
 }
 
 export interface ControlNav {

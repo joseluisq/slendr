@@ -24,7 +24,7 @@ The [UMD](https://github.com/umdjs/umd) and style builds are also available on [
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/slendr/dist/slendr.min.css">
-<script src="https://unpkg.com/slendr/dist/slendr.umd.min.js"></script>
+<script src="https://unpkg.com/slendr/dist/slendr.min.js"></script>
 ```
 
 You can use the component via `window.slendr`
@@ -61,9 +61,9 @@ Define the markup:
 Create the slider:
 
 ```js
-import { slendr } from 'slendr'
+import { Slendr } from 'slendr'
 
-const myslider = slendr({
+const myslider = new Slendr({
   slideshow: true
 })
 
@@ -73,9 +73,9 @@ myslider.on('move', (direction, index, element) => console.log(direction))
 **Typescript:**
 
 ```js
-import { slendr, Slendr } from 'slendr'
+import { Slendr } from 'slendr'
 
-const myslider: Slendr  = slendr({
+const myslider = new Slendr({
   container: '.slendr',
   selector: '.slendr-slides > .slendr-slide',
   slideshow: false

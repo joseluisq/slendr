@@ -1,5 +1,5 @@
 import markup from './markup'
-import { Listener, slendr, Slendr } from '../src'
+import { Slendr } from '../src'
 
 markup.init()
 
@@ -7,7 +7,7 @@ describe('Slendr', () => {
   let slider: Slendr
 
   beforeEach(() => {
-    slider = slendr({
+    slider = new Slendr({
       container: '.slendr',
       selector: '.slendr-slides > .slendr-slide',
       slideshow: false
@@ -15,8 +15,8 @@ describe('Slendr', () => {
   })
 
   describe('api', () => {
-    it('should be a function', () => {
-      expect(typeof slendr).toEqual('function')
+    it('should be an instanceof Slendr', () => {
+      expect(slider instanceof Slendr).toBeTruthy()
     })
 
     it('should return an object', () => {
@@ -54,7 +54,7 @@ describe('Slendr', () => {
 
   describe('on', () => {
     let onSpy: jasmine.Spy
-    const onEvent: Listener = () => console.log('ok!')
+    const onEvent = () => console.log('ok!')
 
     describe('`move` event', () => {
       beforeEach(() => {
