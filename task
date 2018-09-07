@@ -32,7 +32,7 @@ SCSS_FILE=src/style.scss
 DIST_DIR=dist
 
 # Allowed tasks
-ALLOWED_TASKS="^(build|test|lint|clean)$"
+ALLOWED_TASKS="^(build|test|lint|clean|dts|tsc)$"
 
 # Styles
 bold=$(tput bold)
@@ -65,7 +65,6 @@ function clean () {
 
 function compile () {
     tsc
-    dts
     jsc
     cjs
     cssc
@@ -73,10 +72,6 @@ function compile () {
 
 function tsc () {
     $TSC --outDir .cache --module es2015
-}
-
-function dts () {
-   $DTS -o dist/index.d.ts src/index.ts
 }
 
 function cjs () {
@@ -101,6 +96,7 @@ function test_watch () {
 
 function copy () {
     cp $SCSS_FILE $DIST_DIR/$PKG_NAME.scss
+    cp ./index.d.ts $DIST_DIR/
 }
 
 # Tasks end

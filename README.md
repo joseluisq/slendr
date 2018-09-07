@@ -61,9 +61,9 @@ Define the markup:
 Create the slider:
 
 ```js
-import { slendr } from 'slendr'
+import { Slendr } from 'slendr'
 
-const myslider = slendr({
+const myslider = new Slendr({
   slideshow: true
 })
 
@@ -73,9 +73,9 @@ myslider.on('move', (direction, index, element) => console.log(direction))
 **Typescript:**
 
 ```js
-import { slendr, Slendr } from 'slendr'
+import { Slendr } from 'slendr'
 
-const myslider: Slendr  = slendr({
+const myslider = new Slendr({
   container: '.slendr',
   selector: '.slendr-slides > .slendr-slide',
   slideshow: false

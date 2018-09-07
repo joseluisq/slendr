@@ -29,6 +29,9 @@ const defaults: SlendrOptions = {
 
 export { SlendrOptions }
 
+/**
+ * Slendr is a responsive & lightweight slider for modern browsers.
+ */
 export class Slendr implements SlendrInterface {
   private readonly opts: OptionsRequired
   private readonly container: HTMLElement
@@ -81,14 +84,23 @@ export class Slendr implements SlendrInterface {
     this.initialize()
   }
 
+  /**
+   * Moves the current slider to the previous slide
+   */
   prev () {
     if (!this.animating) this.moveTo(0)
   }
 
+  /**
+   * Moves the current slider to the next slide
+   */
   next () {
     if (!this.animating) this.moveTo(1)
   }
 
+  /**
+   * Plays the current slider
+   */
   play () {
     if (!this.paused) return
 
@@ -98,6 +110,9 @@ export class Slendr implements SlendrInterface {
     this.emitter.emit('play', [ this.current ])
   }
 
+  /**
+   * Pauses the current slider
+   */
   pause () {
     if (!this.opts.slideshow) return
 
@@ -110,14 +125,30 @@ export class Slendr implements SlendrInterface {
     this.emitter.emit('pause', [ this.current ])
   }
 
+  /**
+   * Moves the current slider by index
+   */
   move (index: number) {
     this.goTo(index)
   }
 
+  /**
+   * Adds some event listener
+   * Events supported: 'move' | 'next' | 'prev' | 'play' | 'pause'
+   *
+   * @param eventName SlendrEvent
+   * @param listener EmitusListener
+   */
   on (eventName: SlendrEvent, listener: EmitusListener) {
     this.emitter.on(eventName, listener)
   }
 
+  /**
+   * Removes some event listener
+   *
+   * @param eventName SlendrEvent like 'move' | 'next' | 'prev' | 'play' | 'pause'
+   * @param listener EmitusListener
+   */
   off (eventName: SlendrEvent, listener?: EmitusListener) {
     this.emitter.off(eventName, listener)
   }
