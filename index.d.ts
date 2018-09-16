@@ -61,7 +61,7 @@ export class Slendr {
   /**
    * Moves the current slider by index
    */
-  move (i: number): void
+  move (index: number): void
 
   /**
    * Adds some event listener

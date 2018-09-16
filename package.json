@@ -50,6 +50,8 @@
     "karma-spec-reporter": "^0.0.32",
     "karma-typescript": "^3.0.13",
     "node-sass": "^4.9.3",
+    "parcel": "^1.9.7",
+    "parcel-plugin-typescript": "^1.0.0",
     "rollup": "^0.64.1",
     "rollup-plugin-commonjs": "^9.1.5",
     "rollup-plugin-node-resolve": "^3.3.0",
@@ -60,6 +62,7 @@
     "typescript": "^2.9.2"
   },
   "scripts": {
+    "start": "parcel app/index.html",
     "version": "npm run build",
     "build": "env NODE_ENV=production PKG_NAME=$npm_package_name ./task build",
     "test": "env NODE_ENV=testing ./task test"

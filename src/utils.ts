@@ -11,14 +11,10 @@ export function children (selector: string, parent?: HTMLElement | null): HTMLEl
 export function onClick (element: HTMLElement, func: Function): void {
   if (!element || !func) return
 
-  element.addEventListener(
-    'click',
-    (e) => {
-      e.preventDefault()
-      func(e)
-    },
-    false
-  )
+  element.addEventListener('click', (e) => {
+    e.preventDefault()
+    func(e)
+  }, false)
 }
 
 export function transform (element: HTMLElement, value: string): void {
@@ -29,8 +25,8 @@ export function transform (element: HTMLElement, value: string): void {
   element.style.setProperty('transform', value)
 }
 
-export function translateX (element: HTMLElement, x = '0px'): void {
-  transform(element, `translateX(${x.toString()})`)
+export function translateX (element: HTMLElement | null, x = '0px'): void {
+  if (element) transform(element, `translate3d(${x}, 0, 0)`)
 }
 
 export function cleanClass (className: string): string {

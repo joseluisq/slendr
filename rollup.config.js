@@ -20,7 +20,7 @@ const plugins = [
 
 if (isUMD) {
   plugins.push(resolve())
-  // plugins.push(terser())
+  plugins.push(terser())
   plugins.push(commonjs({
     sourceMap: false,
     include: 'node_modules/emitus/index.js'
