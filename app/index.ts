@@ -3,7 +3,7 @@ import { Slendr } from '../src'
 const slider = new Slendr({
   container: '.slendr',
   selector: '.slendr-slides > .slendr-slide',
-  slideshow: true,
+  slideshow: false,
   keyboard: true
 })
 

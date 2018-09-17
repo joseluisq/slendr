@@ -156,7 +156,7 @@ export class Slendr implements SlendrInterface {
   private initialize () {
     if (this.slides.length < 2) {
       if (this.slides.length === 1) {
-        this.background(this.slides[0])
+        this.background(this.slides[0], 0)
         this.displayByIndex(0)
       }
 
@@ -250,7 +250,7 @@ export class Slendr implements SlendrInterface {
 
   private displayByIndex (i: number) {
     this.slides.forEach((el, n) => this.display(el, i === n, i === n))
-    this.container.setAttribute('data-slendr-length', this.slides.length.toString())
+    this.container.setAttribute('data-length', this.slides.length.toString())
   }
 
   private display (el: HTMLElement, yes = true, cls = false) {
@@ -267,11 +267,15 @@ export class Slendr implements SlendrInterface {
     }
   }
 
-  private background (slide: HTMLElement | null) {
-    if (!slide) return
-
+  private background (slide: HTMLElement, index: number) {
     const src = slide.getAttribute('data-src')
-    slide.style.setProperty('background-image', `url('${src}')`)
+
+    slide.setAttribute('data-slide', index.toString())
+
+    if (src) {
+      slide.style.setProperty('background-image', `url('${src}')`)
+      slide.removeAttribute('data-src')
+    }
   }
 
   private keyboard (prev: Function, next: Function) {
