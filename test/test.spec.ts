@@ -54,13 +54,13 @@ describe('Slendr', () => {
 
   describe('on', () => {
     let onSpy: jasmine.Spy
-    const onEvent = () => console.log('ok!')
+    const onEvent = (a) => console.log('ok!')
 
     describe('`move` event', () => {
       beforeEach(() => {
         onSpy = spyOn(slider, 'on')
 
-        slider.on('move', onEvent)
+        slider.on<Array<number>>('move', onEvent)
       })
 
       it('should be a function', () => {

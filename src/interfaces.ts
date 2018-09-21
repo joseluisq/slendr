@@ -60,12 +60,3 @@ export interface OptionsRequired extends SlendrOptions {
   // Keyboard
   keyboard: boolean
 }
-
-export interface ControlNav {
-  controlNavClass: string
-  controlNavClassActive: string
-  bullets: number
-  callback: Function | null
-}
-
-export type ControlNavActive = (index: number) => void

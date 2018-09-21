@@ -36,7 +36,7 @@ export interface SlendrOptions {
  * Slendr is a responsive & lightweight slider for modern browsers.
  */
 export class Slendr {
-  constructor (options?: SlendrOptions);
+  constructor (options?: SlendrOptions)
 
   /**
    * Moves the current slider to the previous slide
@@ -49,33 +49,35 @@ export class Slendr {
   next (): void
 
   /**
-   * Plays the current slider
+   * Starts slideshow timer mode for the current slider
    */
   play (): void
 
   /**
-   * Pauses the current slider
+   * Pauses slideshow timer for the current slider
    */
   pause (): void
 
   /**
-   * Moves the current slider by index
+   * Moves the current slider by slide index
+   *
+   * @param index Slide index to move
    */
-  move (i: number): void
+  move (index: number): void
 
   /**
-   * Adds some event listener
+   * Adds an event listener to the current slider
    *
-   * @param eventName SlendrEvent like 'move' | 'next' | 'prev' | 'play' | 'pause'
+   * @param eventName SlendrEvent ('move', 'next', 'prev', 'play' or 'pause')
    * @param listener EmitusListener
    */
-  on (eventName: SlendrEvent, listener: EmitusListener): void
+  on<T> (eventName: SlendrEvent, listener: EmitusListener<T>): void
 
   /**
-   * Removes some event listener
+   * Removes a registered event listener
    *
-   * @param eventName SlendrEvent like 'move' | 'next' | 'prev' | 'play' | 'pause'
+   * @param eventName SlendrEvent ('move', 'next', 'prev', 'play' or 'pause')
    * @param listener EmitusListener
    */
-  off (eventName: SlendrEvent, listener?: EmitusListener): void
+  off (eventName: SlendrEvent, listener: EmitusListener): void
 }
