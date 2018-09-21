@@ -2137,9 +2137,9 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-emitus@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/emitus/-/emitus-2.3.1.tgz#198a7197767b58ecef6f2fd61ef7e36b18c9d4f3"
+emitus@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/emitus/-/emitus-2.3.2.tgz#fc0f5adfc13958e3944641a32457827021f0b1e7"
 
 encodeurl@~1.0.1:
   version "1.0.1"
@@ -6692,9 +6692,9 @@ tslint-clean-code@^0.2.7:
     memoize-decorator "^1.0.2"
     tsutils "2.7.1"
 
-tslint-config-standard-plus@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/tslint-config-standard-plus/-/tslint-config-standard-plus-2.1.0.tgz#410c54b24bb8306c3342fb1b6c60c6a13cf874da"
+tslint-config-standard-plus@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/tslint-config-standard-plus/-/tslint-config-standard-plus-2.1.1.tgz#d2de6c7f6b314adef26d2ade0f92952267abb52d"
   dependencies:
     tslint-clean-code "^0.2.7"
     tslint-eslint-rules "^5.3.1"

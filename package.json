@@ -34,7 +34,7 @@
     "typescript"
   ],
   "dependencies": {
-    "emitus": "^2.3.1"
+    "emitus": "^2.3.2"
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.8",
@@ -58,7 +58,7 @@
     "rollup-plugin-terser": "^1.0.1",
     "rollup-plugin-typescript2": "^0.16.1",
     "tslint": "^5.11.0",
-    "tslint-config-standard-plus": "^2.1.0",
+    "tslint-config-standard-plus": "^2.1.1",
     "typescript": "^2.9.2"
   },
   "scripts": {

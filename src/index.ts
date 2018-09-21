@@ -104,7 +104,7 @@ export class Slendr implements SlendrInterface {
   }
 
   /**
-   * Plays the current slider
+   * Starts slideshow timer mode for the current slider
    */
   play () {
     if (!this.paused) return
@@ -116,7 +116,7 @@ export class Slendr implements SlendrInterface {
   }
 
   /**
-   * Pauses the current slider
+   * Pauses slideshow timer for the current slider
    */
   pause () {
     if (!this.opts.slideshow) return
@@ -131,30 +131,31 @@ export class Slendr implements SlendrInterface {
   }
 
   /**
-   * Moves the current slider by index
+   * Moves the current slider by slide index
+   *
+   * @param index Slide index to move
    */
   move (index: number) {
     this.goTo(index)
   }
 
   /**
-   * Adds some event listener
-   * Events supported: 'move' | 'next' | 'prev' | 'play' | 'pause'
+   * Adds an event listener to the current slider
    *
-   * @param eventName SlendrEvent
+   * @param eventName SlendrEvent ('move', 'next', 'prev', 'play' or 'pause')
    * @param listener EmitusListener
    */
-  on (eventName: SlendrEvent, listener: EmitusListener) {
-    this.emitter.on(eventName, listener)
+  on<T> (eventName: SlendrEvent, listener: EmitusListener<T>) {
+    this.emitter.on<T>(eventName, listener)
   }
 
   /**
-   * Removes some event listener
+   * Removes a registered event listener
    *
-   * @param eventName SlendrEvent like 'move' | 'next' | 'prev' | 'play' | 'pause'
+   * @param eventName SlendrEvent ('move', 'next', 'prev', 'play' or 'pause')
    * @param listener EmitusListener
    */
-  off (eventName: SlendrEvent, listener?: EmitusListener) {
+  off (eventName: SlendrEvent, listener: EmitusListener) {
     this.emitter.off(eventName, listener)
   }
 
