@@ -11,13 +11,13 @@ Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Ja
 [Yarn](https://github.com/yarnpkg/)
 
 ```sh
-yarn add slendr --dev
+yarn add slendr
 ```
 
 [NPM](https://www.npmjs.com/)
 
 ```sh
-npm install slendr --save-dev
+npm install slendr --save
 ```
 
 The [UMD](https://github.com/umdjs/umd) and style builds are also available on [unpkg](https://unpkg.com).
@@ -65,20 +65,6 @@ import { Slendr } from 'slendr'
 
 const myslider = new Slendr({
   slideshow: true
-})
-
-myslider.on('move', (direction, index, element) => console.log(direction))
-```
-
-**Typescript:**
-
-```js
-import { Slendr } from 'slendr'
-
-const myslider = new Slendr({
-  container: '.slendr',
-  selector: '.slendr-slides > .slendr-slide',
-  slideshow: false
 })
 
 myslider.on('move', (direction, index, element) => console.log(direction))
@@ -133,10 +119,8 @@ __pause__ | `slendr.on('pause', (index) => {})` | Trigger when pause the slidesh
 
 - Firefox
 - Chrome
-- IE10, IE11, Edge
+- Edge
 - Safari, iOS Safari
-
-__Note:__ Slendr requires [`window.requestAnimationFrame`](https://caniuse.com/#search=requestAnimationFrame).
 
 ## Development
 

@@ -1,4 +1,5 @@
 import { emitus, Emitus, EmitusListener } from 'emitus'
+import { Loader } from 'imgz'
 import {
   OptionsRequired,
   SlendrEvent,
@@ -93,14 +94,14 @@ export class Slendr implements SlendrInterface {
    * Moves the current slider to the previous slide
    */
   prev () {
-    if (!this.animating) this.moveTo(0)
+    if (!this.animating) this.goTo(0)
   }
 
   /**
    * Moves the current slider to the next slide
    */
   next () {
-    if (!this.animating) this.moveTo(1)
+    if (!this.animating) this.goTo(1)
   }
 
   /**
@@ -136,7 +137,7 @@ export class Slendr implements SlendrInterface {
    * @param index Slide index to move
    */
   move (index: number) {
-    this.goTo(index)
+    this.goToBy(index)
   }
 
   /**
@@ -162,8 +163,8 @@ export class Slendr implements SlendrInterface {
   private initialize () {
     if (this.slidesLength < 2) {
       if (this.slidesLength === 1) {
-        this.background(this.slides[0], 0)
-        this.displayByIndex(0)
+        this.slides[0].setAttribute('data-slide', '0')
+        this.showSlideBy(0)
       }
 
       return
@@ -171,10 +172,8 @@ export class Slendr implements SlendrInterface {
 
     this.container.setAttribute('data-length', this.slidesLength.toString())
 
-    for (let i = 0; i < this.slidesLength; i++) this.background(this.slides[i], i)
-
-    this.displayByIndex(0)
-    this.bindEvents()
+    this.showSlideBy(0)
+    this.addEvents()
 
     if (this.opts.controlNavs) {
       this.controlNavActive = this.controlNavs()
@@ -187,21 +186,22 @@ export class Slendr implements SlendrInterface {
 
     if (this.opts.keyboard) this.keyboard()
 
+    this.loadImages()
     this.slideshow()
   }
 
-  private goTo (i: number) {
-    if (!this.animating && this.current !== i && (i >= 0 && i < this.slidesLength)) {
-      this.moveTo(this.current - i < 0 ? 1 : 0, i)
+  private goToBy (index: number) {
+    if (!this.animating && this.current !== index && (index >= 0 && index < this.slidesLength)) {
+      this.goTo(this.current - index < 0 ? 1 : 0, index)
     }
   }
 
-  private moveTo (direction: number, index = -1) {
+  private goTo (direction: number, index = -1) {
     this.animating = true
 
     window.clearTimeout(this.timeout)
 
-    this.display(this.slides[this.current])
+    this.showSlide(this.slides[this.current])
 
     if (index !== -1) {
       this.current = index
@@ -214,19 +214,16 @@ export class Slendr implements SlendrInterface {
 
     this.slide = this.slides[this.current]
 
-    this.display(this.slide)
+    this.showSlide(this.slide)
 
     this.slidesContainer.classList.add(this.opts.animationClass)
 
     translateX(this.slidesContainer, (direction === 1 ? '-' : '') + this.containerWidth + 'px')
     translateX(this.slide, (direction === 1 ? '' : '-') + this.containerWidth + 'px')
 
-    window.requestAnimationFrame(() => {
-      if (this.controlNavActive) this.controlNavActive(this.current)
+    if (this.controlNavActive) this.controlNavActive(this.current)
 
-      this.translationDir = direction
-      this.slidesContainer.addEventListener('transitionend', () => this.onTransitionEnd(), false)
-    })
+    this.translationDir = direction
   }
 
   private slideshow () {
@@ -237,26 +234,50 @@ export class Slendr implements SlendrInterface {
     }
   }
 
-  private displayByIndex (i: number) {
-    for (let n = 0; n < this.slidesLength; n++) this.display(this.slides[n], i === n, i === n)
+  private showSlideBy (index: number) {
+    for (let i = 0; i < this.slidesLength; i++) this.showSlide(this.slides[i], index === i, index === i)
   }
 
-  private display (el: HTMLElement, yes = true, cls = false) {
-    if (yes) el.classList.add(this.opts.slideVisibleClass)
-    else el.classList.remove(this.opts.slideVisibleClass)
+  private showSlide (slide: HTMLElement, yes = true, cls = false) {
+    if (yes) slide.classList.add(this.opts.slideVisibleClass)
+    else slide.classList.remove(this.opts.slideVisibleClass)
 
-    if (cls) el.classList.add(this.opts.slideActiveClass)
-    else el.classList.remove(this.opts.slideActiveClass)
+    if (cls) slide.classList.add(this.opts.slideActiveClass)
+    else slide.classList.remove(this.opts.slideActiveClass)
   }
 
-  private background (slide: HTMLElement, index: number) {
+  private background (slide: HTMLElement) {
     const src = slide.getAttribute('data-src')
-
-    slide.setAttribute('data-slide', index.toString())
 
     if (src) {
       slide.style.setProperty('background-image', `url('${src}')`)
       slide.removeAttribute('data-src')
+    }
+  }
+
+  private loadImages () {
+    const slides = this.slides
+    const sources: string[] = []
+
+    for (let i = 0; i < this.slidesLength; i++) {
+      slides[i].setAttribute('data-slide', i.toString())
+
+      const src = slides[i].getAttribute('data-src') || null
+
+      if (src) sources.push(src)
+    }
+
+    if (sources.length) {
+      Loader(
+        sources,
+        (image, i) => {
+          if (image) {
+            this.emitter.emit('image:load', [ image, i, this.slides[i] ])
+            this.background(slides[i])
+          }
+        },
+        (len) => this.emitter.emit('image:completed', [ len ])
+      )
     }
   }
 
@@ -274,7 +295,7 @@ export class Slendr implements SlendrInterface {
     transform(this.slidesContainer, 'none')
     transform(this.slides[this.current], 'none')
 
-    this.displayByIndex(this.current)
+    this.showSlideBy(this.current)
 
     this.emitter.emit('move', [ this.translationDir, this.current, this.slide ])
     this.emitter.emit(this.translationDir ? 'next' : 'prev', [ this.current, this.slide ])
@@ -284,8 +305,9 @@ export class Slendr implements SlendrInterface {
     this.slideshow()
   }
 
-  private bindEvents () {
+  private addEvents () {
     window.addEventListener('resize', () => this.containerWidth = this.container.offsetWidth, false)
+    this.slidesContainer.addEventListener('transitionend', () => this.onTransitionEnd(), false)
   }
 
   private directionNavs () {
@@ -334,7 +356,7 @@ export class Slendr implements SlendrInterface {
   private createBullet (ul: HTMLElement, i: number): HTMLElement | null {
     const a: HTMLElement = document.createElement('a')
 
-    onClick(a, () => this.goTo(i))
+    onClick(a, () => this.goToBy(i))
     ul.appendChild(a)
 
     return a

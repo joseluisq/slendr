@@ -3,7 +3,7 @@ import { EmitusListener } from 'emitus'
 /**
  * Slendr available events
  */
-export type SlendrEvent = 'move' | 'next' | 'prev' | 'play' | 'pause'
+export type SlendrEvent = 'move' | 'next' | 'prev' | 'play' | 'pause' | 'image:load' | 'image:completed'
 
 /**
  * Slendr valid options
