@@ -23,7 +23,10 @@ if (isUMD) {
   plugins.push(terser())
   plugins.push(commonjs({
     sourceMap: false,
-    include: 'node_modules/emitus/index.js'
+    namedExports: {
+      'node_modules/emitus/index.js': ['Emitus'],
+      'node_modules/imgz/index.js': ['Loader'],
+    }
   }))
 }
 
