@@ -163,14 +163,14 @@ export class Slendr implements SlendrInterface {
   private initialize () {
     if (this.slidesLength < 2) {
       if (this.slidesLength === 1) {
-        this.slides[0].setAttribute('data-slide', '0')
+        this.slides[0].setAttribute('data-slide-index', '0')
         this.showSlideBy(0)
       }
 
       return
     }
 
-    this.container.setAttribute('data-length', this.slidesLength.toString())
+    this.container.setAttribute('data-slides-length', this.slidesLength.toString())
 
     this.showSlideBy(0)
     this.addEvents()
@@ -247,11 +247,11 @@ export class Slendr implements SlendrInterface {
   }
 
   private background (slide: HTMLElement) {
-    const src = slide.getAttribute('data-src')
+    const src = slide.getAttribute('data-slide-src')
 
     if (src) {
       slide.style.setProperty('background-image', `url('${src}')`)
-      slide.removeAttribute('data-src')
+      slide.removeAttribute('data-slide-src')
     }
   }
 
@@ -260,9 +260,9 @@ export class Slendr implements SlendrInterface {
     const sources: string[] = []
 
     for (let i = 0; i < this.slidesLength; i++) {
-      slides[i].setAttribute('data-slide', i.toString())
+      slides[i].setAttribute('data-slide-index', i.toString())
 
-      const src = slides[i].getAttribute('data-src') || null
+      const src = slides[i].getAttribute('data-slide-src') || null
 
       if (src) sources.push(src)
     }
