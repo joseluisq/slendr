@@ -2,7 +2,18 @@
 
 > A responsive & lightweight slider for modern browsers.
 
-Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Javascript (2KB gzipped) and [CSS3 Hardware Acceleration](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/) performance in mind.
+## Features
+
+- Written and tested entirely using [Typescript](http://www.typescriptlang.org/).
+- Lightweight (just 2KB gzipped UMD)
+- Responsive (desktop and mobile) by default.
+- Modern browsers only. No more legacy browsers like IE10 or IE11 (but you can find it on v1.3 release).
+- High performance by [Lighthouse](https://github.com/GoogleChrome/lighthouse) audit.
+- [CSS3 Hardware Acceleration](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
+- 60fps animation.
+- Progressive images loading.
+- Highly customizable.
+- SASS support.
 
 :tada: View demo on [Codepen](http://codepen.io/joseluisq/full/wGXaKx/).
 
@@ -11,13 +22,13 @@ Built on the top of [ES6](https://babeljs.io/docs/learn-es2015/) with minimum Ja
 [Yarn](https://github.com/yarnpkg/)
 
 ```sh
-yarn add slendr --dev
+yarn add slendr
 ```
 
 [NPM](https://www.npmjs.com/)
 
 ```sh
-npm install slendr --save-dev
+npm install slendr --save
 ```
 
 The [UMD](https://github.com/umdjs/umd) and style builds are also available on [unpkg](https://unpkg.com).
@@ -51,9 +62,9 @@ Define the markup:
   <nav class="slendr-control"></nav>
 
   <div class="slendr-slides">
-    <section class="slendr-slide" data-src="slide1.jpg"></section>
-    <section class="slendr-slide" data-src="slide2.jpg"></section>
-    <section class="slendr-slide" data-src="slide3.jpg"></section>
+    <section class="slendr-slide" data-slide-src="slide1.jpg"></section>
+    <section class="slendr-slide" data-slide-src="slide2.jpg"></section>
+    <section class="slendr-slide" data-slide-src="slide3.jpg"></section>
   </div>
 </div>
 ```
@@ -69,22 +80,6 @@ const myslider = new Slendr({
 
 myslider.on('move', (direction, index, element) => console.log(direction))
 ```
-
-**Typescript:**
-
-```js
-import { Slendr } from 'slendr'
-
-const myslider = new Slendr({
-  container: '.slendr',
-  selector: '.slendr-slides > .slendr-slide',
-  slideshow: false
-})
-
-myslider.on('move', (direction, index, element) => console.log(direction))
-```
-
-For more detail check out [test.spec.ts](./test/test.spec.ts) file.
 
 ## API
 
@@ -107,7 +102,7 @@ __controlNavs__ | Boolean | `true` | Display the control navigation.
 __controlNavClass__ | Boolean | `.slendr-control` | Class name of control navigation.
 __controlNavClassActive__ | Boolean | `.slendr-control-active` | Class name for active control navigation.
 
-__Animation speed:__ It's defined via the animation class at `style.scss`. Feel free to customize your [CSS animation timing function](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function).
+__Animation speed:__ It's defined via the animation class at `style.scss`. Feel free to use your own [CSS timing function](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function).
 
 ### Methods
 
@@ -129,14 +124,47 @@ __next__ | `slendr.on('next', (index, element) => {})` | Trigger when slider mov
 __play__ | `slendr.on('play', (index) => {})` | Trigger when play the slideshow.
 __pause__ | `slendr.on('pause', (index) => {})` | Trigger when pause the slideshow.
 
+### Attributes
+
+#### On demand attributes
+
+These attributes can be created manually.
+
+__`data-slide-src`__: Set the image source URL. After image loading, Slendr will place it as slide background via css `background-image`.
+
+Slender doesn't depend on images necessarily to working. It can omit this attribute in any case.
+
+```html
+<div class="slendr-slides">
+  <section class="slendr-slide" data-slide-src="image1.jpg"></section>
+  <section class="slendr-slide"></section>
+  <section class="slendr-slide" data-slide-src="image2.jpg"></section>
+</div>
+```
+
+#### Runtime attributes
+
+These attributes are created by Slendr.
+
+__`data-slides-length`__: Contains the length of slides.
+
+```html
+<div class="slendr" data-slides-length="1000">...</div>
+```
+
+__`data-slide-index`__: Contains the slide index.
+
+```html
+<section class="slendr-slide" data-slide-index="0" data-slide-src="image1.jpg">...</section>
+<section class="slendr-slide" data-slide-index="1" data-slide-src="image2.jpg">...</section>
+```
+
 ## Browser support
 
 - Firefox
 - Chrome
-- IE10, IE11, Edge
+- Edge
 - Safari, iOS Safari
-
-__Note:__ Slendr requires [`window.requestAnimationFrame`](https://caniuse.com/#search=requestAnimationFrame).
 
 ## Development
 

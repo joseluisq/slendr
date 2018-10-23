@@ -7,4 +7,5 @@ const slider = new Slendr({
   keyboard: true
 })
 
-slider.on('move', (event) => console.log(event))
+slider.on('move', console.log)
+slider.on('image:load', console.log)

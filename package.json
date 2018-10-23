@@ -34,7 +34,8 @@
     "typescript"
   ],
   "dependencies": {
-    "emitus": "^2.3.2"
+    "emitus": "^2.3.2",
+    "imgz": "^0.0.2"
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.8",
