@@ -39,6 +39,7 @@
     transform: translateX(0);
 
     will-change: transform;
+    contain: style;
   }
 
   // Customize here the transition
@@ -60,6 +61,11 @@
     background-position: center;
     background-size: cover;
     display: none;
+
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+
+    will-change: transform;
   }
 
   .slendr-visible {

@@ -300,8 +300,6 @@ export class Slendr implements SlendrInterface {
     this.emitter.emit('move', [ this.translationDir, this.current, this.slide ])
     this.emitter.emit(this.translationDir ? 'next' : 'prev', [ this.current, this.slide ])
 
-    this.slidesContainer.removeEventListener('transitionend', () => this.onTransitionEnd(), false)
-
     this.slideshow()
   }
 

@@ -26,7 +26,7 @@ export function transform (element: HTMLElement, value: string): void {
 }
 
 export function translateX (element: HTMLElement | null, x = '0px'): void {
-  if (element) transform(element, `translate3d(${x}, 0, 0)`)
+  if (element) transform(element, `translateX(${x})`)
 }
 
 export function cleanClass (className: string): string {
