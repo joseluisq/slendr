@@ -1,6 +1,6 @@
 {
   "name": "slendr",
-  "version": "1.4.0-rc2",
+  "version": "1.4.0",
   "description": "A responsive & lightweight slider for modern browsers.",
   "repository": "joseluisq/slendr",
   "license": "MIT",
