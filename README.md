@@ -1,7 +1,3 @@
-**DEPRECATION NOTICE:** This repository was moved https://git.joseluisq.net/joseluisq/slendr
-
----
-
 # Slendr [![npm](https://img.shields.io/npm/v/slendr.svg)](https://www.npmjs.com/package/slendr) [![npm](https://img.shields.io/npm/dt/slendr.svg)](https://www.npmjs.com/package/slendr) [![Build Status](https://travis-ci.org/joseluisq/slendr.svg?branch=master)](https://travis-ci.org/joseluisq/slendr) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 > A responsive & lightweight slider for modern browsers.
@@ -183,4 +179,4 @@ yarn start
 ## License
 MIT license
 
-© 2018 [José Luis Quintana](http://git.io/joseluisq)
+© 2018 [Jose Quintana](http://git.io/joseluisq)
